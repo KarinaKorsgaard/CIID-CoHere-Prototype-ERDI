@@ -42,7 +42,7 @@ void ofApp::setup(){
 
 
 void ofApp::setupTimeline(){
-    timeline.addString("01_INTRO.txt", 0 , 1, -1 , -1 , "intro");
+    timeline.addString("01_INTRO.txt", 0 , 1, -1 , -1 , "welcome");
     timeline.addString("02_INTRO.txt", 1 , 2, -1 , -1 , "intro");
     timeline.addString("03_STREAM.txt", 2 , 3, -1 , -1 , "first stream 1");
     timeline.addString("04_QUESTION.txt", 3 , 4);

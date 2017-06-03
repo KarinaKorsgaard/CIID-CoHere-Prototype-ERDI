@@ -39,7 +39,7 @@ class ofApp : public ofBaseApp{
 		ofSoundStream soundStream;
   
     Timeline timeline;
-    setupTimeline();
+    void setupTimeline();
 
 
 };
