@@ -75,7 +75,9 @@ public:
 
         dir.listDir();
         dir.sort();
-        
+        dir.allowExt("mp3");
+        dir.allowExt("wav");
+
         for(int i = 0 ; i<dir.size();i++){
             files.push_back(dir.getPath(i));
         }
