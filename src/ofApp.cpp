@@ -12,7 +12,8 @@ void ofApp::setup(){
 	// 44100 samples per second
 	// 256 samples per buffer
 	// 4 num buffers (latency)
-	
+
+//string
 	soundStream.printDeviceList();
 	
 	//if you want to set a different device id 
@@ -51,7 +52,7 @@ void ofApp::setup(){
 
 
 void ofApp::setupTimeline(){
-    timeline.addSound("s/welcome", 0, 1);
+    timeline.addSound("s/welcome", 0, 1); //
     timeline.addSound("s/intro", 1, 2);
     
   //  timeline.addString("01_INTRO.txt", 0 , 1); // welcome

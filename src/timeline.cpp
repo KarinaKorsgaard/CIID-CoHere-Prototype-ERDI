@@ -155,9 +155,9 @@ void Timeline::addSilence(float duration, int position, int next, int optionNext
 
 //--------------------------------------------------------------
 void Timeline::addSound(string _dir, int position, int next, int optionNext, string name){
-    //string filePath = file;
+
     checkEntries(position);
-    //cout<<file<<endl;
+
     
     ofDirectory dir;
     dir.listDir(_dir);
