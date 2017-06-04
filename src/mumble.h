@@ -77,6 +77,7 @@ public:
         dir.sort();
         dir.allowExt("mp3");
         dir.allowExt("wav");
+        dir.allowExt("ogg");
 
         for(int i = 0 ; i<dir.size();i++){
             files.push_back(dir.getPath(i));

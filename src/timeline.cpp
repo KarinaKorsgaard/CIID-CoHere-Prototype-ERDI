@@ -164,6 +164,7 @@ void Timeline::addSound(string _dir, int position, int next, int optionNext, str
     
     dir.allowExt("mp3");
     dir.allowExt("wav");
+    dir.allowExt("ogg");
     
     if(dir.size()>0){
         int indx = floor(ofRandom(dir.size()));
