@@ -2,6 +2,9 @@
 
 #include "ofMain.h"
 #include "timeline.h"
+#include "mumble.h"
+
+#include "ofxGui.h"
 
 class ofApp : public ofBaseApp{
 	
@@ -40,6 +43,16 @@ class ofApp : public ofBaseApp{
   
     Timeline timeline;
     void setupTimeline();
+    
+    
+    Mumbler twitter;
+
+    
+    Mumbler idleMumbler;
+    float idleVol = 0.;
+    
+    ofxPanel gui;
+    ofParameter<float>idleMaxVol, twitterVol, erdiVol;
 
 
 };

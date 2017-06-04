@@ -18,10 +18,15 @@ void Timeline::setup(bool loop){
 //--------------------------------------------------------------
 
 //--------------------------------------------------------------
-void Timeline::update(){
+void Timeline::update(float vol){
     isValid = entries.find(position)!=entries.end();
     
-    if(isValid){
+    if(p_vol != vol){
+        sound.setVolume(vol);
+        p_vol = vol;
+    }
+    
+    if(isValid && isPlaying){
         time+=ofGetLastFrameTime();
         
         if(time > entries[position].duration){
@@ -29,10 +34,10 @@ void Timeline::update(){
             else position = entries[position].next;
             time = 0.;
             
-            if(entries[position].name == "steam"){
+            if(entries[position].name == "stream"){
                 int i = ofRandom(2)>0.5;
                 //if(i)addSound("03_STEAM", position, entries[position].next,entries[position].optionNext,entries[position].name);
-                addString("03_STREAM.txt", 11 , 11 , 12 , -1 , "steam");
+                addString("03_STREAM.txt", 10 , 10 , -1 , "stream");
             }
             
             if(entries.find(position)!=entries.end()){
@@ -109,8 +114,32 @@ void Timeline::start(){
         // shut up!
     }
 }
+void Timeline::stop(){
+    
+    isPlaying = false;
+    position = endPos;
+    time = 0.;
+    sound.stop();
+    
+    if(entries.find(position)!=entries.end()){
+        
+        if(entries[position].isSound){
+            sound.load(entries[position].file);
+            sound.play();
+        }
+        else{
+            say(entries[position].file);
+        }
+    }
+    
+}
+
+void Timeline::defineEndPos(int p){
+    endPos = p;
+}
 
 void Timeline::addSilence(float duration, int position, int next, int optionNext, string name){
+    
     checkEntries(position);
     
     entry e = *new entry;
@@ -125,25 +154,39 @@ void Timeline::addSilence(float duration, int position, int next, int optionNext
 }
 
 //--------------------------------------------------------------
-void Timeline::addSound(string file, int position, int next, int optionNext, string name){
-    string filePath = path + file;
+void Timeline::addSound(string _dir, int position, int next, int optionNext, string name){
+    //string filePath = file;
     checkEntries(position);
+    //cout<<file<<endl;
     
+    ofDirectory dir;
+    dir.listDir(_dir);
+    dir.allowExt("mp3");
     
-    if(ofFile::doesFileExist(filePath)){
+    if(dir.size()>0){
+        int indx = floor(ofRandom(dir.size()));
+        string filpath = dir.getPath(indx);
+        
+        //if(ofFile::doesFileExist(filePath)){
         
         
         entry e = *new entry;
-        e.file = filePath;
+        e.file = filpath;
         
         ofSoundPlayer p;
-        if(p.load(filePath)){
+        
+        if(p.load(filpath)){
             
-            p.setPosition(0.5f);
-            double sampleLength = 2.f * p.getPositionMS(); // wink
+            
+            p.play();
+            p.setPosition(0.9999999f);
+            int ms = p.getPositionMS();
+            p.setPosition(0);
+            p.stop();
+            printf("SOUND LENGTH: %i\n\n", ms);
             
             e.isSound = true;
-            e.duration = sampleLength;
+            e.duration = float(ms)/1000;
             e.isPlayed = false;
             
             e.name = name;
@@ -156,15 +199,15 @@ void Timeline::addSound(string file, int position, int next, int optionNext, str
         else{
             cout<<("ERROR, it is a file, but not a soundfile")<<endl;
         }
-        
     }
+   // }
     else{
         cout<<("ERROR, could not find file")<<endl;
     }
 }
 
 //--------------------------------------------------------------
-void Timeline::addString(string file, int position, int next, int optionNext, int line, string name){
+void Timeline::addString(string file, int position, int next, int optionNext, string name){
     
     string filePath = file;
     checkEntries(position);
@@ -173,7 +216,7 @@ void Timeline::addString(string file, int position, int next, int optionNext, in
         
         entry e = *new entry;
         e.name = name;
-        e.file = getLine(filePath, line);
+        e.file = getLine(filePath);
         e.isString = true;
         e.duration = float(e.file.length()) * 0.1;
         if(e.duration < 0.1)messages.push_back(string("short file added %d", e.duration));
@@ -246,7 +289,7 @@ void Timeline::say(string line){
 //--------------------------------------------------------------
 bool Timeline::checkEntries(int find){
     if(entries.find(find)!=entries.end()){
-        messages.push_back(string("the map entry already exists and is overwritten %d", find));
+        //messages.push_back(string("the map entry already exists and is overwritten %d", find));
     }
     return entries.find(find)!=entries.end();
 }

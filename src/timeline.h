@@ -43,18 +43,23 @@ public:
 
     void draw();
     void setup(bool loop);
-    void update();
+    void update(float vol);
+    
+    void defineEndPos(int p);
     
     void start();
+    void stop();
     
-    void addSound(string file, int position, int next, int optionNext = -1 , string name = "");
-    void addString(string file, int position, int next, int optionNext = -1, int line = -1 , string name = "");
+    void addSound(string _dir, int position, int next, int optionNext = -1 , string name = "");
+    void addString(string file, int position, int next, int optionNext = -1, string name = "");
     void addSilence(float duration, int position, int next, int optionNext = -1 , string name = "");
     void swithDirection();
 
     bool isPlaying;
     
 private:
+    float p_vol;
+    int endPos;
     string path;
     vector<string>messages;
     int position;
