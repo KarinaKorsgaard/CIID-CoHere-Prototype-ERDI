@@ -41,7 +41,7 @@ struct entry{
 class Timeline{
 public:
 
-    void draw();
+    void draw(int x, int y);
     void setup(bool loop);
     void update(float vol);
     
@@ -54,15 +54,22 @@ public:
     void addString(string file, int position, int next, int optionNext = -1, string name = "");
     void addSilence(float duration, int position, int next, int optionNext = -1 , string name = "");
     void swithDirection();
+    void loadNewEntry();
+    void jumpToNext(int p = -1);
 
     bool isPlaying;
+    int position;
+    
+    bool isSilent(){
+        if(isValid && isPlaying)return entries[position].isSilence;
+        else return false;
+    }
     
 private:
     float p_vol;
     int endPos;
     string path;
     vector<string>messages;
-    int position;
     map<int, entry>entries;
     ofSoundPlayer sound;
     double time;

@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "A9ABB1A4BE28CA0005E7954B2F76C4ECD381A60E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "5DFB275C6763DE1710425503F6A3FD40F0623C0E" : 0,
+    "A9ABB1A4BE28CA0005E7954B2F76C4ECD381A60E" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "F85E927D-10E3-49B8-AAF4-AF574E2C6BAF",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "5DFB275C6763DE1710425503F6A3FD40F0623C0E" : "..\/..\/addons\/ofxLibsndfileRecorder",
+    "A9ABB1A4BE28CA0005E7954B2F76C4ECD381A60E" : "Erdi_V1\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Erdi_V1",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Erdi_V1.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/angeloseme\/ofxLibsndfileRecorder.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5DFB275C6763DE1710425503F6A3FD40F0623C0E"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/KarinaKorsgaard\/erdi.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "A9ABB1A4BE28CA0005E7954B2F76C4ECD381A60E"
+    }
+  ]
+}

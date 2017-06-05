@@ -30,43 +30,52 @@ void Timeline::update(float vol){
         time+=ofGetLastFrameTime();
         
         if(time > entries[position].duration){
-            if(entries[position].swithDirection)position = entries[position].optionNext;
-            else position = entries[position].next;
-            time = 0.;
-            
-            if(entries[position].name == "stream"){
-                int i = ofRandom(2)>0.5;
-                //if(i)addSound("03_STEAM", position, entries[position].next,entries[position].optionNext,entries[position].name);
-                addString("03_STREAM.txt", 10 , 10 , -1 , "stream");
-            }
-            
-            if(entries.find(position)!=entries.end()){
-                
-                if(entries[position].isSound){
-                    sound.load(entries[position].file);
-                    sound.play();
-                }
-                else{
-                    say(entries[position].file);
-                }
-            }else{
-                messages.push_back("timeline ended");
-                isPlaying = false;
-                if(looping)start();
-            }
+            loadNewEntry();
         }
     }
 }
 
-void Timeline::draw(){
+
+void Timeline::loadNewEntry(){
+    if(entries[position].swithDirection)position = entries[position].optionNext;
+    else position = entries[position].next;
+    time = 0.;
+    
+    if(entries[position].name == "stream"){
+        int i = ofRandom(2)>0.5;
+        //if(i)addSound("03_STEAM", position, entries[position].next,entries[position].optionNext,entries[position].name);
+        addString("03_STREAM.txt", 10 , 10 , -1 , "stream");
+    }
+    
+    if(entries.find(position)!=entries.end()){
+        
+        if(entries[position].isSound){
+            sound.load(entries[position].file);
+            sound.play();
+        }
+        else{
+            say(entries[position].file);
+        }
+    }else{
+        messages.push_back("timeline ended");
+        isPlaying = false;
+        if(looping)start();
+    }
+}
+
+
+
+void Timeline::draw(int x, int y){
+    ofPushMatrix();
+    ofTranslate(x, y);
     ofFill();
-    ofSetColor(255);
+    ofSetColor(0);
     ofDrawRectangle(0,0,300,ofGetHeight());
     
-    ofSetColor(0);
+    ofSetColor(255);
     
     if(isValid){
-        ofPushMatrix();
+        
         ofDrawBitmapString( entries[position].name , 10, 20);
         ofTranslate(20, 10);
         ofDrawBitmapString( st(position) + entries[position].file , 10, 20);
@@ -78,10 +87,12 @@ void Timeline::draw(){
         for(int i = 0; i<messages.size();i++){
             ofDrawBitmapString(messages[i], 10, 30 + 60 + 20*i);
         }
-        ofPopMatrix();
+       
     }
     else
         ofDrawBitmapString("you suck!", 10, 20);
+    
+     ofPopMatrix();
 }
 
 
@@ -89,10 +100,10 @@ void Timeline::draw(){
 void Timeline::start(){
     
     isPlaying = true;
-    time = 0.f;
-    position = 0;
+    time = 1000.f;
+    position = -1;
     
-    isValid = entries.find(position)!=entries.end();
+    isValid = entries.find(0)!=entries.end();
     
     if(!isValid)messages.push_back("no start entry found!, abort");
 
@@ -102,17 +113,7 @@ void Timeline::start(){
         it->second.isPlayed = false;
         it->second.swithDirection = false;
     }
-    
-    if(entries[position].isSound){
-        sound.load(entries[position].file);
-        sound.play();
-    }
-    else if(entries[position].isString){
-        say(entries[position].file);
-    }
-    else{
-        // shut up!
-    }
+    loadNewEntry();
 }
 void Timeline::stop(){
     
@@ -137,6 +138,14 @@ void Timeline::stop(){
 void Timeline::defineEndPos(int p){
     endPos = p;
 }
+
+void Timeline::jumpToNext(int p){
+
+    position = p == -1 ? position : p;
+    loadNewEntry();
+    
+}
+
 
 void Timeline::addSilence(float duration, int position, int next, int optionNext, string name){
     

@@ -5,6 +5,7 @@
 #include "mumble.h"
 
 #include "ofxGui.h"
+#include "soundRecorder.h"
 
 class ofApp : public ofBaseApp{
 	
@@ -26,20 +27,7 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 				
-		void audioIn(float * input, int bufferSize, int nChannels); 
-	
-		vector <float> left;
-		vector <float> right;
-		vector <float> volHistory;
-		
-        int step;
-		int 	bufferCounter;
-		int 	drawCounter;
-		
-		float smoothedVol;
-		float scaledVol;
-		
-		ofSoundStream soundStream;
+    SoundRecorder recorder;
   
     Timeline timeline;
     void setupTimeline();

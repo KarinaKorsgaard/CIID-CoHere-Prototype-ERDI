@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		1CD33E884D9E3358252E82A1 /* ofxToggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 907C5B5E104864A2D3A25745 /* ofxToggle.cpp */; };
 		218D051B1EE1DDF900BC12A7 /* timeline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 218D051A1EE1DDF900BC12A7 /* timeline.cpp */; };
+		218D052D1EE5570800BC12A7 /* ofxLibsndFileRecorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 218D05201EE5570800BC12A7 /* ofxLibsndFileRecorder.cpp */; };
+		218D052E1EE5570800BC12A7 /* scUBlibsndfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 218D05291EE5570800BC12A7 /* scUBlibsndfile.a */; };
+		218D053B1EE55B8600BC12A7 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 218D05341EE55B8600BC12A7 /* ofxXmlSettings.cpp */; };
+		218D053C1EE55B8600BC12A7 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 218D05371EE55B8600BC12A7 /* tinyxml.cpp */; };
+		218D053D1EE55B8600BC12A7 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 218D05391EE55B8600BC12A7 /* tinyxmlerror.cpp */; };
+		218D053E1EE55B8600BC12A7 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 218D053A1EE55B8600BC12A7 /* tinyxmlparser.cpp */; };
 		483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78D67A00EB899FAC09430597 /* ofxLabel.cpp */; };
 		5CBB2AB3A60F65431D7B555D /* ofxButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C88333E71C9457E441C33474 /* ofxButton.cpp */; };
 		837220E80EB56CD44AD27F2A /* ofxSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15F2C6477A769C03A56D1401 /* ofxSlider.cpp */; };
@@ -57,6 +63,19 @@
 		1C0DA2561397A7DE0246858B /* ofxGuiGroup.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxGuiGroup.h; path = ../../../addons/ofxGui/src/ofxGuiGroup.h; sourceTree = SOURCE_ROOT; };
 		218D051A1EE1DDF900BC12A7 /* timeline.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = timeline.cpp; sourceTree = "<group>"; };
 		218D051C1EE4088000BC12A7 /* mumble.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mumble.h; sourceTree = "<group>"; };
+		218D05201EE5570800BC12A7 /* ofxLibsndFileRecorder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxLibsndFileRecorder.cpp; sourceTree = "<group>"; };
+		218D05211EE5570800BC12A7 /* ofxLibsndFileRecorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxLibsndFileRecorder.h; sourceTree = "<group>"; };
+		218D05251EE5570800BC12A7 /* sndfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sndfile.h; sourceTree = "<group>"; };
+		218D05261EE5570800BC12A7 /* sndfile.hh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = sndfile.hh; sourceTree = "<group>"; };
+		218D05291EE5570800BC12A7 /* scUBlibsndfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = scUBlibsndfile.a; sourceTree = "<group>"; };
+		218D05301EE559E500BC12A7 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = bin/data/config.xml; sourceTree = SOURCE_ROOT; };
+		218D05311EE559ED00BC12A7 /* soundRecorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = soundRecorder.h; sourceTree = "<group>"; };
+		218D05341EE55B8600BC12A7 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxXmlSettings.cpp; sourceTree = "<group>"; };
+		218D05351EE55B8600BC12A7 /* ofxXmlSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
+		218D05371EE55B8600BC12A7 /* tinyxml.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml.cpp; sourceTree = "<group>"; };
+		218D05381EE55B8600BC12A7 /* tinyxml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tinyxml.h; sourceTree = "<group>"; };
+		218D05391EE55B8600BC12A7 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlerror.cpp; sourceTree = "<group>"; };
+		218D053A1EE55B8600BC12A7 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
 		21D3920A1EE1D178008EF6D8 /* timeline.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timeline.h; sourceTree = "<group>"; };
 		2834D88A62CD23F3DE2C47D1 /* ofxButton.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxButton.h; path = ../../../addons/ofxGui/src/ofxButton.h; sourceTree = SOURCE_ROOT; };
 		52AFA1F08C420992CAAAE648 /* ofxSlider.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxSlider.h; path = ../../../addons/ofxGui/src/ofxSlider.h; sourceTree = SOURCE_ROOT; };
@@ -86,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				218D052E1EE5570800BC12A7 /* scUBlibsndfile.a in Frameworks */,
 				E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -93,6 +113,99 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		218D051E1EE5570800BC12A7 /* ofxLibsndfileRecorder */ = {
+			isa = PBXGroup;
+			children = (
+				218D051F1EE5570800BC12A7 /* src */,
+				218D05221EE5570800BC12A7 /* libs */,
+			);
+			name = ofxLibsndfileRecorder;
+			sourceTree = "<group>";
+		};
+		218D051F1EE5570800BC12A7 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				218D05201EE5570800BC12A7 /* ofxLibsndFileRecorder.cpp */,
+				218D05211EE5570800BC12A7 /* ofxLibsndFileRecorder.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxLibsndfileRecorder/src;
+			sourceTree = "<group>";
+		};
+		218D05221EE5570800BC12A7 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				218D05231EE5570800BC12A7 /* libsndfile */,
+			);
+			name = libs;
+			path = ../../../addons/ofxLibsndfileRecorder/libs;
+			sourceTree = "<group>";
+		};
+		218D05231EE5570800BC12A7 /* libsndfile */ = {
+			isa = PBXGroup;
+			children = (
+				218D05241EE5570800BC12A7 /* include */,
+				218D05271EE5570800BC12A7 /* lib */,
+			);
+			path = libsndfile;
+			sourceTree = "<group>";
+		};
+		218D05241EE5570800BC12A7 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				218D05251EE5570800BC12A7 /* sndfile.h */,
+				218D05261EE5570800BC12A7 /* sndfile.hh */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		218D05271EE5570800BC12A7 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				218D05281EE5570800BC12A7 /* osx */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		218D05281EE5570800BC12A7 /* osx */ = {
+			isa = PBXGroup;
+			children = (
+				218D05291EE5570800BC12A7 /* scUBlibsndfile.a */,
+			);
+			path = osx;
+			sourceTree = "<group>";
+		};
+		218D05321EE55B8600BC12A7 /* ofxXmlSettings */ = {
+			isa = PBXGroup;
+			children = (
+				218D05331EE55B8600BC12A7 /* src */,
+				218D05361EE55B8600BC12A7 /* libs */,
+			);
+			name = ofxXmlSettings;
+			sourceTree = "<group>";
+		};
+		218D05331EE55B8600BC12A7 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				218D05341EE55B8600BC12A7 /* ofxXmlSettings.cpp */,
+				218D05351EE55B8600BC12A7 /* ofxXmlSettings.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxXmlSettings/src;
+			sourceTree = "<group>";
+		};
+		218D05361EE55B8600BC12A7 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				218D05371EE55B8600BC12A7 /* tinyxml.cpp */,
+				218D05381EE55B8600BC12A7 /* tinyxml.h */,
+				218D05391EE55B8600BC12A7 /* tinyxmlerror.cpp */,
+				218D053A1EE55B8600BC12A7 /* tinyxmlparser.cpp */,
+			);
+			name = libs;
+			path = ../../../addons/ofxXmlSettings/libs;
+			sourceTree = "<group>";
+		};
 		480A780D8D0308AE4A368801 /* ofxGui */ = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +249,8 @@
 			isa = PBXGroup;
 			children = (
 				480A780D8D0308AE4A368801 /* ofxGui */,
+				218D051E1EE5570800BC12A7 /* ofxLibsndfileRecorder */,
+				218D05321EE55B8600BC12A7 /* ofxXmlSettings */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -170,6 +285,8 @@
 				218D051C1EE4088000BC12A7 /* mumble.h */,
 				218D051A1EE1DDF900BC12A7 /* timeline.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
+				218D05311EE559ED00BC12A7 /* soundRecorder.h */,
+				218D05301EE559E500BC12A7 /* config.xml */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -287,14 +404,19 @@
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				856AA354D08AB4B323081444 /* ofxBaseGui.cpp in Sources */,
+				218D053D1EE55B8600BC12A7 /* tinyxmlerror.cpp in Sources */,
+				218D053E1EE55B8600BC12A7 /* tinyxmlparser.cpp in Sources */,
 				5CBB2AB3A60F65431D7B555D /* ofxButton.cpp in Sources */,
 				218D051B1EE1DDF900BC12A7 /* timeline.cpp in Sources */,
+				218D052D1EE5570800BC12A7 /* ofxLibsndFileRecorder.cpp in Sources */,
 				B266578FC55D23BFEBC042E7 /* ofxGuiGroup.cpp in Sources */,
 				483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */,
 				F285EB3169F1566CA3D93C20 /* ofxPanel.cpp in Sources */,
 				837220E80EB56CD44AD27F2A /* ofxSlider.cpp in Sources */,
 				B56FE57CC35806596D38118C /* ofxSliderGroup.cpp in Sources */,
+				218D053C1EE55B8600BC12A7 /* tinyxml.cpp in Sources */,
 				1CD33E884D9E3358252E82A1 /* ofxToggle.cpp in Sources */,
+				218D053B1EE55B8600BC12A7 /* ofxXmlSettings.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,6 +521,7 @@
 				INSTALL_PATH = /Applications;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)Debug";
+				USER_HEADER_SEARCH_PATHS = ../../../addons/ofxLibsndfileRecorder/libs/libsndfile/include/;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -426,6 +549,7 @@
 				INSTALL_PATH = /Applications;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = ../../../addons/ofxLibsndfileRecorder/libs/libsndfile/include/;
 				WRAPPER_EXTENSION = app;
 				baseConfigurationReference = E4EB6923138AFD0F00A09F29;
 			};
