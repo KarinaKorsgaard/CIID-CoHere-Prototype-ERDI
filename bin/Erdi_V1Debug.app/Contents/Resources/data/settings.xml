@@ -1,6 +1,6 @@
 <group>
-	<idle_max_vol>0.65</idle_max_vol>
-	<erdi_vol>2.95</erdi_vol>
-	<twitter_vol>0.4</twitter_vol>
+	<idle_max_vol>0.215</idle_max_vol>
+	<erdi_vol>1</erdi_vol>
+	<twitter_vol>0.335</twitter_vol>
 <group/>
 </group>

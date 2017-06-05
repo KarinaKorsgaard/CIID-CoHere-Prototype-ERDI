@@ -37,14 +37,18 @@ void Timeline::update(float vol){
 
 
 void Timeline::loadNewEntry(){
+    ofLogNotice("new entry!");
+
     if(entries[position].swithDirection)position = entries[position].optionNext;
     else position = entries[position].next;
     time = 0.;
+    sound.stop();
     
     if(entries[position].name == "stream"){
-        int i = ofRandom(2)>0.5;
-        //if(i)addSound("03_STEAM", position, entries[position].next,entries[position].optionNext,entries[position].name);
-        addString("03_STREAM.txt", 10 , 10 , -1 , "stream");
+        addSound("09_stream", 10 , 40 , -1 , "stream");
+    }
+    if(entries[position].name == "opinion"){
+        addSound("opinions", 40 , 10, -1 , "opinion"); // stream
     }
     
     if(entries.find(position)!=entries.end()){
@@ -76,16 +80,16 @@ void Timeline::draw(int x, int y){
     
     if(isValid){
         
-        ofDrawBitmapString( entries[position].name , 10, 20);
+        ofDrawBitmapString( entries[position].name , 10, 30);
         ofTranslate(20, 10);
-        ofDrawBitmapString( st(position) + entries[position].file , 10, 20);
-        ofDrawBitmapString( st(entries[position].duration) + "current duration" , 10, 30);
-        ofDrawBitmapString(st(time) + "current time", 10, 40);
+        ofDrawBitmapString( st(position) + entries[position].file , 10, 60);
+        ofDrawBitmapString( st(entries[position].duration) + "current duration" , 10, 90);
+        ofDrawBitmapString(st(time) + "current time", 10, 120);
         int next =entries[position].swithDirection ? entries[position].next : entries[position].optionNext;
-        ofDrawBitmapString(st(next)+ "next position", 10, 50);
+        ofDrawBitmapString(st(next)+ "next position", 10, 150);
         
         for(int i = 0; i<messages.size();i++){
-            ofDrawBitmapString(messages[i], 10, 30 + 60 + 20*i);
+            ofDrawBitmapString(messages[i], 10, 30 + 180 + 30*i);
         }
        
     }
@@ -100,8 +104,10 @@ void Timeline::draw(int x, int y){
 void Timeline::start(){
     
     isPlaying = true;
-    time = 1000.f;
-    position = -1;
+    time = 0.f;
+    position = 0;
+    
+    cout<<"start"<<endl;
     
     isValid = entries.find(0)!=entries.end();
     
@@ -113,7 +119,21 @@ void Timeline::start(){
         it->second.isPlayed = false;
         it->second.swithDirection = false;
     }
-    loadNewEntry();
+    
+    if(entries.find(position)!=entries.end()){
+        
+        if(entries[position].isSound){
+            sound.load(entries[position].file);
+            sound.play();
+        }
+        else{
+            say(entries[position].file);
+        }
+    }else{
+        messages.push_back("timeline ended");
+        isPlaying = false;
+        if(looping)start();
+    }
 }
 void Timeline::stop(){
     
@@ -125,7 +145,7 @@ void Timeline::stop(){
     if(entries.find(position)!=entries.end()){
         
         if(entries[position].isSound){
-            sound.load(entries[position].file);
+            sound.load(entries[position].file, true);
             sound.play();
         }
         else{
@@ -142,7 +162,22 @@ void Timeline::defineEndPos(int p){
 void Timeline::jumpToNext(int p){
 
     position = p == -1 ? position : p;
-    loadNewEntry();
+    time = 0.f;
+    sound.stop();
+    if(entries.find(position)!=entries.end()){
+        
+        if(entries[position].isSound){
+            sound.load(entries[position].file);
+            sound.play();
+        }
+        else{
+            say(entries[position].file);
+        }
+    }else{
+        messages.push_back("timeline ended");
+        isPlaying = false;
+        if(looping)start();
+    }
     
 }
 
@@ -169,11 +204,11 @@ void Timeline::addSound(string _dir, int position, int next, int optionNext, str
 
     
     ofDirectory dir;
-    dir.listDir(_dir);
+    dir.listDir("s/"+_dir);
     
-    dir.allowExt("mp3");
+   // dir.allowExt("mp3");
     dir.allowExt("wav");
-    dir.allowExt("ogg");
+   // dir.allowExt("ogg");
     
     if(dir.size()>0){
         int indx = floor(ofRandom(dir.size()));
@@ -195,6 +230,7 @@ void Timeline::addSound(string _dir, int position, int next, int optionNext, str
             int ms = p.getPositionMS();
             p.setPosition(0);
             p.stop();
+            p.unload();
             printf("SOUND LENGTH: %i\n\n", ms);
             
             e.isSound = true;

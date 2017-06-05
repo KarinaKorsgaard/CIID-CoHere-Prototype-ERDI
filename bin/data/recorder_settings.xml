@@ -1,5 +1,6 @@
 <group>
-	<volume_threshold>0.24</volume_threshold>
-	<allowed_pauses>1.7</allowed_pauses>
-	<Min_Sample_Length>3.4</Min_Sample_Length>
+	<volume_threshold>0.1625</volume_threshold>
+	<allowed_pauses>4.05</allowed_pauses>
+	<Min_Sample_Length>5</Min_Sample_Length>
+<group/>
 </group>

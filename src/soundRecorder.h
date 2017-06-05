@@ -14,7 +14,7 @@
 #include "ofxGui.h"
 #include "ofxXmlSettings.h"
 
-#define NUM_CHANNELS 2
+#define NUM_CHANNELS 1
 #define SAMPLE_RATE 44100
 #define BUFFER_SIZE 1024
 
@@ -58,9 +58,6 @@ public:
         soundStream.printDeviceList();
         //if you want to set a different device id
         soundStream.setDeviceID(soundDevice); //bear in mind the device id corresponds to all audio devices, including  input-only and output-only devices.
-        
-        left.assign(BUFFER_SIZE, 0.0);
-        right.assign(BUFFER_SIZE, 0.0);
 
         bufferCounter	= 0;
         smoothedVol     = 0.0;
@@ -98,8 +95,8 @@ public:
         
         if(recording)sampleLength+=dt;
 
-        if(rec){
-            if(scaledVol >= threshold){
+        
+            if(scaledVol >= threshold && rec){
                 silentSec = 0.f;
                 
                 if(!recording){
@@ -136,7 +133,7 @@ public:
                     }
                     sampleLength=0;
                 }
-            }
+            
         }
     }
     
@@ -151,30 +148,32 @@ public:
         if (recording)
             audioRecorder.addSamples(input, bufferSize * nChannels);
         
-//        inVol = accumulate(input, input + bufferSize * nChannels, 0., []( float a, float b ) {
-//            return std::max(a, b);
+        
+//        float inVol = accumulate(input, input + bufferSize * nChannels, 0., []( float a, float b) {
+//            return std::max(a,b);
 //        });
         
         float curVol = 0.0;
         
         // samples are "interleaved"
-        int numCounted = 0;
+        float numCounted = 0;
         
         //lets go through each sample and calculate the root mean square which is a rough way to calculate volume
         for (int i = 0; i < bufferSize; i++){
-            left[i]		= input[i*2]*0.5;
-            right[i]	= input[i*2+1]*0.5;
-            
-            curVol += left[i] * left[i];
-            curVol += right[i] * right[i];
-            numCounted+=2;
+            curVol += input[i] * input[i];
+            numCounted+=1.;
         }
         
         //this is how we get the mean of rms :)
         curVol /= (float)numCounted;
         
         // this is how we get the root of rms :)
-        curVol = sqrt( curVol );
+        curVol = 1.f / b2InvSqrt( curVol );
+        
+//        inVol /= (float)numCounted;
+//        inVol = 1.f / b2InvSqrt( inVol );
+//        
+      //  cout << ofToString((inVol*1000.),0)+" "+ofToString((curVol*1000.),0)<<endl;
         
         smoothedVol *= 0.93;
         smoothedVol += 0.07 * curVol;
@@ -182,7 +181,18 @@ public:
         bufferCounter++;
     }
     
-    
+    //inverse sqrt
+    inline Float32 b2InvSqrt(Float32 x)
+    {
+        int ix = 0;
+        memcpy(&ix, &x, sizeof(x));
+        
+        Float32 xhalf = 0.5f * x;
+        ix = 0x5f3759df - (ix >> 1);
+        memcpy(&x, &ix, sizeof(x));
+        x = x * (1.5f - xhalf * x * x);
+        return x;
+    }
     
 private:
     ofxLibsndFileRecorder audioRecorder;
@@ -198,10 +208,6 @@ private:
     string filePath;
     string message;
     ofSoundStream soundStream;
-    
-    vector <float> left;
-    vector <float> right;
-    vector <float> volHistory;
     
     int 	bufferCounter;
     
