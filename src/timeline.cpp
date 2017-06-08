@@ -37,7 +37,7 @@ void Timeline::update(float vol){
 
 
 void Timeline::loadNewEntry(){
-    ofLogNotice("new entry!");
+    //ofLogNotice("new entry!");
 
     if(entries[position].swithDirection)position = entries[position].optionNext;
     else position = entries[position].next;

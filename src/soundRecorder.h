@@ -88,7 +88,7 @@ public:
             if(vol >= threshold && rec){
                 silentSec = 0.f;
                 
-                if(!recording){
+                if(!recording && rec){
                     cout<<"Start recording\n";
                     audioCount++;
                     string pt=filePath+ofToString(audioCount,0)+".wav";
@@ -100,7 +100,7 @@ public:
                     
                 }
             }
-            else if(recording){
+            else if(recording && rec){
                 silentSec+=dt;
                 
                 if(silentSec>wait){
@@ -108,15 +108,16 @@ public:
                     recording=false;
                     doneRecording = true;
                     bool save = sampleLength > minSampleLength;
-                    if(save){
+                    //if(save){
                         audioRecorder.finalize();
-                    }
-                    else{
-                        audioRecorder.initialized=false;
-                        audioRecorder.recordingSize=0;
-                        delete audioRecorder.outFile;
-                        ofFile::removeFile(filePath+ofToString(audioCount,0)+".wav", false);
-                    }
+
+                    //}
+                    if(!save){
+                        
+                        ofFile::removeFile(filePath+ofToString(audioCount,0)+".wav", true);
+                    }else{
+			audioCount ++;
+		    }
                     sampleLength=0;
                 }
             

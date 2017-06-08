@@ -13,7 +13,7 @@ class SerialRead{
 public:
     void setup(){
 
-        //serial.listDevices();
+        serial.listDevices();
         vector <ofSerialDeviceInfo> deviceList = serial.getDeviceList();
 
         int baud = 9600;
@@ -25,8 +25,8 @@ public:
         //serial.setup("COM4", baud); // windows example
         //serial.setup("/dev/tty.usbserial-A4001JEC", baud); // mac osx example
         //    serial.setup("/dev/ttyUSB0", baud); //linux example
-        if(serial.isInitialized())
-            serial.flush();
+        //if(serial.isInitialized())
+            //serial.flush();
     }
     
     void update(){
