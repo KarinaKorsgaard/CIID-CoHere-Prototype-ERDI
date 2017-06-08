@@ -73,30 +73,22 @@ void Timeline::draw(int x, int y){
     ofPushMatrix();
     ofTranslate(x, y);
     ofFill();
-    ofSetColor(0);
-    ofDrawRectangle(0,0,300,ofGetHeight());
-    
-    ofSetColor(255);
-    
+        
     if(isValid){
         
-        ofDrawBitmapString( entries[position].name , 10, 30);
-        ofTranslate(20, 10);
-        ofDrawBitmapString( st(position) + entries[position].file , 10, 60);
-        ofDrawBitmapString( st(entries[position].duration) + "current duration" , 10, 90);
-        ofDrawBitmapString(st(time) + "current time", 10, 120);
+        ofDrawBitmapString( entries[position].name , 10, 10);
+        ofDrawBitmapString( st(position) + entries[position].file , 10, 20);
+        ofDrawBitmapString( st(entries[position].duration) + "current duration" , 10, 30);
+        ofDrawBitmapString(st(time) + "current time", 10, 40);
         int next =entries[position].swithDirection ? entries[position].next : entries[position].optionNext;
-        ofDrawBitmapString(st(next)+ "next position", 10, 150);
+        ofDrawBitmapString(st(next)+ "next position", 10, 50);
         
         for(int i = 0; i<messages.size();i++){
-            ofDrawBitmapString(messages[i], 10, 30 + 180 + 30*i);
+            ofDrawBitmapString(messages[i], 10, 60 + 10*i);
         }
        
     }
-    else
-        ofDrawBitmapString("you suck!", 10, 20);
-    
-     ofPopMatrix();
+    ofPopMatrix();
 }
 
 

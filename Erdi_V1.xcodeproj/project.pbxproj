@@ -76,6 +76,7 @@
 		218D05381EE55B8600BC12A7 /* tinyxml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tinyxml.h; sourceTree = "<group>"; };
 		218D05391EE55B8600BC12A7 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlerror.cpp; sourceTree = "<group>"; };
 		218D053A1EE55B8600BC12A7 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
+		218D05441EE954A900BC12A7 /* serialRead.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = serialRead.h; sourceTree = "<group>"; };
 		21D3920A1EE1D178008EF6D8 /* timeline.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timeline.h; sourceTree = "<group>"; };
 		2834D88A62CD23F3DE2C47D1 /* ofxButton.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxButton.h; path = ../../../addons/ofxGui/src/ofxButton.h; sourceTree = SOURCE_ROOT; };
 		52AFA1F08C420992CAAAE648 /* ofxSlider.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxSlider.h; path = ../../../addons/ofxGui/src/ofxSlider.h; sourceTree = SOURCE_ROOT; };
@@ -286,6 +287,7 @@
 				218D051A1EE1DDF900BC12A7 /* timeline.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				218D05311EE559ED00BC12A7 /* soundRecorder.h */,
+				218D05441EE954A900BC12A7 /* serialRead.h */,
 				218D05301EE559E500BC12A7 /* config.xml */,
 			);
 			path = src;

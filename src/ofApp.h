@@ -3,7 +3,7 @@
 #include "ofMain.h"
 #include "timeline.h"
 #include "mumble.h"
-
+#include "serialRead.h"
 #include "ofxGui.h"
 #include "soundRecorder.h"
 
@@ -34,13 +34,14 @@ class ofApp : public ofBaseApp{
     
     
     Mumbler twitter;
+    SerialRead serial;
 
     
     Mumbler idleMumbler;
     float idleVol = 0.;
     
     ofxPanel gui;
-    ofParameter<float>idleMaxVol, twitterVol, erdiVol;
+    ofParameter<float>idleMaxVol, twitterVol, erdiVol,sampleDetectionLength;
 
 
 };

@@ -22,7 +22,19 @@ void ofApp::setup(){
     gui.add(idleMaxVol.set("idle max vol", 0. , 0., 1.));
     gui.add(erdiVol.set("erdi vol", 0. , 0., 1.));
     gui.add(twitterVol.set("twitter vol", 0. , 0., 1.));
+    
+    gui.add(sampleDetectionLength.set("sampleDetectionLength",1.3,0.,3.));
+    
+    gui.add(recorder.recGroup);
+    
     gui.loadFromFile("settings.xml");
+    
+   // gui.setFillColor(ofColor::lightCoral);
+   // gui.setHeaderBackgroundColor(ofColor::lightCoral);
+    
+    //gui.setWidthElements(180);
+    serial.setup();
+    ofShowCursor();
     
 }
 
@@ -84,15 +96,17 @@ void ofApp::update(){
     
     recorder.update(timeline.isSilent());
     
+    if(recorder.getVolume())serial.writeByte(1);
+    if(serial.start())timeline.start();
+    if(serial.stop())timeline.stop();
     
     if(!timeline.isPlaying){
         float m = idleMaxVol;
         idleVol = CLAMP(idleVol+=0.02 ,0., m);
         
-        
     }else{
         if(timeline.position == 4 || timeline.position == 7){ // detect
-            if(recorder.sampleLength > 1.5f && recorder.recording)timeline.swithDirection();
+            if(recorder.sampleLength > sampleDetectionLength && recorder.recording)timeline.swithDirection();
         }
         
         idleVol = 0.;
@@ -111,6 +125,7 @@ void ofApp::update(){
             timeline.swithDirection();
     }
     
+    serial.update();
 }
 
 
@@ -118,28 +133,32 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-	ofSetColor(225);
+    ofBackground(0,0,100);
+    
+	ofSetColor(225,0,0);
 
 	ofNoFill();
-    
-    //ofPushMatrix();
     gui.draw();
     
     //ofTranslate(gui.getWidth() + 50, 0);
-    timeline.draw(gui.getWidth() + 50, 0);
+    timeline.draw(200, 0);
     
     //ofTranslate(gui.getWidth() + 50, 0);
     recorder.gui.draw();
     
     if(recorder.recording){
-        ofSetColor(100,255,100);
+        ofSetColor(0,0,255);
         ofDrawBitmapString("Sample length: "+std::to_string(recorder.sampleLength), 10, 300);
     }
-    else{
-        ofSetColor(255,100,100);
-    }
-    ofDrawBitmapString("volume: "+std::to_string(recorder.getVolume()), 30, 300);
+    ofDrawBitmapString("volume: "+std::to_string(recorder.vol), 30, 320);
     ofDrawCircle(600, 300, recorder.getVolume());
+    
+    
+    recorder.drawCurve();
+   // ofTranslate(0,400);
+   // recorder.drawCurve();
+    
+    
 }
 
 
