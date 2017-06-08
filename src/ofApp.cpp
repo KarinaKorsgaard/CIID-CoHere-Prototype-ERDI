@@ -97,7 +97,10 @@ void ofApp::update(){
     recorder.update(timeline.isSilent());
     
     if(recorder.getVolume())serial.writeByte(1);
-    if(serial.start())timeline.start();
+    if(serial.start()){
+	timeline.start();
+	setupTimeline();
+	}
     if(serial.stop())timeline.stop();
     
     if(!timeline.isPlaying){

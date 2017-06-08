@@ -43,10 +43,12 @@ public:
     
     
     bool start(){
-        return value == 2;
+	bool res = value == 2 ? true : false;
+        return res;
     }
     bool stop(){
-        return value == 3;
+        bool res = value == 3 ? true : false;
+	return res; 
     }
 
     

@@ -94,55 +94,58 @@ void Timeline::draw(int x, int y){
 
 //--------------------------------------------------------------
 void Timeline::start(){
+    if(!isPlaying){
+    	isPlaying = true;
+    	time = 0.f;
+    	position = 0;
     
-    isPlaying = true;
-    time = 0.f;
-    position = 0;
+    	cout<<"start"<<endl;
     
-    cout<<"start"<<endl;
+    	isValid = entries.find(0)!=entries.end();
     
-    isValid = entries.find(0)!=entries.end();
-    
-    if(!isValid)messages.push_back("no start entry found!, abort");
+    	if(!isValid)messages.push_back("no start entry found!, abort");
 
-    map<int, entry>::iterator it;
-    for (it = entries.begin(); it != entries.end(); it++)
-    {
-        it->second.isPlayed = false;
-        it->second.swithDirection = false;
-    }
+    	map<int, entry>::iterator it;
+    	for (it = entries.begin(); it != entries.end(); it++)
+    	{
+        	it->second.isPlayed = false;
+        	it->second.swithDirection = false;
+    	}
     
-    if(entries.find(position)!=entries.end()){
+    	if(entries.find(position)!=entries.end()){
         
-        if(entries[position].isSound){
-            sound.load(entries[position].file);
-            sound.play();
-        }
-        else{
-            say(entries[position].file);
-        }
-    }else{
-        messages.push_back("timeline ended");
-        isPlaying = false;
-        if(looping)start();
-    }
+        	if(entries[position].isSound){
+            		sound.load(entries[position].file);
+            		sound.play();
+        	}
+        	else{
+         	   	say(entries[position].file);
+       	 	}
+    	}else{
+        	messages.push_back("timeline ended");
+        	isPlaying = false;
+        
+    	}
+	}
 }
 void Timeline::stop(){
+    if(isPlaying){
+	cout << "stop" << endl;
+    	isPlaying = false;
+    	position = endPos;
+    	time = 0.;
+    	sound.stop();
     
-    isPlaying = false;
-    position = endPos;
-    time = 0.;
-    sound.stop();
-    
-    if(entries.find(position)!=entries.end()){
+    	if(entries.find(position)!=entries.end()){
         
-        if(entries[position].isSound){
-            sound.load(entries[position].file, true);
-            sound.play();
-        }
-        else{
-            say(entries[position].file);
-        }
+       	 	if(entries[position].isSound){
+          	  	sound.load(entries[position].file, true);
+           	 	sound.play();
+        	}
+        	else{
+        	    say(entries[position].file);
+        	}
+    	}
     }
     
 }
@@ -223,7 +226,7 @@ void Timeline::addSound(string _dir, int position, int next, int optionNext, str
             p.setPosition(0);
             p.stop();
             p.unload();
-            printf("SOUND LENGTH: %i\n\n", ms);
+            //printf("SOUND LENGTH: %i\n\n", ms);
             
             e.isSound = true;
             e.duration = float(ms)/1000;
