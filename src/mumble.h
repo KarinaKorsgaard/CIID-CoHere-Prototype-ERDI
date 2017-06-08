@@ -53,14 +53,15 @@ public:
                 else p->volume-=0.01;
                 
                 if(p->volume<0. || (!p->soundPlayer.isPlaying() && p->age>10)){
-                    
-                    int sIndx = int(ofRandom(files.size()-1));
-                    p->soundPlayer.unload();
-                    p->soundPlayer.load(files[sIndx]);
-                    p->age = 0;
-                    p->volume = 0;
-                    p->soundIndx = sIndx;
-                    p->soundPlayer.play();
+                    if(files.size()>0){
+                        int sIndx = int(ofRandom(files.size()-1));
+                        p->soundPlayer.unload();
+                        p->soundPlayer.load(files[sIndx]);
+                        p->age = 0;
+                        p->volume = 0;
+                        p->soundIndx = sIndx;
+                        p->soundPlayer.play();
+                    }
                 }
                 p->volume=CLAMP(p->volume,0,1);
                 p->soundPlayer.setVolume(p->volume * MAX(vol,0) );

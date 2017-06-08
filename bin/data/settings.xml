@@ -3,4 +3,10 @@
 	<erdi_vol>1</erdi_vol>
 	<twitter_vol>0.175</twitter_vol>
 <group/>
+<sampleDetectionLength>1.3</sampleDetectionLength>
+	<recorder_gui>
+		<volume_threshold>3.08163</volume_threshold>
+		<allowed_pauses>0.8</allowed_pauses>
+		<Min_Sample_Length>3</Min_Sample_Length>
+	</recorder_gui>
 </group>
