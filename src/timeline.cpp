@@ -48,7 +48,10 @@ void Timeline::loadNewEntry(){
         addSound("09_stream", 10 , 40 , -1 , "stream");
     }
     if(entries[position].name == "opinion"){
-        addSound("opinions", 40 , 10, -1 , "opinion"); // stream
+        if(ofRandom(1)>0.2)
+            addSound("opinions", 40 , 10, -1 , "opinion"); // stream
+        else
+            addSound("quotes", 40 , 10, -1 , "opinion"); // stream
     }
     
     if(entries.find(position)!=entries.end()){
@@ -261,7 +264,7 @@ void Timeline::addString(string file, int position, int next, int optionNext, st
         e.name = name;
         e.file = getLine(filePath);
         e.isString = true;
-        e.duration = float(e.file.length()) * 0.1;
+        e.duration = float(e.file.length()) * 0.07;
         if(e.duration < 0.1)messages.push_back(string("short file added %d", e.duration));
         e.isPlayed = false;
         e.optionNext = optionNext == -1 ? next : optionNext;

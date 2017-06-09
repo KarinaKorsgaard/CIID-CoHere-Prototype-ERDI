@@ -100,10 +100,10 @@ public:
                     
                 }
             }
-            else if(recording && rec){
+            else if(recording){
                 silentSec+=dt;
                 
-                if(silentSec>wait){
+                if(silentSec>wait || !rec){
                     cout<<"Stop recording\n";
                     recording=false;
                     doneRecording = true;
@@ -116,13 +116,14 @@ public:
                         
                         ofFile::removeFile(filePath+ofToString(audioCount,0)+".wav", true);
                     }else{
-			audioCount ++;
-		    }
+                        audioCount ++;
+                    }
                     sampleLength=0;
                 }
             
         }
     }
+    
     void drawCurve(){
         ofPolyline p;
         

@@ -43,18 +43,55 @@ void ofApp::setupTimeline(){
   //  timeline.addSound("s/welcome", 0, 1); //
   //  timeline.addSound("s/intro", 1, 2);
     
+//    timeline.addSound("01_welcome", 0 , 30); // welcome
+//    timeline.addSilence(5.0 , 30 , 31 ); // shutup
+//    timeline.addSound("03_yay", 31 , 1 ); // yay, you said something
+//    
+//    timeline.addSound("02_intro", 1 , 51); // intro
+//    timeline.addSound("04_intro2", 51 , 2); // intro
+//    
+//    timeline.addSound("09_stream", 2 , 20); // stream
+//    timeline.addSound("opinions", 20 , 21); // stream
+//    timeline.addSound("quotes", 21 , 22); // stream
+//    timeline.addSound("09_stream", 22 , 23); // stream
+//    timeline.addSound("opinions", 23 , 3); // stream
+//    
+//    timeline.addSound("05_question", 3 , 4); // question
+//    
+//    timeline.addSilence(4.0 , 4 , 5 , 6); // detect 1
+//    
+//    timeline.addSound("06_probe" , 5 , 7);
+//    
+//    timeline.addSilence(4.0 , 7 , 8 , 6 ); // detect 1
+//    
+//    timeline.addSound("07_giveup" , 8 , 10 );
+//    
+//    timeline.addSilence(0.5 , 6 , 6, 9); // listen to opinion now
+//    timeline.addSound("08_thankyou" , 9 , 10);
+//    
+//    timeline.addSound("09_stream", 10 , 40 , -1 , "stream");
+//    timeline.addSound("opinions", 40 , 10, -1 , "opinion"); // stream
+//    //timeline.addString("03_STREAM.txt", 10 , 10 , -1 , "stream");
+//    
+//    // distance sensor will force position to 11
+//    timeline.addSound("10_goodbuy", 11 , 13 , 12 );
+//    timeline.addSound("11_youarestillhere", 12 , 10 );
+//    
+    
+    
     timeline.addSound("01_welcome", 0 , 30); // welcome
-    timeline.addSilence(5.0 , 30 , 31 ); // shutup
-    timeline.addSound("03_yay", 31 , 1 ); // yay, you said something
+    timeline.addSilence(4.0 , 30 , 32 , 31 ); // shutup
+    timeline.addSound("03_yay", 31 , 1  ); // yay, you said something
+    timeline.addSound("03_ohno", 32 , 1  ); // nope
     
     timeline.addSound("02_intro", 1 , 51); // intro
     timeline.addSound("04_intro2", 51 , 2); // intro
     
     timeline.addSound("09_stream", 2 , 20); // stream
     timeline.addSound("opinions", 20 , 21); // stream
-    timeline.addSound("quotes", 21 , 22); // stream
-    timeline.addSound("09_stream", 22 , 23); // stream
-    timeline.addSound("opinions", 23 , 3); // stream
+    timeline.addSound("quotes", 21 , 3); // stream
+   // timeline.addString("09_stream.txt", 22 , 23); // stream
+   // timeline.addString("opinions.txt", 23 , 3); // stream
     
     timeline.addSound("05_question", 3 , 4); // question
     
@@ -79,8 +116,8 @@ void ofApp::setupTimeline(){
     
     
     // interruption.
-    //timeline.addString("07_IMSORRY.txt", 14 , 15 , 12 );
-    //timeline.addSilence(0.5 , 15 , 15 , 9); // say something
+    timeline.addSound("07_imsorry", 14 , 6 );
+
     
     
     timeline.defineEndPos(11);
@@ -94,13 +131,25 @@ void ofApp::update(){
     twitter.update(twitterVol);
     idleMumbler.update(idleVol);
     
-    recorder.update(timeline.isSilent());
-    
-    if(recorder.getVolume())serial.writeByte(1);
     if(serial.start()){
-	timeline.start();
-	setupTimeline();
-	}
+        setupTimeline();
+        timeline.start();
+    }
+    
+    bool record;
+    int t = timeline.position;
+
+    recorder.update(timeline.isSilent());
+
+    if(recorder.getVolume()){
+        timeline.jumpToNext(14);
+        serial.writeByte(1);
+    }
+    
+    if(!recorder.getVolume() && timeline.position == 15){
+        timeline.swithDirection();
+    }
+    
     if(serial.stop())timeline.stop();
     
     if(!timeline.isPlaying){
@@ -108,8 +157,9 @@ void ofApp::update(){
         idleVol = CLAMP(idleVol+=0.02 ,0., m);
         
     }else{
-        if(timeline.position == 4 || timeline.position == 7){ // detect
-            if(recorder.sampleLength > sampleDetectionLength && recorder.recording)timeline.swithDirection();
+        if(timeline.position == 4 || timeline.position == 7 || timeline.position == 30){ // detect
+            
+            if(recorder.recording)timeline.swithDirection();
         }
         
         idleVol = 0.;
