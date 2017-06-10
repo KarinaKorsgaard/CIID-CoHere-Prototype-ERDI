@@ -23,7 +23,7 @@ void ofApp::setup(){
     gui.add(erdiVol.set("erdi vol", 0. , 0., 1.));
     gui.add(twitterVol.set("twitter vol", 0. , 0., 1.));
     
-    gui.add(sampleDetectionLength.set("sampleDetectionLength",1.3,0.,3.));
+    gui.add(sampleDetectionLength.set("sampDetLength",1.3,0.,3.));
     
     gui.add(recorder.recGroup);
     
@@ -79,31 +79,33 @@ void ofApp::setupTimeline(){
 //    
     
     
-    timeline.addSound("01_welcome", 0 , 30); // welcome
-    timeline.addSilence(4.0 , 30 , 32 , 31 ); // shutup
-    timeline.addSound("03_yay", 31 , 1  ); // yay, you said something
-    timeline.addSound("03_ohno", 32 , 1  ); // nope
+    timeline.addSound("01_welcome", 0 , 30,  -1, "noInterrupt" ); // welcome
+    timeline.addSilence(sampleDetectionLength , 30 , 32 , 31 , "detect"); // shutup
+    
+    timeline.addSound("03_yay", 31 , 1 , -1, "noInterrupt" ); // yay, you said something
+    timeline.addSound("03_ohno", 32 , 1 , -1, "noInterrupt" ); // nope
     
     timeline.addSound("02_intro", 1 , 51); // intro
     timeline.addSound("04_intro2", 51 , 2); // intro
     
-    timeline.addSound("09_stream", 2 , 20); // stream
-    timeline.addSound("opinions", 20 , 21); // stream
+    timeline.addSound("09_stream", 2 , 20, -1 , "stream"); // stream
+    timeline.addSound("opinions", 20 , 21, -1 , "opinion"); // stream
     timeline.addSound("quotes", 21 , 3); // stream
    // timeline.addString("09_stream.txt", 22 , 23); // stream
    // timeline.addString("opinions.txt", 23 , 3); // stream
     
-    timeline.addSound("05_question", 3 , 4); // question
+    timeline.addSound("05_question", 3 , 4 ,  -1, "noInterrupt" ); // question
     
-    timeline.addSilence(4.0 , 4 , 5 , 6); // detect 1
+    timeline.addSilence(sampleDetectionLength , 4 , 5 , 6 , "detect"); // detect 1
     
     timeline.addSound("06_probe" , 5 , 7);
+    timeline.addSilence(0.5 , 6 , 6, 9 , "listen"); // listen to opinion now
     
-    timeline.addSilence(4.0 , 7 , 8 , 6 ); // detect 1
+    timeline.addSilence(sampleDetectionLength , 7 , 8 , 6 , "detect"); // detect 1
     
     timeline.addSound("07_giveup" , 8 , 10 );
     
-    timeline.addSilence(0.5 , 6 , 6, 9); // listen to opinion now
+   
     timeline.addSound("08_thankyou" , 9 , 10);
     
     timeline.addSound("09_stream", 10 , 40 , -1 , "stream");
@@ -111,14 +113,16 @@ void ofApp::setupTimeline(){
     //timeline.addString("03_STREAM.txt", 10 , 10 , -1 , "stream");
     
     // distance sensor will force position to 11
-    timeline.addSound("10_goodbuy", 11 , 13 , 12 );
+    timeline.addSound("10_goodbuy", 11 , 13 );
+    timeline.addSilence(sampleDetectionLength , 13 , 100 , 12, "detect"); // detect 1
     timeline.addSound("11_youarestillhere", 12 , 10 );
     
     
     // interruption.
-    timeline.addSound("07_imsorry", 14 , 6 );
-
-    
+    timeline.addSound("07_imsorry", 14 , 17 );
+    timeline.addSilence(sampleDetectionLength , 17 , interruptionPos , 15, "detect"); // detect 1
+    timeline.addSilence(0.5 , 15 ,  15 , 16, "listen"); // listen to opinion now
+    timeline.addSound("08_thankyou" , 16 , interruptionPos, -1, "interruption");
     
     timeline.defineEndPos(11);
 }
@@ -130,55 +134,55 @@ void ofApp::update(){
     timeline.update(erdiVol);
     twitter.update(twitterVol);
     idleMumbler.update(idleVol);
+    recorder.update(timeline.isSilent());
     
     if(serial.start()){
         setupTimeline();
         timeline.start();
     }
     
-    bool record;
-    int t = timeline.position;
-
-    recorder.update(timeline.isSilent());
-
-    if(recorder.getVolume()){
-        timeline.jumpToNext(14);
-        serial.writeByte(1);
-    }
-    
-    if(!recorder.getVolume() && timeline.position == 15){
-        timeline.swithDirection();
-    }
     
     if(serial.stop())timeline.stop();
     
+    // NOT PLAYING
     if(!timeline.isPlaying){
         float m = idleMaxVol;
         idleVol = CLAMP(idleVol+=0.02 ,0., m);
+    }
+    
+    //PLAYING
+    else
+    {
+        if(timeline.getName() == "detect" && recorder.recording){ // detect
+            timeline.swithDirection();
+        }
+        if(!recorder.recording && timeline.getName() == "listen"){
+            timeline.swithDirection();
+        }
         
-    }else{
-        if(timeline.position == 4 || timeline.position == 7 || timeline.position == 30){ // detect
-            
-            if(recorder.recording)timeline.swithDirection();
+        // interruption
+        if(recorder.getVolume() &&
+           timeline.position != 14 &&
+           !timeline.isSilent() &&
+           timeline.getName() != "detect" &&
+           timeline.getName() != "noInterrupt")
+        {
+            interruptionTimer += ofGetLastFrameTime();
+            if(interruptionTimer>0.2){
+                interruptionPos = timeline.position;
+                timeline.setNextPosition(16, interruptionPos);
+                timeline.setNextPosition(17, interruptionPos);
+                timeline.jumpToNext(14);
+                serial.writeByte(1);
+                interruptionTimer = 0;
+            }
         }
         
         idleVol = 0.;
     }
     
-//    // interrupt
-//    if(recorder.sampleLength > 2.f){
-//        timeline.jumpToNext(14); // did you say somehitng??
-//    }
-//    
-    if(recorder.doneRecording){
-        //timeline.swithDirection();
-        recorder.doneRecording = false;
-        
-        if(timeline.position == 6)
-            timeline.swithDirection();
-    }
     
-    serial.update();
+   // serial.update();
 }
 
 

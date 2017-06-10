@@ -37,6 +37,9 @@ class ofApp : public ofBaseApp{
     SerialRead serial;
 
     
+    double interruptionTimer;
+    int interruptionPos;
+    
     Mumbler idleMumbler;
     float idleVol = 0.;
     

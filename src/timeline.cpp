@@ -156,6 +156,9 @@ void Timeline::stop(){
 void Timeline::defineEndPos(int p){
     endPos = p;
 }
+void Timeline::setNextPosition(int pos, int next){
+    entries.find(pos)->second.next = next;
+}
 
 void Timeline::jumpToNext(int p){
 
@@ -193,6 +196,10 @@ void Timeline::addSilence(float duration, int position, int next, int optionNext
     e.isPlayed = false;
     
     entries[position] = e;
+}
+
+string Timeline::getName(){
+    return entries[position].name;
 }
 
 //--------------------------------------------------------------

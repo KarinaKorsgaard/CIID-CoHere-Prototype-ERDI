@@ -5,8 +5,8 @@
 <group/>
 <sampleDetectionLength>1.3</sampleDetectionLength>
 	<recorder_gui>
-		<volume_threshold>3.08163</volume_threshold>
-		<allowed_pauses>0.8</allowed_pauses>
-		<Min_Sample_Length>3</Min_Sample_Length>
+		<volume_threshold>60</volume_threshold>
+		<allowed_pauses>4.69388</allowed_pauses>
+		<Min_Sample_Length>5.5102</Min_Sample_Length>
 	</recorder_gui>
 </group>

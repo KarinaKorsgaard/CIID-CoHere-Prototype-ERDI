@@ -1,5 +1,5 @@
 <config>
     <path>s/opinions/</path>
-    <soundDevice>1</soundDevice>
+    <soundDevice>0</soundDevice>
     <config/>
 </config>

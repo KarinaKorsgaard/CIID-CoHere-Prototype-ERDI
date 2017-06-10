@@ -36,7 +36,7 @@ public:
     void setup(){
         
         recGroup.setName("recorder gui");
-        recGroup.add(threshold.set("volume threshold",0.26,0,4.));
+        recGroup.add(threshold.set("volume threshold",0.26,6,60.));
         recGroup.add(wait.set("allowed pauses",0.80,0,10));
         recGroup.add(minSampleLength.set("Min Sample Length",3.,0,20));
         
@@ -110,14 +110,11 @@ public:
                 if(silentSec>wait || !rec){
                     cout<<"Stop recording\n";
                     recording=false;
-                    doneRecording = true;
                     bool save = sampleLength > minSampleLength;
-                    //if(save){
-                        audioRecorder.finalize();
-
-                    //}
+    
+                    audioRecorder.finalize();
+                    
                     if(!save){
-                        
                         ofFile::removeFile(filePath+ofToString(audioCount,0)+".wav", true);
                     }else{
                         audioCount ++;

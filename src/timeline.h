@@ -56,6 +56,9 @@ public:
     void swithDirection();
     void loadNewEntry();
     void jumpToNext(int p = -1);
+    void setNextPosition(int pos, int next);
+    
+    string getName();
 
     bool isPlaying;
     int position;
