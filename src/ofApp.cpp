@@ -130,7 +130,7 @@ void ofApp::setupTimeline(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    
+   if(ofGetFrameNum() == 100)gui.loadFromFile("settings.xml"); // temporary
     
     timeline.update(erdiVol);
     twitter.update(twitterVol);
