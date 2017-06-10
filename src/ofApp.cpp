@@ -136,13 +136,11 @@ void ofApp::update(){
     idleMumbler.update(idleVol);
     recorder.update(timeline.isSilent());
     
-    if(serial.start()){
+    if(serial.start() && !timeline.isPlaying){
         setupTimeline();
         timeline.start();
     }
-    
-    
-    if(serial.stop())timeline.stop();
+    if(serial.stop() && timeline.isPlaying && timeline.position != 11 && timeline.position != 13)timeline.stop();
     
     // NOT PLAYING
     if(!timeline.isPlaying){
@@ -161,7 +159,7 @@ void ofApp::update(){
         }
         
         // interruption
-        if(recorder.getVolume() &&
+        if(serial.interrupt() &&
            timeline.position != 14 &&
            !timeline.isSilent() &&
            timeline.getName() != "detect" &&
