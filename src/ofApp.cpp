@@ -182,7 +182,7 @@ void ofApp::update(){
     }
     
     
-   // serial.update();
+    serial.update();
 }
 
 
