@@ -29,6 +29,10 @@ public:
     bool recording;
     ofParameterGroup recGroup;
     
+    ofParameter<float>threshold;
+    ofParameter<float>minSampleLength;
+    ofParameter<float>wait;
+    
     void setup(){
         
         recGroup.setName("recorder gui");
@@ -160,10 +164,6 @@ public:
     
 private:
     ofxLibsndFileRecorder audioRecorder;
-
-    ofParameter<float>threshold;
-    ofParameter<float>minSampleLength;
-    ofParameter<float>wait;
     
     double silentSec;
     int audioCount;

@@ -199,17 +199,26 @@ void ofApp::draw(){
     //ofTranslate(gui.getWidth() + 50, 0);
     recorder.gui.draw();
     
-    if(recorder.recording){
+    if(recorder.getVolume()){
         ofSetColor(0,0,255);
         ofDrawBitmapString("Sample length: "+std::to_string(recorder.sampleLength), 10, 300);
     }
-    ofDrawBitmapString("volume: "+std::to_string(recorder.vol), 30, 320);
-    ofDrawCircle(600, 300, recorder.getVolume());
+    ofDrawBitmapString("volume: "+std::to_string(recorder.vol), 200, 320);
+
     
     
     recorder.drawCurve();
    // ofTranslate(0,400);
    // recorder.drawCurve();
+    ofTranslate(0, 200);
+    ofDrawBitmapString("q - jump to question", 10, 20*1);
+    ofDrawBitmapString("t T twitter vol", 10, 20*2);
+    ofDrawBitmapString("s S start stop", 10, 20*3);
+    ofDrawBitmapString("e E erdi vol", 10, 20*4);
+    ofDrawBitmapString("r R threshold", 10, 20*5);
+    ofDrawBitmapString("w W wait", 10, 20*6);
+    ofDrawBitmapString("m M min sample lenght", 10, 20*7);
+
     
     
 }
@@ -225,11 +234,22 @@ void ofApp::keyPressed  (int key){
         setupTimeline();
         timeline.start();
     }
-    
     if(key == 'S')timeline.stop();
     
     if(key == 't')twitterVol+=0.1;
     if(key == 'T')twitterVol-=0.1;
+    
+    if(key == 'e')erdiVol+=0.1;
+    if(key == 'E')erdiVol-=0.1;
+    
+    if(key == 'r')recorder.threshold+=0.1;
+    if(key == 'R')recorder.threshold-=0.1;
+    
+    if(key == 'w')recorder.wait+=0.1;
+    if(key == 'W')recorder.wait-=0.1;
+    
+    if(key == 'm')recorder.minSampleLength+=0.1;
+    if(key == 'M')recorder.minSampleLength-=0.1;
 }
 
 
