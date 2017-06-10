@@ -42,9 +42,10 @@ class ofApp : public ofBaseApp{
     
     Mumbler idleMumbler;
     float idleVol = 0.;
+    float twitterVol = 0.;
     
     ofxPanel gui;
-    ofParameter<float>idleMaxVol, twitterVol, erdiVol,sampleDetectionLength;
+    ofParameter<float>idleMaxVol, twitterMaxVol, erdiVol,sampleDetectionLength;
 
 
 };

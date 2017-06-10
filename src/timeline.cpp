@@ -19,6 +19,8 @@ void Timeline::setup(bool loop){
 
 //--------------------------------------------------------------
 void Timeline::update(float vol){
+    
+
     isValid = entries.find(position)!=entries.end();
     
     if(p_vol != vol){
@@ -28,8 +30,13 @@ void Timeline::update(float vol){
     
     if(isValid && isPlaying){
         time+=ofGetLastFrameTime();
+        float duration = entries[position].duration[entries[position].indx];
         
-        if(time > entries[position].duration){
+        if(time > entries[position].duration[entries[position].indx]){
+            if(entries[position].file.size()>1){
+                entries[position].indx ++;
+                entries[position].indx = entries[position].indx%entries[position].file.size();
+            }
             loadNewEntry();
         }
     }
@@ -43,25 +50,25 @@ void Timeline::loadNewEntry(){
     else position = entries[position].next;
     time = 0.;
     sound.stop();
+    float volume = 0.5;
     
-    if(entries[position].name == "stream"){
-        addSound("09_stream", 10 , 40 , -1 , "stream");
-    }
+    
     if(entries[position].name == "opinion"){
-        if(ofRandom(1)>0.2)
-            addSound("opinions", 40 , 10, -1 , "opinion"); // stream
-        else
-            addSound("quotes", 40 , 10, -1 , "opinion"); // stream
+        if(ofRandom(1)>0.8)position = 40;
+        else volume = 1.f;
     }
+   
+    
+    
     
     if(entries.find(position)!=entries.end()){
         
+        entries[position].indx = entries[position].indx;
+        
         if(entries[position].isSound){
-            sound.load(entries[position].file);
+            sound.load(entries[position].file[entries[position].indx]);
+            sound.setVolume(volume);
             sound.play();
-        }
-        else{
-            say(entries[position].file);
         }
     }else{
         messages.push_back("timeline ended");
@@ -80,8 +87,8 @@ void Timeline::draw(int x, int y){
     if(isValid){
         
         ofDrawBitmapString( entries[position].name , 10, 10);
-        ofDrawBitmapString( st(position) + entries[position].file , 10, 20);
-        ofDrawBitmapString( st(entries[position].duration) + "current duration" , 10, 30);
+        ofDrawBitmapString( st(position) + entries[position].file[entries[position].indx] , 10, 20);
+        ofDrawBitmapString( st(entries[position].duration[entries[position].indx]) + "current duration" , 10, 30);
         ofDrawBitmapString(st(time) + "current time", 10, 40);
         int next =entries[position].swithDirection ? entries[position].next : entries[position].optionNext;
         ofDrawBitmapString(st(next)+ "next position", 10, 50);
@@ -118,11 +125,11 @@ void Timeline::start(){
     	if(entries.find(position)!=entries.end()){
         
         	if(entries[position].isSound){
-            		sound.load(entries[position].file);
+            		sound.load(entries[position].file[entries[position].indx]);
             		sound.play();
         	}
         	else{
-         	   	say(entries[position].file);
+         	   	say(entries[position].file[entries[position].indx]);
        	 	}
     	}else{
         	messages.push_back("timeline ended");
@@ -142,11 +149,11 @@ void Timeline::stop(){
     	if(entries.find(position)!=entries.end()){
         
        	 	if(entries[position].isSound){
-          	  	sound.load(entries[position].file, true);
+          	  	sound.load(entries[position].file[entries[position].indx], true);
            	 	sound.play();
         	}
         	else{
-        	    say(entries[position].file);
+        	    say(entries[position].file[entries[position].indx]);
         	}
     	}
     }
@@ -168,12 +175,10 @@ void Timeline::jumpToNext(int p){
     if(entries.find(position)!=entries.end()){
         
         if(entries[position].isSound){
-            sound.load(entries[position].file);
+            sound.load(entries[position].file[entries[position].indx]);
             sound.play();
         }
-        else{
-            say(entries[position].file);
-        }
+        
     }else{
         messages.push_back("timeline ended");
         isPlaying = false;
@@ -191,9 +196,12 @@ void Timeline::addSilence(float duration, int position, int next, int optionNext
     e.name = name;
     e.next = next;
     e.optionNext = optionNext == -1 ? next : optionNext;
-    e.duration = duration;
+    e.file.resize(1);
+    e.duration.resize(1);
+    e.duration[0] = duration;
     e.isSilence = true;
     e.isPlayed = false;
+    e.indx = 0;
     
     entries[position] = e;
 }
@@ -215,75 +223,77 @@ void Timeline::addSound(string _dir, int position, int next, int optionNext, str
     dir.allowExt("wav");
    // dir.allowExt("ogg");
     
-    if(dir.size()>0){
-        int indx = floor(ofRandom(dir.size()));
-        string filpath = dir.getPath(indx);
+    entry e = *new entry;
+    e.duration.resize(dir.size());
+    e.file.resize(dir.size());
+    
+    cout << e.file.size() << endl;
+    
+    for (int i = 0; i<dir.size() ; i++){
         
-        //if(ofFile::doesFileExist(filePath)){
+        string filpath = dir.getPath(i);
+    
         
-        
-        entry e = *new entry;
-        e.file = filpath;
+        e.file[i] = filpath;
         
         ofSoundPlayer p;
         
-        if(p.load(filpath)){
-            
-            
-            p.play();
-            p.setPosition(0.9999999f);
-            int ms = p.getPositionMS();
-            p.setPosition(0);
-            p.stop();
-            p.unload();
-            //printf("SOUND LENGTH: %i\n\n", ms);
-            
-            e.isSound = true;
-            e.duration = float(ms)/1000;
-            e.isPlayed = false;
-            
-            e.name = name;
-            e.next = next;
-            e.optionNext = optionNext == -1 ? next : optionNext;
-            
-            
-            entries[position] = e;
-        }
-        else{
-            cout<<("ERROR, it is a file, but not a soundfile")<<endl;
-        }
+        bool cut = false;
+        
+        if(p.load(filpath))cut = true;
+        else p.load("defaultSound.wav");
+        
+        p.play();
+        p.setPosition(0.9999999f);
+        int ms = p.getPositionMS();
+        p.setPosition(0);
+        p.stop();
+        p.unload();
+        float duration = float(ms)/1000;
+        
+        //printf("SOUND LENGTH: %i\n\n", ms);
+        
+        e.isSound = true;
+        e.duration[i] = duration;
+        e.isPlayed = false;
+        
+        e.name = name;
+        e.next = next;
+        e.optionNext = optionNext == -1 ? next : optionNext;
+        e.indx = 0;
+        
+        entries[position] = e;
+        
+
     }
-   // }
-    else{
-        cout<<("ERROR, could not find file")<<endl;
-    }
+
 }
 
 //--------------------------------------------------------------
 void Timeline::addString(string file, int position, int next, int optionNext, string name){
     
-    string filePath = file;
-    checkEntries(position);
-    
-    if(ofFile::doesFileExist("text/"+filePath)){
-        
-        entry e = *new entry;
-        e.name = name;
-        e.file = getLine(filePath);
-        e.isString = true;
-        e.duration = float(e.file.length()) * 0.07;
-        if(e.duration < 0.1)messages.push_back(string("short file added %d", e.duration));
-        e.isPlayed = false;
-        e.optionNext = optionNext == -1 ? next : optionNext;
-        e.next = next;
-        e.position = position;
-        
-        entries[position] = e;
-        
-    }
-    else{
-        cout<<("ERROR, could not find file")<<endl;
-    }
+//    string filePath = file;
+//    checkEntries(position);
+//    
+//    if(ofFile::doesFileExist("text/"+filePath)){
+//        
+//        entry e = *new entry;
+//        e.name = name;
+//        e.file = getLine(filePath);
+//        e.isString = true;
+//        e.duration = float(e.file.length()) * 0.07;
+//        if(e.duration < 0.1)messages.push_back(string("short file added %d", e.duration));
+//        e.isPlayed = false;
+//        e.optionNext = optionNext == -1 ? next : optionNext;
+//        e.next = next;
+//        e.position = position;
+//        
+//        entries[position] = e;
+//        
+//    }
+//    else{
+//        cout<<("ERROR, could not find file")<<endl;
+//    }
 }
 
 //--------------------------------------------------------------

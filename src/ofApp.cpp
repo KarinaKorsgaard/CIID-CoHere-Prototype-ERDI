@@ -13,15 +13,15 @@ void ofApp::setup(){
     
     setupTimeline();
     
-    twitter.setup("twitter",3);
-    idleMumbler.setup("s/opinions",4);
+    twitter.setup("s/quotes",3);
+    idleMumbler.setup("s/opinions",2);
     
     //timeline.start(); // dist sensor triggers this!
     
     gui.setup();
     gui.add(idleMaxVol.set("idle max vol", 0. , 0., 1.));
     gui.add(erdiVol.set("erdi vol", 0. , 0., 1.));
-    gui.add(twitterVol.set("twitter vol", 0. , 0., 1.));
+    gui.add(twitterMaxVol.set("twitter vol", 0. , 0., 1.));
     
     gui.add(sampleDetectionLength.set("sampDetLength",1.3,0.,3.));
     
@@ -88,11 +88,11 @@ void ofApp::setupTimeline(){
     timeline.addSound("02_intro", 1 , 51); // intro
     timeline.addSound("04_intro2", 51 , 2); // intro
     
-    timeline.addSound("09_stream", 2 , 20, -1 , "stream"); // stream
-    timeline.addSound("opinions", 20 , 21, -1 , "opinion"); // stream
+    //timeline.addSound("09_stream", 2 , 20, -1 , "stream"); // stream
+    timeline.addSound("opinions", 2 , 21, -1 , ""); // stream
+    
+    // add im going to read aloud from twitter now
     timeline.addSound("quotes", 21 , 3); // stream
-   // timeline.addString("09_stream.txt", 22 , 23); // stream
-   // timeline.addString("opinions.txt", 23 , 3); // stream
     
     timeline.addSound("05_question", 3 , 4 ,  -1, "noInterrupt" ); // question
     
@@ -108,13 +108,14 @@ void ofApp::setupTimeline(){
    
     timeline.addSound("08_thankyou" , 9 , 10);
     
-    timeline.addSound("09_stream", 10 , 40 , -1 , "stream");
-    timeline.addSound("opinions", 40 , 10, -1 , "opinion"); // stream
+    //timeline.addSound("09_stream", 10 , 40 , -1 , "stream");
+    timeline.addSound("quotes", 40 , 10, -1 , "quote"); // stream
+    timeline.addSound("opinions", 10 , 10, -1 , "opinion"); // stream
     //timeline.addString("03_STREAM.txt", 10 , 10 , -1 , "stream");
     
     // distance sensor will force position to 11
     timeline.addSound("10_goodbuy", 11 , 13 );
-    timeline.addSilence(sampleDetectionLength , 13 , 100 , 12, "detect"); // detect 1
+    timeline.addSilence(6 , 13 , 100 , 12, "goodBuy"); // detect 1
     timeline.addSound("11_youarestillhere", 12 , 10 );
     
     
@@ -136,16 +137,23 @@ void ofApp::update(){
     idleMumbler.update(idleVol);
     recorder.update(timeline.isSilent());
     
+    // goodbuy can be interrupted buy a start 
+    if( timeline.getName() == "goodBuy" )
+       if( serial.start() || recorder.recording )
+           timeline.swithDirection();
+    
     if(serial.start() && !timeline.isPlaying){
-        setupTimeline();
+        //setupTimeline();
         timeline.start();
     }
     if(serial.stop() && timeline.isPlaying && timeline.position != 11 && timeline.position != 13)timeline.stop();
     
     // NOT PLAYING
     if(!timeline.isPlaying){
-        float m = idleMaxVol;
-        idleVol = CLAMP(idleVol+=0.02 ,0., m);
+        float i = idleMaxVol;
+        float t = twitterMaxVol;
+        idleVol = CLAMP(idleVol+=0.02 ,0., i);
+        twitterVol = CLAMP(twitterVol+=0.02 ,0., t);
     }
     
     //PLAYING
@@ -176,7 +184,15 @@ void ofApp::update(){
             }
         }
         
-        idleVol = 0.;
+        
+        if(timeline.getName() == "opinion" || timeline.getName() == "quote" ){
+            float i = idleMaxVol;
+            idleVol = CLAMP(idleVol+=0.02 ,0., i);
+        }
+        else
+            idleVol = 0.;
+        
+        twitterVol = 0.;
     }
     
     
@@ -233,7 +249,7 @@ void ofApp::keyPressed  (int key){
     if(key == 'q')timeline.jumpToNext(3);
     
     if(key == 's'){
-        setupTimeline();
+        //setupTimeline();
         timeline.start();
     }
     if(key == 'S')timeline.stop();

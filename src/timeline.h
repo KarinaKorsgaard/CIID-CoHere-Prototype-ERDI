@@ -19,8 +19,10 @@
 //using namespace std;
 
 struct entry{
-    string file;
-    double duration;
+    vector<string> file;
+    vector<double> duration;
+    int indx;
+    
     bool isPlayed;
    
     bool isSound = false;
@@ -69,12 +71,14 @@ public:
     }
     
 private:
+    int curIndx = 0;
     float p_vol;
     int endPos;
     string path;
     vector<string>messages;
     map<int, entry>entries;
     ofSoundPlayer sound;
+    ofSoundPlayer secondSound;
     double time;
     bool looping;
     bool isValid;

@@ -111,7 +111,7 @@ public:
                     cout<<"Stop recording\n";
                     recording=false;
                     bool save = sampleLength > minSampleLength;
-    
+                    audioRecorder.recordingSize -= silentSampleSize;
                     audioRecorder.finalize();
                     
                     if(!save){
@@ -141,9 +141,12 @@ public:
     //--------------------------------------------------------------
     void audioReceived(float * input, int bufferSize, int nChannels){
         
-        if (recording)
-            audioRecorder.addSamples(input, bufferSize * nChannels);
         
+        if (recording){
+            audioRecorder.addSamples(input, bufferSize * nChannels);
+            if(vol<=threshold)silentSampleSize+=bufferSize * nChannels;
+            else silentSampleSize = 0;
+        }
         
         float curVol = accumulate(input, input + bufferSize * nChannels, 0., []( float a, float b) {
             return abs(a)+abs(b);
@@ -164,7 +167,7 @@ private:
     
     double silentSec;
     int audioCount;
-    
+    int silentSampleSize = 0;
     string filePath;
     ofSoundStream soundStream;
     
