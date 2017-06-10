@@ -55,8 +55,13 @@ public:
         recording=false;
         soundStream.printDeviceList();
         //if you want to set a different device id
-        soundStream.setDeviceID(soundDevice); //bear in mind the device id corresponds to all audio devices, including  input-only and output-only devices.
 
+#ifdef TARGET_OSX
+        soundStream.setDeviceID(0);
+#else
+        soundStream.setDeviceID(1);
+#endif
+        
         vol     = 0.0;
         soundStream.setup(this, 0, NUM_CHANNELS, SAMPLE_RATE, BUFFER_SIZE, 4);
         
