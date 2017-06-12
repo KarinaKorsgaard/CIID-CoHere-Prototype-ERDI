@@ -35,10 +35,6 @@ void Timeline::update(float vol, float sampleDetectionLength){
         if(duration == -2)duration = sampleDetectionLength;
         
         if(time > duration){
-            if(entries[position].file.size()>1){
-                entries[position].indx ++;
-                entries[position].indx = entries[position].indx%entries[position].file.size();
-            }
             loadNewEntry();
         }
     }
@@ -48,6 +44,10 @@ void Timeline::update(float vol, float sampleDetectionLength){
 void Timeline::loadNewEntry(){
     //ofLogNotice("new entry!");
 
+    entries[position].indx ++;
+    entries[position].indx = entries[position].indx%entries[position].file.size();
+    
+    
     if(entries[position].swithDirection){
         entries[position].swithDirection = false;
         position = entries[position].optionNext;

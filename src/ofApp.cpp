@@ -263,7 +263,11 @@ void ofApp::update(){
     }
     
     if(recorder.getVolume())serial.writeByte(1);
+    
+#ifdef TARGET_LINUX
     serial.update();
+    
+#endif
     
 }
 
