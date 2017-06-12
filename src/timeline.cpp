@@ -18,7 +18,7 @@ void Timeline::setup(bool loop){
 //--------------------------------------------------------------
 
 //--------------------------------------------------------------
-void Timeline::update(float vol){
+void Timeline::update(float vol, float sampleDetectionLength){
     
 
     isValid = entries.find(position)!=entries.end();
@@ -32,8 +32,9 @@ void Timeline::update(float vol){
         
         time+=ofGetLastFrameTime();
         float duration = entries[position].duration[entries[position].indx];
+        if(duration == -2)duration = sampleDetectionLength;
         
-        if(time > entries[position].duration[entries[position].indx]){
+        if(time > duration){
             if(entries[position].file.size()>1){
                 entries[position].indx ++;
                 entries[position].indx = entries[position].indx%entries[position].file.size();

@@ -6,8 +6,8 @@
 <sampleDetectionLength>3.3</sampleDetectionLength>
 	<recorder_gui>
 		<volume_threshold>7</volume_threshold>
-		<allowed_pauses>4.69388</allowed_pauses>
+		<allowed_pauses>2.95918</allowed_pauses>
 		<Min_Sample_Length>5.5102</Min_Sample_Length>
 	</recorder_gui>
-<sampDetLength>2.4</sampDetLength>
+<sampDetLength>3</sampDetLength>
 </group>

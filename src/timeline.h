@@ -45,7 +45,7 @@ public:
 
     void draw(int x, int y);
     void setup(bool loop);
-    void update(float vol);
+    void update(float vol, float sampleDetectionLength);
     
     void defineEndPos(int p);
     
