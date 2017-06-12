@@ -21,7 +21,7 @@ void Timeline::setup(bool loop){
 void Timeline::update(float vol, float sampleDetectionLength){
     
 
-    isValid = entries.find(position)!=entries.end();
+    
     
     if(p_vol != vol){
         sound.setVolume(vol*volume);
@@ -48,7 +48,10 @@ void Timeline::update(float vol, float sampleDetectionLength){
 void Timeline::loadNewEntry(){
     //ofLogNotice("new entry!");
 
-    if(entries[position].swithDirection)position = entries[position].optionNext;
+    if(entries[position].swithDirection){
+        entries[position].swithDirection = false;
+        position = entries[position].optionNext;
+    }
     else position = entries[position].next;
     
     if(position == -2){
@@ -56,6 +59,9 @@ void Timeline::loadNewEntry(){
         time = interruptionTime;
     }else
         time = 0.;
+    
+    if(position == endPos)isValid = false;
+    else isValid = true;
     
     sound.stop();
 
@@ -69,22 +75,16 @@ void Timeline::loadNewEntry(){
     
     
     
-    if(entries.find(position)!=entries.end()){
-        
-        entries[position].indx = entries[position].indx;
+    if(isValid){
         
         if(entries[position].isSound){
             sound.load(entries[position].file[entries[position].indx]);
-            sound.setPositionMS(time * 1000.f);
+            if(time!=0.)sound.setPositionMS(time * 1000.f);
             sound.play();
-            
-            
-            
         }
     }else{
-        messages.push_back("timeline ended");
+        cout<<"the end"<<endl;
         isPlaying = false;
-        if(looping)start();
     }
 }
 
@@ -94,7 +94,15 @@ void Timeline::draw(int x, int y){
     ofPushMatrix();
     ofTranslate(x, y);
     ofFill();
-        
+    
+//    cout << isValid << endl;
+//    cout << position << endl;
+//    cout << endPos << endl;
+//    if(entries.find(position)!=entries.end())
+//        cout << "this is not the end" << endl;
+//    else cout << "this is the end" << endl;
+//    
+
     if(isValid){
         
         ofDrawBitmapString( entries[position].name , 10, 10);
@@ -119,10 +127,11 @@ void Timeline::start(){
     	isPlaying = true;
     	time = 0.f;
     	position = 0;
-    
+        isValid = true;
+        
     	cout<<"start"<<endl;
     
-    	isValid = entries.find(0)!=entries.end();
+    	//isValid = entries.find(0)!=entries.end();
     
     	if(!isValid)messages.push_back("no start entry found!, abort");
 
@@ -133,7 +142,7 @@ void Timeline::start(){
         	it->second.swithDirection = false;
     	}
     
-    	if(entries.find(position)!=entries.end()){
+    	if(isValid){
         
         	if(entries[position].isSound){
             		sound.load(entries[position].file[entries[position].indx]);
@@ -172,7 +181,7 @@ void Timeline::jumpToNext(int p){
     }else{
         messages.push_back("timeline ended");
         isPlaying = false;
-        if(looping)start();
+       // if(looping)start();
     }
     
 }

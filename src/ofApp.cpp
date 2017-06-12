@@ -145,7 +145,9 @@ void ofApp::setupTimeline(){
     timeline.addSound("opinions", 2 , 21, -1 , ""); // stream
     
     // add im going to read aloud from twitter now
-    timeline.addSound("quotes", 21 , 3); // stream
+    timeline.addSound("09_ontwitter", 21 , 441, -1 , "quote"); // stream
+    timeline.addSound("quotes", 441 , 3); // stream
+    
     timeline.addSound("05_question", 3 , 4 ,  -1, "noInterrupt" ); // question
     
     timeline.addSilence(-2 , 4 , 5 , 6 , "detect"); // detect 1
@@ -179,7 +181,7 @@ void ofApp::setupTimeline(){
     timeline.addSilence(0.5 , 15 ,  15 , 16, "listen"); // listen to opinion now
     timeline.addSound("08_thankyou" , 16 , -2, -1, "interruption");
     
-    
+    timeline.defineEndPos(100);
     
 }
 
@@ -198,7 +200,6 @@ void ofApp::update(){
            timeline.swithDirection();
     
     if(serial.start() && !timeline.isPlaying){
-        //setupTimeline();
         timeline.start();
     }
     if(serial.stop() && timeline.isPlaying && timeline.getName()!="goodBuy"){
@@ -250,7 +251,7 @@ void ofApp::update(){
     }
     
     if(recorder.getVolume())serial.writeByte(1);
-    serial.update();
+   // serial.update();
     
 }
 
