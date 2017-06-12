@@ -136,7 +136,7 @@ void ofApp::setupTimeline(){
     timeline.addSound("02_intro", 551 , 52); // intro // could be before knock knock.
     timeline.addSound("02_knock", 52 , 30,  -1, "" ); // welcome
     
-    timeline.addSilence(-2 , 30 , 32 , 9 , "knockknock"); // shutup
+    timeline.addSilence(-2 , 30 , 32 , 1 , "knockknock"); // shutup
     
    // timeline.addSound("03_yay", 31 , 1 , -1, "noInterrupt" ); // yay, you said something
     timeline.addSound("03_ohnoKnock", 32 , 1 , -1, "noInterrupt" ); // nope
@@ -162,7 +162,8 @@ void ofApp::setupTimeline(){
     timeline.addSound("04_iwilltellyou", 18 , 10); // intro
     
     //timeline.addSound("09_stream", 10 , 40 , -1 , "stream");
-    timeline.addSound("quotes", 40 , 10, -1 , "quote"); // stream
+    timeline.addSound("09_ontwitter", 40 , 41, -1 , "quote"); // stream
+    timeline.addSound("quotes", 41 , 10, -1 , "quote"); // stream
     timeline.addSound("opinions", 10 , 10, -1 , "opinion"); // stream
     //timeline.addString("03_STREAM.txt", 10 , 10 , -1 , "stream");
     
@@ -224,7 +225,6 @@ void ofApp::update(){
         // interruption
         if(serial.interrupt() &&
            timeline.position != 14 &&
-           !timeline.isSilent() &&
            timeline.getName() != "noInterrupt")
         {
             timeline.interruptionTime = timeline.time;
