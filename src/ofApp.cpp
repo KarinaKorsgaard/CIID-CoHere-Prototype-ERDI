@@ -153,7 +153,7 @@ void ofApp::setupTimeline(){
     
     timeline.addSilence(-2 , 4 , 5 , 6 , "detect"); // detect 1
     
-    timeline.addSound("03_ohno" , 5 , 7);
+    timeline.addSound("06_probe" , 5 , 7);
     timeline.addSilence(0.5 , 6 , 6, 9 , "listen"); // listen to opinion now
     
     timeline.addSilence(-2 , 7 , 8 , 6 , "detect"); // detect 1
