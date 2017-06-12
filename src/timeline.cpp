@@ -116,7 +116,7 @@ void Timeline::draw(int x, int y){
             ofDrawBitmapString(messages[i], 10, 60 + 10*i);
         }
        
-    }
+    }else isPlaying = false;
     ofPopMatrix();
 }
 

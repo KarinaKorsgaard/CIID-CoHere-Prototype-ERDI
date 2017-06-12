@@ -205,7 +205,7 @@ void ofApp::update(){
     if(serial.stop() && timeline.isPlaying && timeline.getName()!="goodBuy"){
         timeline.interruptionTime = timeline.time;
         timeline.interruptionPos = timeline.position;
-        timeline.jumpToNext(11);
+        timeline.stop();
     }
     
     // NOT PLAYING
