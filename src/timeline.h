@@ -64,11 +64,14 @@ public:
 
     bool isPlaying;
     int position;
+    double time;
+    double interruptionTime;
     
     bool isSilent(){
         if(isValid && isPlaying)return entries[position].isSilence;
         else return false;
     }
+    int interruptionPos;
     
 private:
     int curIndx = 0;
@@ -79,7 +82,6 @@ private:
     map<int, entry>entries;
     ofSoundPlayer sound;
     ofSoundPlayer secondSound;
-    double time;
     bool looping;
     bool isValid;
     

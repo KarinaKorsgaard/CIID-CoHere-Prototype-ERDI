@@ -142,7 +142,7 @@ public:
     bool getVolume(){
         return vol>threshold;
     }
-    
+
     //--------------------------------------------------------------
     void audioReceived(float * input, int bufferSize, int nChannels){
         

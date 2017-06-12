@@ -36,9 +36,7 @@ class ofApp : public ofBaseApp{
     Mumbler twitter;
     SerialRead serial;
 
-    
-    double interruptionTimer;
-    int interruptionPos;
+    int * interruptionPos;
     
     Mumbler idleMumbler;
     float idleVol = 0.;

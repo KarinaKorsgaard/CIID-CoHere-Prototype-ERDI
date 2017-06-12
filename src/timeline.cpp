@@ -29,6 +29,7 @@ void Timeline::update(float vol){
     }
     
     if(isValid && isPlaying){
+        
         time+=ofGetLastFrameTime();
         float duration = entries[position].duration[entries[position].indx];
         
@@ -48,7 +49,13 @@ void Timeline::loadNewEntry(){
 
     if(entries[position].swithDirection)position = entries[position].optionNext;
     else position = entries[position].next;
-    time = 0.;
+    
+    if(position == -2){
+        position = interruptionPos;
+        time = interruptionTime;
+    }else
+        time = 0.;
+    
     sound.stop();
     float volume = 0.5;
     
@@ -189,8 +196,6 @@ void Timeline::jumpToNext(int p){
 
 
 void Timeline::addSilence(float duration, int position, int next, int optionNext, string name){
-    
-    checkEntries(position);
     
     entry e = *new entry;
     e.name = name;
