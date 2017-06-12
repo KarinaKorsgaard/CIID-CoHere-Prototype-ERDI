@@ -50,7 +50,10 @@ public:
     void defineEndPos(int p);
     
     void start();
-    void stop();
+    
+    void stop(){
+        jumpToNext(11);
+    };
     
     void addSound(string _dir, int position, int next, int optionNext = -1 , string name = "");
     void addString(string file, int position, int next, int optionNext = -1, string name = "");

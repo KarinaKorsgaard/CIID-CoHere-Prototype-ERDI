@@ -62,7 +62,7 @@ void Timeline::loadNewEntry(){
     
     
     if(entries[position].name == "opinion"){
-        if(ofRandom(1)>0.8)position = 40;
+        if(ofRandom(1)>0.8)position = 40; //twitter tweet
         else volume = 1.f;
     }
    
@@ -75,10 +75,11 @@ void Timeline::loadNewEntry(){
         
         if(entries[position].isSound){
             sound.load(entries[position].file[entries[position].indx]);
-            sound.setVolume(volume);
+            sound.setPositionMS(time * 1000.f);
             sound.play();
             
-            if(time != 0)sound.setPosition(time);
+            
+            
         }
     }else{
         messages.push_back("timeline ended");
@@ -147,27 +148,6 @@ void Timeline::start(){
         
     	}
 	}
-}
-void Timeline::stop(){
-    if(isPlaying){
-	cout << "stop" << endl;
-    	isPlaying = false;
-    	position = endPos;
-    	time = 0.;
-    	sound.stop();
-    
-    	if(entries.find(position)!=entries.end()){
-        
-       	 	if(entries[position].isSound){
-          	  	sound.load(entries[position].file[entries[position].indx], true);
-           	 	sound.play();
-        	}
-        	else{
-        	    say(entries[position].file[entries[position].indx]);
-        	}
-    	}
-    }
-    
 }
 
 void Timeline::defineEndPos(int p){

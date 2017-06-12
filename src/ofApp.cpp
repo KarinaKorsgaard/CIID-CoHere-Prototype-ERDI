@@ -169,8 +169,8 @@ void ofApp::setupTimeline(){
     
     // distance sensor will force position to 11
     timeline.addSound("10_goodbuy", 11 , 13 , -1, "goodBuy");
-    timeline.addSilence(6 , 13 , 100 , 12, "goodBuy"); // detect 1
-    timeline.addSound("11_youarestillhere", 12 , 10 );
+    timeline.addSilence(-2 , 13 , 100 , 12, "goodBuy"); // detect 1
+    timeline.addSound("11_youarestillhere", 12 , -2 );
     
     
     // interruption. SATY AS 14!! 
@@ -201,8 +201,11 @@ void ofApp::update(){
         //setupTimeline();
         timeline.start();
     }
-    if(serial.stop() && timeline.isPlaying && timeline.getName()!="goodBuy")
-        timeline.stop();
+    if(serial.stop() && timeline.isPlaying && timeline.getName()!="goodBuy"){
+        timeline.interruptionTime = timeline.time;
+        timeline.interruptionPos = timeline.position;
+        timeline.jumpToNext(11);
+    }
     
     // NOT PLAYING
     if(!timeline.isPlaying){
