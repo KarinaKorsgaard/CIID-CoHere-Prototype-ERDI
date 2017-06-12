@@ -1,13 +1,13 @@
 <group>
-	<idle_max_vol>0.875</idle_max_vol>
-	<erdi_vol>1</erdi_vol>
-	<twitter_vol>0.27</twitter_vol>
+	<idle_max_vol>0.335</idle_max_vol>
+	<erdi_vol>0.405</erdi_vol>
+	<twitter_vol>0.15</twitter_vol>
 <group/>
 <sampleDetectionLength>3.3</sampleDetectionLength>
 	<recorder_gui>
 		<volume_threshold>7</volume_threshold>
-		<allowed_pauses>2.95918</allowed_pauses>
+		<allowed_pauses>3.21429</allowed_pauses>
 		<Min_Sample_Length>5.5102</Min_Sample_Length>
 	</recorder_gui>
-<sampDetLength>3</sampDetLength>
+<sampDetLength>3.46</sampDetLength>
 </group>

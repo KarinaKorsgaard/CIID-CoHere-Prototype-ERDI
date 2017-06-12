@@ -84,6 +84,7 @@ private:
     ofSoundPlayer secondSound;
     bool looping;
     bool isValid;
+    float volume = 0.5;
     
     string getLine(string file, int optionLine = -1);
     void say(string line);

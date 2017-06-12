@@ -24,7 +24,7 @@ void Timeline::update(float vol, float sampleDetectionLength){
     isValid = entries.find(position)!=entries.end();
     
     if(p_vol != vol){
-        sound.setVolume(vol);
+        sound.setVolume(vol*volume);
         p_vol = vol;
     }
     
@@ -58,7 +58,7 @@ void Timeline::loadNewEntry(){
         time = 0.;
     
     sound.stop();
-    float volume = 0.5;
+
     
     
     if(entries[position].name == "opinion"){
@@ -77,6 +77,8 @@ void Timeline::loadNewEntry(){
             sound.load(entries[position].file[entries[position].indx]);
             sound.setVolume(volume);
             sound.play();
+            
+            if(time != 0)sound.setPosition(time);
         }
     }else{
         messages.push_back("timeline ended");
