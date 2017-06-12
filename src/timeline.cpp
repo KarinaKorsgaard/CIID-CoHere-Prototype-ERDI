@@ -63,6 +63,8 @@ void Timeline::loadNewEntry(){
     if(position == endPos)isValid = false;
     else isValid = true;
     
+    
+    
     sound.stop();
 
     

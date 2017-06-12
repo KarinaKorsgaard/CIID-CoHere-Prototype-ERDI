@@ -202,6 +202,7 @@ void ofApp::update(){
     if(serial.start() && !timeline.isPlaying){
         timeline.start();
     }
+    
     if(serial.stop() && timeline.isPlaying && timeline.getName()!="goodBuy"){
         timeline.interruptionTime = timeline.time;
         timeline.interruptionPos = timeline.position;
@@ -251,7 +252,7 @@ void ofApp::update(){
     }
     
     if(recorder.getVolume())serial.writeByte(1);
-   // serial.update();
+    serial.update();
     
 }
 
@@ -308,7 +309,7 @@ void ofApp::keyPressed  (int key){
         timeline.jumpToNext(14);
     }
     
-    if(key == 's'){
+    if(key == 's' && !timeline.isPlaying){
         //setupTimeline();
         timeline.start();
     }

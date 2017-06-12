@@ -43,6 +43,7 @@ public:
     
     
     bool start(){
+        
         bool res = value == 2 ? true : false;
         return res;
     }
