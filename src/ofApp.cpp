@@ -139,6 +139,7 @@ void ofApp::setupTimeline(){
     timeline.addSilence(-2 , 30 , 32 , 1 , "knockknock"); // shutup
     
    // timeline.addSound("03_yay", 31 , 1 , -1, "noInterrupt" ); // yay, you said something
+   // timeline.addSound("03_yay", 320 , 1 , -1, "noInterrupt" ); // nope
     timeline.addSound("03_ohnoKnock", 32 , 1 , -1, "noInterrupt" ); // nope
     
     timeline.addSound("04_iwilltellyou", 1 , 2); // intro
@@ -177,7 +178,10 @@ void ofApp::setupTimeline(){
     
     // interruption. SATY AS 14!! 
     timeline.addSound("07_imsorry", 14 , 17 , -1 , "imsorry");       // ohno. speak up- speak up to prev pos.
-    timeline.addSilence(-2 , 17 , -2 , 15, "detect"); // detect 1
+    timeline.addSilence(-2 , 17 , 106 , 15, "detect"); // detect 1
+    
+    timeline.addSound("03_speaklouder" , 106 , -2, -1, "");
+    
     timeline.addSilence(0.5 , 15 ,  15 , 16, "listen"); // listen to opinion now
     timeline.addSound("08_thankyou" , 16 , -2, -1, "interruption");
     
@@ -232,11 +236,18 @@ void ofApp::update(){
            timeline.position != 14 &&
            timeline.getName() != "noInterrupt")
         {
-            timeline.interruptionTime = timeline.time;
-            timeline.interruptionPos = timeline.position;
-            timeline.jumpToNext(14);
             
             if(timeline.getName() == "knockknock")timeline.swithDirection();
+            
+            timeline.interruptionTime = timeline.time;
+            timeline.interruptionPos = timeline.position;
+            
+             if(timeline.isSilent()) timeline.interruptionTime = 100;
+            
+            timeline.jumpToNext(14);
+            
+           
+            
         }
         
         
@@ -308,7 +319,22 @@ void ofApp::keyPressed  (int key){
         timeline.interruptionTime = MAX(timeline.time-1.,0);
         timeline.jumpToNext(14);
     }
+    if(key == 'b'){
+        // interruption
+        if(
+           timeline.position != 14 &&
+           timeline.getName() != "noInterrupt")
+        {
+            if(timeline.getName() == "knockknock")timeline.swithDirection();
+            
+            timeline.interruptionTime = timeline.time;
+            timeline.interruptionPos = timeline.position;
+            timeline.jumpToNext(14);
+            
+        }
     
+    
+    }
     if(key == 's' && !timeline.isPlaying){
         //setupTimeline();
         timeline.start();
