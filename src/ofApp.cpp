@@ -173,14 +173,14 @@ void ofApp::setupTimeline(){
     // distance sensor will force position to 11
     timeline.addSound("10_goodbuy", 11 , 13 , -1, "goodBuy");
     timeline.addSilence(-2 , 13 , 100 , 12, "goodBuy"); // detect 1
-    timeline.addSound("11_youarestillhere", 12 , -2 );
+    timeline.addSound("11_youarestillhere", 12 , -2 , -1 , "goodBuy");
     
     
     // interruption. SATY AS 14!! 
     timeline.addSound("07_imsorry", 14 , 17 , -1 , "imsorry");       // ohno. speak up- speak up to prev pos.
     timeline.addSilence(-2 , 17 , 106 , 15, "detect"); // detect 1
     
-    timeline.addSound("03_speaklouder" , 106 , -2, -1, "");
+    timeline.addSound("03_speaklouder" , 106 , -2, -1, "interruption");
     
     timeline.addSilence(0.5 , 15 ,  15 , 16, "listen"); // listen to opinion now
     timeline.addSound("08_thankyou" , 16 , -2, -1, "interruption");
@@ -239,9 +239,10 @@ void ofApp::update(){
             
             if(timeline.getName() == "knockknock")timeline.swithDirection();
             
-            timeline.interruptionTime = timeline.time;
-            timeline.interruptionPos = timeline.position;
-            
+            if(timeline.getName()!="interruption"){
+                timeline.interruptionTime = timeline.time;
+                timeline.interruptionPos = timeline.position;
+            }
              if(timeline.isSilent()) timeline.interruptionTime = 100;
             
             timeline.jumpToNext(14);
