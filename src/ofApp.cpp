@@ -134,7 +134,7 @@ void ofApp::setupTimeline(){
     timeline.addSound("01_welcome", 0 , 551,  -1, "noInterrupt" ); // welcome
     
     timeline.addSound("02_intro", 551 , 52); // intro // could be before knock knock.
-    timeline.addSound("02_knock", 52 , 30,  -1, "" ); // welcome
+    timeline.addSound("02_knock", 52 , 30,  -1, "knockknockSpeak" ); // welcome
     
     timeline.addSilence(-2 , 30 , 32 , 1 , "knockknock"); // shutup
     
@@ -243,6 +243,8 @@ void ofApp::update(){
             if(timeline.getName()!="interruption" && timeline.getName()!="goodbuy"){
                 timeline.interruptionTime = timeline.time;
                 timeline.interruptionPos = timeline.position;
+                
+                if(timeline.getName() == "knockknockSpeak")timeline.interruptionPos = 1;
             }
              if(timeline.isSilent()) timeline.interruptionTime = 100;
             

@@ -56,7 +56,6 @@ void Timeline::loadNewEntry(){
     
     if(position == -2){
         position = interruptionPos;
-        time = interruptionTime;
     }else
         time = 0.;
     
@@ -67,7 +66,7 @@ void Timeline::loadNewEntry(){
     
     sound.stop();
 
-    
+    volume = .5f;
     
     if(entries[position].name == "opinion"){
         if(ofRandom(1)>0.8)position = 40; //twitter tweet
@@ -81,7 +80,6 @@ void Timeline::loadNewEntry(){
         
         if(entries[position].isSound){
             sound.load(entries[position].file[entries[position].indx]);
-            if(time!=0.)sound.setPositionMS(time * 1000.f);
             sound.play();
         }
     }else{
@@ -128,7 +126,7 @@ void Timeline::start(){
     
     if(!isPlaying){
         
-        interruptionTime = 0;
+        
         interruptionPos = 0;
         
     	isPlaying = true;
@@ -264,7 +262,7 @@ void Timeline::addSound(string _dir, int position, int next, int optionNext, str
         e.name = name;
         e.next = next;
         e.optionNext = optionNext == -1 ? next : optionNext;
-        e.indx = 0;
+        e.indx = floor(ofRandom(dir.size()));
         
         entries[position] = e;
         
