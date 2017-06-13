@@ -131,7 +131,7 @@ void ofApp::setupTimeline(){
     
     
     
-    timeline.addSound("01_welcome", 0 , 551,  -1, "noInterrupt" ); // welcome
+    timeline.addSound("01_welcome", 0 , 551,  -1, "welcome" ); // welcome
     
     timeline.addSound("02_intro", 551 , 52); // intro // could be before knock knock.
     timeline.addSound("02_knock", 52 , 30,  -1, "knockknockSpeak" ); // welcome
@@ -140,7 +140,7 @@ void ofApp::setupTimeline(){
     
    // timeline.addSound("03_yay", 31 , 1 , -1, "noInterrupt" ); // yay, you said something
    // timeline.addSound("03_yay", 320 , 1 , -1, "noInterrupt" ); // nope
-    timeline.addSound("03_ohnoKnock", 32 , 1 , -1, "interruption" ); // nope
+    timeline.addSound("03_ohnoKnock", 32 , 1 , -1, "" ); // nope
     
     timeline.addSound("04_iwilltellyou", 1 , 2); // intro
     timeline.addSound("opinions", 2 , 21, -1 , ""); // stream
@@ -149,7 +149,7 @@ void ofApp::setupTimeline(){
     timeline.addSound("09_ontwitter", 21 , 441, -1 , "quote"); // stream
     timeline.addSound("quotes", 441 , 3); // stream
     
-    timeline.addSound("05_question", 3 , 4 ,  -1, "noInterrupt" ); // question
+    timeline.addSound("05_question", 3 , 4 ,  -1, "question" ); // question
     
     timeline.addSilence(-2 , 4 , 5 , 6 , "detect"); // detect 1
     
@@ -247,7 +247,7 @@ void ofApp::update(){
                 if(timeline.getName() == "knockknockSpeak")timeline.interruptionPos = 1;
             }
     
-            timeline.jumpToNext(14);    
+            timeline.jumpToNext(14);
         }
         
         
@@ -320,18 +320,15 @@ void ofApp::keyPressed  (int key){
     
     if(key == 'q'){
         timeline.interruptionPos = timeline.position;
-        timeline.interruptionTime = MAX(timeline.time-1.,0);
         timeline.jumpToNext(14);
     }
     if(key == 'b'){
         // interruption
         if(
-           timeline.position != 14 &&
-           timeline.getName() != "noInterrupt")
+           timeline.position != 14)
         {
             if(timeline.getName() == "knockknock")timeline.swithDirection();
             
-            timeline.interruptionTime = timeline.time;
             timeline.interruptionPos = timeline.position;
             timeline.jumpToNext(14);
             
