@@ -178,7 +178,7 @@ void ofApp::setupTimeline(){
     
     // interruption. SATY AS 14!! 
     timeline.addSound("07_imsorry", 14 , 17 , -1 , "interruption");       // ohno. speak up- speak up to prev pos.
-    timeline.addSilence(-2 , 17 , 106 , 15, "interruption"); // detect 1
+    timeline.addSilence(-2 , 17 , 106 , 15, "listen"); // detect 1
     
     timeline.addSound("03_speaklouder" , 106 , -2, -1, "interruption");
     
@@ -209,7 +209,6 @@ void ofApp::update(){
     
     if(serial.stop() && timeline.isPlaying && timeline.getName()!="goodBuy"){
         if(timeline.getName()!="interruption"){
-            timeline.interruptionTime = timeline.time;
             timeline.interruptionPos = timeline.position;
         }
         timeline.stop();
@@ -241,13 +240,11 @@ void ofApp::update(){
             if(timeline.getName() == "knockknock")timeline.swithDirection();
             
             if(timeline.getName()!="interruption" && timeline.getName()!="goodbuy"){
-                timeline.interruptionTime = timeline.time;
                 timeline.interruptionPos = timeline.position;
                 
                 if(timeline.getName() == "knockknockSpeak")timeline.interruptionPos = 1;
             }
-             if(timeline.isSilent()) timeline.interruptionTime = 100;
-            
+    
             timeline.jumpToNext(14);
             
            
