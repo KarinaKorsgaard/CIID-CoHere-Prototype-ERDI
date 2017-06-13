@@ -178,11 +178,11 @@ void ofApp::setupTimeline(){
     
     // interruption. SATY AS 14!! 
     timeline.addSound("07_imsorry", 14 , 17 , -1 , "interruption");       // ohno. speak up- speak up to prev pos.
-    timeline.addSilence(-2 , 17 , 106 , 15, "listen"); // detect 1
+    timeline.addSilence(-2 , 17 , 106 , 15, "detect"); // detect 1
     
     timeline.addSound("03_speaklouder" , 106 , -2, -1, "interruption");
     
-    timeline.addSilence(0.5 , 15 ,  15 , 16, "interruption"); // listen to opinion now
+    timeline.addSilence(0.5 , 15 ,  15 , 16, "listen"); // listen to opinion now
     timeline.addSound("08_thankyou" , 16 , -2, -1, "interruption");
     
     timeline.defineEndPos(100);
@@ -228,27 +228,26 @@ void ofApp::update(){
         if(timeline.getName() == "detect" && recorder.recording){ // detect
             timeline.swithDirection();
         }
-        if(!recorder.recording && timeline.getName() == "listen"){
+        if(timeline.getName() == "listen" && !recorder.recording ){
             timeline.swithDirection();
         }
         
         // interruption
-        if(serial.interrupt() &&
-           timeline.getName() != "noInterrupt")
+        if(serial.interrupt())
         {
             
-            if(timeline.getName() == "knockknock")timeline.swithDirection();
+            if(timeline.getName() == "knockknock")
+                timeline.swithDirection();
             
-            if(timeline.getName()!="interruption" && timeline.getName()!="goodbuy"){
+            if(timeline.getName()!="interruption" && timeline.getName()!="goodbuy"
+               && timeline.position!=17 && timeline.position!=15
+               ){
                 timeline.interruptionPos = timeline.position;
                 
                 if(timeline.getName() == "knockknockSpeak")timeline.interruptionPos = 1;
             }
     
-            timeline.jumpToNext(14);
-            
-           
-            
+            timeline.jumpToNext(14);    
         }
         
         
