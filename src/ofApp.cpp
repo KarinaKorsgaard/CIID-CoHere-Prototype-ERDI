@@ -173,16 +173,16 @@ void ofApp::setupTimeline(){
     // distance sensor will force position to 11
     timeline.addSound("10_goodbuy", 11 , 13 , -1, "goodBuy");
     timeline.addSilence(-2 , 13 , 100 , 12, "goodBuy"); // detect 1
-    timeline.addSound("11_youarestillhere", 12 , -2 , -1 , "goodBuy");
+    timeline.addSound("11_youarestillhere", 12 , -2 , -1 , "interruption");
     
     
     // interruption. SATY AS 14!! 
-    timeline.addSound("07_imsorry", 14 , 17 , -1 , "imsorry");       // ohno. speak up- speak up to prev pos.
-    timeline.addSilence(-2 , 17 , 106 , 15, "detect"); // detect 1
+    timeline.addSound("07_imsorry", 14 , 17 , -1 , "interruption");       // ohno. speak up- speak up to prev pos.
+    timeline.addSilence(-2 , 17 , 106 , 15, "interruption"); // detect 1
     
     timeline.addSound("03_speaklouder" , 106 , -2, -1, "interruption");
     
-    timeline.addSilence(0.5 , 15 ,  15 , 16, "listen"); // listen to opinion now
+    timeline.addSilence(0.5 , 15 ,  15 , 16, "interruption"); // listen to opinion now
     timeline.addSound("08_thankyou" , 16 , -2, -1, "interruption");
     
     timeline.defineEndPos(100);
@@ -208,8 +208,10 @@ void ofApp::update(){
     }
     
     if(serial.stop() && timeline.isPlaying && timeline.getName()!="goodBuy"){
-        timeline.interruptionTime = timeline.time;
-        timeline.interruptionPos = timeline.position;
+        if(timeline.getName()!="interruption"){
+            timeline.interruptionTime = timeline.time;
+            timeline.interruptionPos = timeline.position;
+        }
         timeline.stop();
     }
     
@@ -233,13 +235,12 @@ void ofApp::update(){
         
         // interruption
         if(serial.interrupt() &&
-           timeline.position != 14 &&
            timeline.getName() != "noInterrupt")
         {
             
             if(timeline.getName() == "knockknock")timeline.swithDirection();
             
-            if(timeline.getName()!="interruption"){
+            if(timeline.getName()!="interruption" && timeline.getName()!="goodbuy"){
                 timeline.interruptionTime = timeline.time;
                 timeline.interruptionPos = timeline.position;
             }
