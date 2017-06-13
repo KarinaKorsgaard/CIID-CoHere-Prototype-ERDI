@@ -140,7 +140,7 @@ void ofApp::setupTimeline(){
     
    // timeline.addSound("03_yay", 31 , 1 , -1, "noInterrupt" ); // yay, you said something
    // timeline.addSound("03_yay", 320 , 1 , -1, "noInterrupt" ); // nope
-    timeline.addSound("03_ohnoKnock", 32 , 1 , -1, "noInterrupt" ); // nope
+    timeline.addSound("03_ohnoKnock", 32 , 1 , -1, "interruption" ); // nope
     
     timeline.addSound("04_iwilltellyou", 1 , 2); // intro
     timeline.addSound("opinions", 2 , 21, -1 , ""); // stream
@@ -161,7 +161,7 @@ void ofApp::setupTimeline(){
     timeline.addSound("07_giveup" , 8 , 10 );
     
     
-    timeline.addSound("08_thankyou" , 9 , 18);
+    timeline.addSound("08_thankyou" , 9 , 18, -1, "interruption");
     timeline.addSound("04_iwilltellyou", 18 , 10); // intro
     
     //timeline.addSound("09_stream", 10 , 40 , -1 , "stream");
