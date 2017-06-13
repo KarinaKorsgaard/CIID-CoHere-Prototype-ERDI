@@ -132,58 +132,45 @@ void ofApp::setupTimeline(){
     
     
     timeline.addSound("01_welcome", 0 , 551,  -1, "welcome" ); // welcome
-    
     timeline.addSound("02_intro", 551 , 52); // intro // could be before knock knock.
     timeline.addSound("02_knock", 52 , 30,  -1, "knockknockSpeak" ); // welcome
-    
     timeline.addSilence(-2 , 30 , 32 , 1 , "knockknock"); // shutup
     
-   // timeline.addSound("03_yay", 31 , 1 , -1, "noInterrupt" ); // yay, you said something
-   // timeline.addSound("03_yay", 320 , 1 , -1, "noInterrupt" ); // nope
     timeline.addSound("03_ohnoKnock", 32 , 1 , -1, "" ); // nope
     
     timeline.addSound("04_iwilltellyou", 1 , 2); // intro
     timeline.addSound("opinions", 2 , 21, -1 , ""); // stream
-    
-    // add im going to read aloud from twitter now
     timeline.addSound("09_ontwitter", 21 , 441, -1 , "quote"); // stream
     timeline.addSound("quotes", 441 , 3); // stream
-    
     timeline.addSound("05_question", 3 , 4 ,  -1, "question" ); // question
-    
     timeline.addSilence(-2 , 4 , 5 , 6 , "detect"); // detect 1
-    
     timeline.addSound("06_probe" , 5 , 7);
-    timeline.addSilence(0.5 , 6 , 6, 9 , "listen"); // listen to opinion now
-    
     timeline.addSilence(-2 , 7 , 8 , 6 , "detect"); // detect 1
-    
     timeline.addSound("07_giveup" , 8 , 10 );
     
-    
+    timeline.addSilence(0.5 , 6 , 6, 9 , "listen"); // listen to opinion now
     timeline.addSound("08_thankyou" , 9 , 18, -1, "interruption");
+    
     timeline.addSound("04_iwilltellyou", 18 , 10); // intro
     
-    //timeline.addSound("09_stream", 10 , 40 , -1 , "stream");
+    timeline.addSound("opinions", 10 , 10, -1 , "opinion"); // stream
     timeline.addSound("09_ontwitter", 40 , 41, -1 , "quote"); // stream
     timeline.addSound("quotes", 41 , 10, -1 , "quote"); // stream
-    timeline.addSound("opinions", 10 , 10, -1 , "opinion"); // stream
-    //timeline.addString("03_STREAM.txt", 10 , 10 , -1 , "stream");
     
+ 
     // distance sensor will force position to 11
     timeline.addSound("10_goodbuy", 11 , 13 , -1, "goodBuy");
     timeline.addSilence(-2 , 13 , 100 , 12, "goodBuy"); // detect 1
     timeline.addSound("11_youarestillhere", 12 , -2 , -1 , "interruption");
-    
-    
-    // interruption. SATY AS 14!! 
-    timeline.addSound("07_imsorry", 14 , 17 , -1 , "interruption");       // ohno. speak up- speak up to prev pos.
+
+    // interruption.
+    timeline.addSound("07_imsorry", 14 , 17 , -1 , "interruption");
     timeline.addSilence(-2 , 17 , 106 , 15, "detect"); // detect 1
-    
     timeline.addSound("03_speaklouder" , 106 , -2, -1, "interruption");
     
     timeline.addSilence(0.5 , 15 ,  15 , 16, "listen"); // listen to opinion now
     timeline.addSound("08_thankyou" , 16 , -2, -1, "interruption");
+    
     
     timeline.defineEndPos(100);
     
@@ -203,28 +190,51 @@ void ofApp::update(){
        if( serial.start() || recorder.recording )
            timeline.swithDirection();
     
-    if(serial.start() && !timeline.isPlaying){
-        timeline.start();
-    }
     
-    if(serial.stop() && timeline.isPlaying && timeline.getName()!="goodBuy"){
-        if(timeline.getName()!="interruption"){
-            timeline.interruptionPos = timeline.position;
-        }
-        timeline.stop();
-    }
-    
-    // NOT PLAYING
     if(!timeline.isPlaying){
         float i = idleMaxVol;
         float t = twitterMaxVol;
         idleVol = CLAMP(idleVol+=0.02 ,0., i);
         twitterVol = CLAMP(twitterVol+=0.02 ,0., t);
+        
+        
+        if(serial.start()){
+            timeline.start();
+        }
     }
     
     //PLAYING
     else
     {
+        bool recordInterruptionPos = false;
+        if(timeline.getName()!="interruption" &&
+           timeline.getName()!="goodbuy" &&
+           timeline.position!=17 &&
+           timeline.position!=15)recordInterruptionPos=true;
+        
+        if(serial.stop() && timeline.getName()!="goodBuy"){
+            if(recordInterruptionPos)
+                timeline.interruptionPos = timeline.position;
+            timeline.stop();
+        }
+        
+        // interruption
+        else if(serial.interrupt()){
+            
+            if(timeline.getName() == "knockknock")
+                timeline.swithDirection();
+            
+            if(timeline.getName() == "knockknockSpeak")
+                timeline.interruptionPos = 1;
+            
+            else if(recordInterruptionPos){
+                timeline.interruptionPos = timeline.position;
+            }
+            timeline.jumpToNext(14);
+        }
+        
+        
+        
         if(timeline.getName() == "detect" && recorder.recording){ // detect
             timeline.swithDirection();
         }
@@ -232,23 +242,7 @@ void ofApp::update(){
             timeline.swithDirection();
         }
         
-        // interruption
-        if(serial.interrupt())
-        {
-            
-            if(timeline.getName() == "knockknock")
-                timeline.swithDirection();
-            
-            if(timeline.getName()!="interruption" && timeline.getName()!="goodbuy"
-               && timeline.position!=17 && timeline.position!=15
-               ){
-                timeline.interruptionPos = timeline.position;
-                
-                if(timeline.getName() == "knockknockSpeak")timeline.interruptionPos = 1;
-            }
-    
-            timeline.jumpToNext(14);
-        }
+
         
         
         
