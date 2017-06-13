@@ -125,7 +125,12 @@ void Timeline::draw(int x, int y){
 
 //--------------------------------------------------------------
 void Timeline::start(){
+    
     if(!isPlaying){
+        
+        interruptionTime = 0;
+        interruptionPos = 0;
+        
     	isPlaying = true;
     	time = 0.f;
     	position = 0;
