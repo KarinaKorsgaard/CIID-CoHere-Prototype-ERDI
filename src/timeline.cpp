@@ -64,18 +64,10 @@ void Timeline::loadNewEntry(){
     if(entries[position].name == "opinion"){
         if(ofRandom(1)>0.8)position = 40; //twitter tweet
     }
-    volume = getName() == "opinion" ? 1. : .4f;
+    volume = getName() == "opinion" ? 1. : .3f;
     
     sound.stop();
-    if(isValid){
-        if(entries[position].isSound){
-            sound.load(entries[position].file[entries[position].indx]);
-            sound.play();
-        }
-    }else{
-        cout<<"the end"<<endl;
-        isPlaying = false;
-    }
+    playSound();
 }
 
 
@@ -117,7 +109,7 @@ void Timeline::start(){
     	time = 0.f;
     	position = 0;
         isValid = true;
-        volume = 0.4;
+        volume = 0.3;
         
     	cout<<"start"<<endl;
     
@@ -132,17 +124,7 @@ void Timeline::start(){
         	it->second.swithDirection = false;
     	}
     
-    	if(isValid){
-        
-        	if(entries[position].isSound){
-            		sound.load(entries[position].file[entries[position].indx]);
-            		sound.play();
-        	}
-    	}else{
-        	messages.push_back("timeline ended");
-        	isPlaying = false;
-        
-    	}
+    	playSound();
 	}
 }
 
@@ -161,17 +143,7 @@ void Timeline::jumpToNext(int p){
     
     indxJump();
     
-    if(entries.find(position)!=entries.end()){
-        
-        if(entries[position].isSound){
-            sound.load(entries[position].file[entries[position].indx]);
-            sound.play();
-        }
-        
-    }else{
-        messages.push_back("timeline ended");
-        isPlaying = false;
-    }
+    playSound();
     
 }
 

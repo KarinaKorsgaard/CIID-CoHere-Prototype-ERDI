@@ -122,6 +122,18 @@ private:
         entries[position].indx = entries[position].indx%entries[position].file.size();
         
     }
+    
+    void playSound(){
+        if(isValid){
+            if(entries[position].isSound){
+                sound.load(entries[position].file[entries[position].indx]);
+                sound.play();
+            }
+        }else{
+            cout<<"the end"<<endl;
+            isPlaying = false;
+        }
+    }
 };
 
 //#endif /* Header_h */
