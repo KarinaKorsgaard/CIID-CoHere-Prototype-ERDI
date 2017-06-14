@@ -165,7 +165,7 @@ void ofApp::setupTimeline(){
     // distance sensor will force position to 11
     timeline.addSound("10_goodbuy", 11 , 13 , -1, "goodBuy");
     timeline.addSilence(-2 , 13 , 100 , 12, "goodBuy"); // detect 1
-    timeline.addSound("11_youarestillhere", 12 , -2 , -1 , "interruption");
+    timeline.addSound("11_youarestillhere", 12 , -2 , -1 , "goodBuy");
 
     // interruption.
     timeline.addSound("07_imsorry", 14 , 17 , -1 , "interruption");
@@ -210,6 +210,12 @@ void ofApp::update(){
     //PLAYING
     else
     {
+        
+        if(timeline.getName() == "welcome" || timeline.getName() == "goodBuy"){
+            erdiVol = 1;
+        }
+        else erdiVol = 0.4;
+        
         bool recordInterruptionPos = false;
         if(timeline.getName()!="interruption" &&
            timeline.getName()!="goodbuy" &&
