@@ -48,7 +48,7 @@ public:
             Player * p = &sp[i];
             p->age++;
             
-            if(stop){
+            if(!stop){
                 if(p->age>60*60)p->volume-=0.1;
                 else if (p->age<30)p->volume+=0.01;
                 else if (ofRandom(1)>.5)p->volume+=0.01;
