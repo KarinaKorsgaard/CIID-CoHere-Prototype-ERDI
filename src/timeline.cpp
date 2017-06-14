@@ -10,20 +10,23 @@
 
 
 //--------------------------------------------------------------
-void Timeline::setup(float _volLow){
+void Timeline::setup(float _volLow, float high, float low){
    
     path = "text/";
     volLow = _volLow;
     
+
+    erdiLow = low;
+    erdiHigh = high;
+    cout << erdiHigh<<endl;
 }
 
 //--------------------------------------------------------------
 
 //--------------------------------------------------------------
-void Timeline::update(float vol, float sampleDetectionLength){
+void Timeline::update(float sampleDetectionLength){
     
-    
-    erdiVol = vol;
+ 
     
     if(isValid && isPlaying){
         
@@ -55,16 +58,14 @@ void Timeline::loadNewEntry(){
     
     
     
-    
-    
-    
     if(entries[position].name == "opinion"){
         if(ofRandom(1)>0.7)
             position = ofRandom(1)>0.5 ? 40 : 400;
     }
-    volume = getName() == "opinion" ? 1. : volLow;
+    
     
     sound.stop();
+    
     playSound();
 }
 
@@ -107,7 +108,7 @@ void Timeline::start(){
         time = 0.f;
         position = 0;
         isValid = true;
-        volume = 0.3;
+    //    volume = 0.3;
         
         cout<<"start"<<endl;
         

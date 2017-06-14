@@ -44,8 +44,8 @@ class Timeline{
 public:
 
     void draw(int x, int y);
-    void setup(float _volLow);
-    void update(float vol, float sampleDetectionLength);
+    void setup(float _volLow, float high, float low);
+    void update(float sampleDetectionLength);
     
     void defineEndPos(int p);
     
@@ -126,8 +126,18 @@ private:
     }
     
     void playSound(){
+        
+        if(getName() == "welcome" || getName() == "goodBuy"){
+            erdiVol = erdiHigh;
+        }
+        else erdiVol = erdiLow;
+        
+        volume = getName() == "opinion" ? 1. : volLow;
+        
+        
         if(isValid){
             if(entries[position].isSound){
+                
                 sound.load(entries[position].file[entries[position].indx]);
                 sound.setVolume(erdiVol*volume);
                 sound.play();
@@ -139,6 +149,8 @@ private:
             isPlaying = false;
         }
     }
+    
+    float erdiLow,erdiHigh;
 };
 
 //#endif /* Header_h */
