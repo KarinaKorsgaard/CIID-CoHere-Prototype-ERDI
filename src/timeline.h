@@ -74,6 +74,7 @@ public:
         else return false;
     }
     int interruptionPos;
+    bool isValid;
     
 private:
     
@@ -87,7 +88,7 @@ private:
     ofSoundPlayer sound;
     ofSoundPlayer secondSound;
     bool looping;
-    bool isValid;
+    
     float volume = 0.5;
     float erdiVol = 0.0;
     string getLine(string file, int optionLine = -1);

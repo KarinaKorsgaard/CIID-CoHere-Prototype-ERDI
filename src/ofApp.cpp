@@ -188,8 +188,8 @@ void ofApp::update(){
     timeline.update(sampleDetectionLength);
     recorder.update(timeline.isSilent());
     
-    twitter.update(twitterVol, timeline.isPlaying);
-    idleMumbler.update(idleVol, timeline.isPlaying);
+    twitter.update(twitterVol, timeline.isValid);
+    idleMumbler.update(idleVol, timeline.isValid);
     
     if(recorder.getVolume())serial.writeByte(1);
     
