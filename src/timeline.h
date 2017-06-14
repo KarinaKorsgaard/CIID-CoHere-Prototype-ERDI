@@ -129,7 +129,10 @@ private:
         if(isValid){
             if(entries[position].isSound){
                 sound.load(entries[position].file[entries[position].indx]);
+                sound.setVolume(vol*volume);
                 sound.play();
+                sound.setVolume(vol*volume);
+                
             }
         }else{
             cout<<"the end"<<endl;

@@ -116,7 +116,7 @@ public:
                     cout<<"Stop recording\n";
                     recording=false;
                     bool save = sampleLength > minSampleLength;
-                    audioRecorder.recordingSize -= (silentSampleSize - BUFFER_SIZE);
+                    audioRecorder.recordingSize -= (silentSampleSize - BUFFER_SIZE*8);
                     audioRecorder.finalize();
                     
                     if(!save){

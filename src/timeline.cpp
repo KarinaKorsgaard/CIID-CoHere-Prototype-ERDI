@@ -24,8 +24,6 @@ void Timeline::update(float vol, float sampleDetectionLength){
     
     
     
-    sound.setVolume(vol*volume);
-    
     
     if(isValid && isPlaying){
         
