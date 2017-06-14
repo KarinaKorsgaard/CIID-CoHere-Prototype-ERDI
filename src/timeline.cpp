@@ -10,9 +10,11 @@
 
 
 //--------------------------------------------------------------
-void Timeline::setup(bool loop){
+void Timeline::setup(float _volLow){
     looping = loop;
     path = "text/";
+    volLow = _volLow
+    
 }
 
 //--------------------------------------------------------------
@@ -62,7 +64,7 @@ void Timeline::loadNewEntry(){
         if(ofRandom(1)>0.7)
             position = ofRandom(1)>0.5 ? 40 : 400;
     }
-    volume = getName() == "opinion" ? 1. : .2f;
+    volume = getName() == "opinion" ? 1. : volLow;
     
     sound.stop();
     playSound();

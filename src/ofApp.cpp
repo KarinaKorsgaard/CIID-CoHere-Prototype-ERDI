@@ -9,7 +9,12 @@ void ofApp::setup(){
 	
     recorder.setup();
     
-    timeline.setup(false);
+    ofxXmlSettings xml;
+    xml.load("config.xml");
+    erdiLow = xml.getValue("config:erdiLow", 0.0);
+    erdiHigh = xml.getValue("config:erdiHigh", 0.0);
+    float volLow = xml.getValue("config:volLow", 0.0);
+    timeline.setup(volLow);
     
     setupTimeline();
     
@@ -32,12 +37,9 @@ void ofApp::setup(){
    // gui.setFillColor(ofColor::lightCoral);
    // gui.setHeaderBackgroundColor(ofColor::lightCoral);
     
-    ofxXmlSettings xml;
     
-    xml.load("config.xml");
-    erdiLow = xml.getValue("config:erdiLow", 0.0);
-    erdiHigh = xml.getValue("config:erdiHigh", 0.0);
     
+
     //gui.setWidthElements(180);
     serial.setup();
     ofShowCursor();

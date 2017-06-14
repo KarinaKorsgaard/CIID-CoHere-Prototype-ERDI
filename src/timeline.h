@@ -44,7 +44,7 @@ class Timeline{
 public:
 
     void draw(int x, int y);
-    void setup(bool loop);
+    void setup(float _volLow);
     void update(float vol, float sampleDetectionLength);
     
     void defineEndPos(int p);
@@ -76,6 +76,8 @@ public:
     int interruptionPos;
     
 private:
+    
+    float volLow;
     int curIndx = 0;
     float p_vol;
     int endPos;

@@ -1,6 +1,7 @@
 <config>
     <path>s/opinions/</path>
-    <erdiLow>0.2</erdiLow>
+    <erdiLow>0.05</erdiLow>
     <erdiHigh>1.</erdiHigh>
+    <volLow>.2</volLow>
     <config/>
 </config>
