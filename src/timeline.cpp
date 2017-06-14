@@ -62,7 +62,7 @@ void Timeline::loadNewEntry(){
         if(ofRandom(1)>0.7)
             position = ofRandom(1)>0.5 ? 40 : 400;
     }
-    volume = getName() == "opinion" ? 1. : .3f;
+    volume = getName() == "opinion" ? 1. : .2f;
     
     sound.stop();
     playSound();
