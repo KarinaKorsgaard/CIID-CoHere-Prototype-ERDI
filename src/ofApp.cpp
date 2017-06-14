@@ -137,7 +137,9 @@ void ofApp::setupTimeline(){
     
     
     
-    timeline.addSound("01_welcome", 0 , 551,  -1, "welcome" ); // welcome
+    timeline.addSound("01_welcome", 0 , 552,  -1, "welcome" ); // welcome
+    timeline.addSilence(2. , 552 , 551 , -1 , "welcome"); // shutup
+    
     timeline.addSound("02_intro", 551 , 52); // intro // could be before knock knock.
     timeline.addSound("02_knock", 52 , 30,  -1, "knockknockSpeak" ); // welcome
     timeline.addSilence(-2 , 30 , 32 , 1 , "knockknock"); // shutup
@@ -167,8 +169,7 @@ void ofApp::setupTimeline(){
     timeline.addSound("quote_intro", 400 , 401, -1 , "quote"); // stream
     timeline.addSound("quotes", 401 , 10, -1 , "quote"); // stream
     
- 
-    // distance sensor will force position to 11
+    //goodbuy
     timeline.addSound("10_goodbuy", 11 , 13 , -1, "goodBuy");
     timeline.addSilence(-2 , 13 , 100 , 12, "goodBuy"); // detect 1
     timeline.addSound("11_youarestillhere", 12 , -2 , -1 , "goodBuy");
@@ -191,8 +192,6 @@ void ofApp::update(){
    //if(ofGetFrameNum() == 100)gui.loadFromFile("settings.xml"); // temporary
     
     timeline.update(erdiVol, sampleDetectionLength);
-    twitter.update(twitterVol);
-    idleMumbler.update(idleVol);
     recorder.update(timeline.isSilent());
     
     // goodbuy can be interrupted buy a start 
@@ -271,7 +270,13 @@ void ofApp::update(){
         
         idleVol = 0.;
         twitterVol = 0.;
+        
     }
+    
+    
+    
+    twitter.update(twitterVol);
+    idleMumbler.update(idleVol);
     
     if(recorder.getVolume())serial.writeByte(1);
     

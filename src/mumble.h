@@ -43,7 +43,7 @@ public:
         
         if(ofGetFrameNum()%200==0)loadStrings();
         
-        if(vol > 0){
+        //if(vol > 0){
             for(int i = 0; i<sp.size();i++){
                 Player * p = &sp[i];
                 p->age++;
@@ -63,11 +63,12 @@ public:
                         p->soundPlayer.play();
                     }
                 }
-                p->volume=CLAMP(p->volume,0,1);
-                p->soundPlayer.setVolume(p->volume * MAX(vol,0) );
             }
+            p->volume=CLAMP(p->volume,0,1);
+            p->soundPlayer.setVolume(p->volume * MAX(vol,0) );
         }
-    }
+        
+    //}
     
     void loadStrings(){
         
