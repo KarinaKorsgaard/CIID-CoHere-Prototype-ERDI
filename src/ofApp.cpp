@@ -136,7 +136,7 @@ void ofApp::setupTimeline(){
     timeline.addSound("02_knock", 52 , 30,  -1, "knockknockSpeak" ); // welcome
     timeline.addSilence(-2 , 30 , 32 , 1 , "knockknock"); // shutup
     
-    timeline.addSound("03_ohnoKnock", 32 , 1 , -1, "" ); // nope
+    timeline.addSound("03_ohnoKnock", 32 , 1 , -1, "ohnoKnock" ); // nope
     
     timeline.addSound("04_iwilltellyou", 1 , 2); // intro
     timeline.addSound("opinions", 2 , 21, -1 , ""); // stream
@@ -224,7 +224,7 @@ void ofApp::update(){
             if(timeline.getName() == "knockknock")
                 timeline.swithDirection();
             
-            if(timeline.getName() == "knockknockSpeak")
+            if(timeline.getName() == "knockknockSpeak" || timeline.getName() == "ohnoKnock")
                 timeline.interruptionPos = 1;
             
             else if(recordInterruptionPos){
