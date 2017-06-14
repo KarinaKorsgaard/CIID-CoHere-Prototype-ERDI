@@ -11,9 +11,9 @@
 
 //--------------------------------------------------------------
 void Timeline::setup(float _volLow){
-    looping = loop;
+   
     path = "text/";
-    volLow = _volLow
+    volLow = _volLow;
     
 }
 
