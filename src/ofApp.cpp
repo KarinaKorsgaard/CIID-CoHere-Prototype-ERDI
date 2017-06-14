@@ -144,7 +144,7 @@ void ofApp::update(){
         }
         
         // interruption
-        else if(serial.interrupt()){
+        else if(serial.interrupt() || recorder.recording){
             
             if(timeline.getName() == "knockknock")
                 timeline.swithDirection();
