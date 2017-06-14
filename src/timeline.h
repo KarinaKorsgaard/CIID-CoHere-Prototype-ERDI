@@ -115,6 +115,13 @@ private:
     string st(float s){
         return " "+ ofToString(s, 1) + " ";
     }
+    
+    
+    void indxJump(){
+        entries[position].indx ++;
+        entries[position].indx = entries[position].indx%entries[position].file.size();
+        
+    }
 };
 
 //#endif /* Header_h */

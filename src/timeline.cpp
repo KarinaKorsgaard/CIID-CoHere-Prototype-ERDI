@@ -44,40 +44,30 @@ void Timeline::update(float vol, float sampleDetectionLength){
 void Timeline::loadNewEntry(){
     //ofLogNotice("new entry!");
 
-    entries[position].indx ++;
-    entries[position].indx = entries[position].indx%entries[position].file.size();
+    indxJump();
     
-    
-    if(entries[position].swithDirection){
-        entries[position].swithDirection = false;
-        position = entries[position].optionNext;
-    }
-    else position = entries[position].next;
-    
+    position = entries[position].swithDirection ? entries[position].optionNext : entries[position].next;
     if(position == -2){
         position = interruptionPos;
-    }else
-        time = 0.;
+    }
+    isValid = position != endPos;
     
-    if(position == endPos)isValid = false;
-    else isValid = true;
+    entries[position].swithDirection = false;
+    time = 0.;
     
-    
-    
-    sound.stop();
 
-    volume = .5f;
+    
+    
+    
+    
     
     if(entries[position].name == "opinion"){
         if(ofRandom(1)>0.8)position = 40; //twitter tweet
-        else volume = 1.f;
     }
-   
+    volume = getName() == "opinion" ? 1. : .4f;
     
-    
-    
+    sound.stop();
     if(isValid){
-        
         if(entries[position].isSound){
             sound.load(entries[position].file[entries[position].indx]);
             sound.play();
@@ -95,13 +85,7 @@ void Timeline::draw(int x, int y){
     ofTranslate(x, y);
     ofFill();
     
-//    cout << isValid << endl;
-//    cout << position << endl;
-//    cout << endPos << endl;
-//    if(entries.find(position)!=entries.end())
-//        cout << "this is not the end" << endl;
-//    else cout << "this is the end" << endl;
-//    
+
 
     if(isValid){
         
@@ -133,6 +117,7 @@ void Timeline::start(){
     	time = 0.f;
     	position = 0;
         isValid = true;
+        volume = 0.4;
         
     	cout<<"start"<<endl;
     
@@ -153,9 +138,6 @@ void Timeline::start(){
             		sound.load(entries[position].file[entries[position].indx]);
             		sound.play();
         	}
-        	else{
-         	   	say(entries[position].file[entries[position].indx]);
-       	 	}
     	}else{
         	messages.push_back("timeline ended");
         	isPlaying = false;
@@ -176,6 +158,9 @@ void Timeline::jumpToNext(int p){
     position = p == -1 ? position : p;
     time = 0.f;
     sound.stop();
+    
+    indxJump();
+    
     if(entries.find(position)!=entries.end()){
         
         if(entries[position].isSound){
@@ -186,7 +171,6 @@ void Timeline::jumpToNext(int p){
     }else{
         messages.push_back("timeline ended");
         isPlaying = false;
-       // if(looping)start();
     }
     
 }

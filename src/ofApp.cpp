@@ -228,6 +228,7 @@ void ofApp::update(){
                 timeline.interruptionPos = 1;
             
             else if(recordInterruptionPos){
+                
                 timeline.interruptionPos = timeline.position;
             }
             timeline.jumpToNext(14);
