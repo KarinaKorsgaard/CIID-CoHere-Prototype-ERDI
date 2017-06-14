@@ -140,7 +140,7 @@ void ofApp::setupTimeline(){
     timeline.addSound("01_welcome", 0 , 552,  -1, "welcome" ); // welcome
     timeline.addSilence(2. , 552 , 551 , -1 , "welcome"); // shutup
     
-    timeline.addSound("02_intro", 551 , 52); // intro // could be before knock knock.
+    timeline.addSound("02_intro", 551 , 52); // intro // could be before.
     timeline.addSound("02_knock", 52 , 30,  -1, "knockknockSpeak" ); // welcome
     timeline.addSilence(-2 , 30 , 32 , 1 , "knockknock"); // shutup
     
@@ -239,7 +239,8 @@ void ofApp::update(){
             if(timeline.getName() == "knockknock")
                 timeline.swithDirection();
             
-            if(timeline.getName() == "knockknockSpeak" || timeline.getName() == "ohnoKnock")
+            if(timeline.getName() == "knockknockSpeak" || timeline.getName() == "ohnoKnock"
+               || timeline.getName() == "knockknock")
                 timeline.interruptionPos = 1;
             
             else if(recordInterruptionPos){

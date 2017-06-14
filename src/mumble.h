@@ -43,8 +43,9 @@ public:
         
         if(ofGetFrameNum()%200==0)loadStrings();
         
-        //if(vol > 0){
-            for(int i = 0; i<sp.size();i++){
+        //
+        for(int i = 0; i<sp.size();i++){
+            if(vol > 0){
                 Player * p = &sp[i];
                 p->age++;
                 if(p->age>60*60)p->volume-=0.1;
@@ -67,20 +68,22 @@ public:
             p->volume=CLAMP(p->volume,0,1);
             p->soundPlayer.setVolume(p->volume * MAX(vol,0) );
         }
-        
+    }
+    //  }
+    
     //}
     
     void loadStrings(){
         
         files.clear();
         ofDirectory dir(path);
-
+        
         dir.listDir();
         dir.sort();
-       // dir.allowExt("mp3");
+        // dir.allowExt("mp3");
         dir.allowExt("wav");
-       // dir.allowExt("ogg");
-
+        // dir.allowExt("ogg");
+        
         for(int i = 0 ; i<dir.size();i++){
             files.push_back(dir.getPath(i));
         }
@@ -88,3 +91,4 @@ public:
 };
 
 #endif /* twitter_h */
+

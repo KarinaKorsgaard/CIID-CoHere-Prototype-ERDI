@@ -20,10 +20,10 @@ void Timeline::setup(bool loop){
 //--------------------------------------------------------------
 void Timeline::update(float vol, float sampleDetectionLength){
     
-
+    
     
     sound.setVolume(vol*volume);
-
+    
     
     if(isValid && isPlaying){
         
@@ -40,7 +40,7 @@ void Timeline::update(float vol, float sampleDetectionLength){
 
 void Timeline::loadNewEntry(){
     //ofLogNotice("new entry!");
-
+    
     indxJump();
     
     position = entries[position].swithDirection ? entries[position].optionNext : entries[position].next;
@@ -52,7 +52,7 @@ void Timeline::loadNewEntry(){
     entries[position].swithDirection = false;
     time = 0.;
     
-
+    
     
     
     
@@ -75,8 +75,8 @@ void Timeline::draw(int x, int y){
     ofTranslate(x, y);
     ofFill();
     
-
-
+    
+    
     if(isValid){
         
         ofDrawBitmapString( entries[position].name , 10, 10);
@@ -89,7 +89,7 @@ void Timeline::draw(int x, int y){
         for(int i = 0; i<messages.size();i++){
             ofDrawBitmapString(messages[i], 10, 60 + 10*i);
         }
-       
+        
     }else isPlaying = false;
     ofPopMatrix();
 }
@@ -103,27 +103,27 @@ void Timeline::start(){
         
         interruptionPos = 0;
         
-    	isPlaying = true;
-    	time = 0.f;
-    	position = 0;
+        isPlaying = true;
+        time = 0.f;
+        position = 0;
         isValid = true;
         volume = 0.3;
         
-    	cout<<"start"<<endl;
-    
-    	//isValid = entries.find(0)!=entries.end();
-    
-    	if(!isValid)messages.push_back("no start entry found!, abort");
-
-    	map<int, entry>::iterator it;
-    	for (it = entries.begin(); it != entries.end(); it++)
-    	{
-        	it->second.isPlayed = false;
-        	it->second.swithDirection = false;
-    	}
-    
-    	playSound();
-	}
+        cout<<"start"<<endl;
+        
+        //isValid = entries.find(0)!=entries.end();
+        
+        if(!isValid)messages.push_back("no start entry found!, abort");
+        
+        map<int, entry>::iterator it;
+        for (it = entries.begin(); it != entries.end(); it++)
+        {
+            it->second.isPlayed = false;
+            it->second.swithDirection = false;
+        }
+        
+        playSound();
+    }
 }
 
 void Timeline::defineEndPos(int p){
@@ -134,7 +134,7 @@ void Timeline::setNextPosition(int pos, int next){
 }
 
 void Timeline::jumpToNext(int p){
-
+    
     position = p == -1 ? position : p;
     time = 0.f;
     sound.stop();
@@ -168,16 +168,16 @@ string Timeline::getName(){
 
 //--------------------------------------------------------------
 void Timeline::addSound(string _dir, int position, int next, int optionNext, string name){
-
+    
     checkEntries(position);
-
+    
     
     ofDirectory dir;
     dir.listDir("s/"+_dir);
     
-   // dir.allowExt("mp3");
+    // dir.allowExt("mp3");
     dir.allowExt("wav");
-   // dir.allowExt("ogg");
+    // dir.allowExt("ogg");
     
     entry e = *new entry;
     e.duration.resize(dir.size());
@@ -188,7 +188,7 @@ void Timeline::addSound(string _dir, int position, int next, int optionNext, str
     for (int i = 0; i<dir.size() ; i++){
         
         string filpath = dir.getPath(i);
-    
+        
         
         e.file[i] = filpath;
         
@@ -220,36 +220,36 @@ void Timeline::addSound(string _dir, int position, int next, int optionNext, str
         
         entries[position] = e;
         
-
+        
     }
-
+    
 }
 
 //--------------------------------------------------------------
 void Timeline::addString(string file, int position, int next, int optionNext, string name){
     
-//    string filePath = file;
-//    checkEntries(position);
-//    
-//    if(ofFile::doesFileExist("text/"+filePath)){
-//        
-//        entry e = *new entry;
-//        e.name = name;
-//        e.file = getLine(filePath);
-//        e.isString = true;
-//        e.duration = float(e.file.length()) * 0.07;
-//        if(e.duration < 0.1)messages.push_back(string("short file added %d", e.duration));
-//        e.isPlayed = false;
-//        e.optionNext = optionNext == -1 ? next : optionNext;
-//        e.next = next;
-//        e.position = position;
-//        
-//        entries[position] = e;
-//        
-//    }
-//    else{
-//        cout<<("ERROR, could not find file")<<endl;
-//    }
+    //    string filePath = file;
+    //    checkEntries(position);
+    //
+    //    if(ofFile::doesFileExist("text/"+filePath)){
+    //
+    //        entry e = *new entry;
+    //        e.name = name;
+    //        e.file = getLine(filePath);
+    //        e.isString = true;
+    //        e.duration = float(e.file.length()) * 0.07;
+    //        if(e.duration < 0.1)messages.push_back(string("short file added %d", e.duration));
+    //        e.isPlayed = false;
+    //        e.optionNext = optionNext == -1 ? next : optionNext;
+    //        e.next = next;
+    //        e.position = position;
+    //
+    //        entries[position] = e;
+    //
+    //    }
+    //    else{
+    //        cout<<("ERROR, could not find file")<<endl;
+    //    }
 }
 
 //--------------------------------------------------------------
@@ -285,7 +285,7 @@ string Timeline::getLine(string file, int optionLine){
         result = ReplaceString(result, "OPINION", getLine("OPINIONS.txt"));
     }
     
-   
+    
     return result;
     
 }
