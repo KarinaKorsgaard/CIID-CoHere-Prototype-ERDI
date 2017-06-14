@@ -140,7 +140,7 @@ void ofApp::setupTimeline(){
     
     timeline.addSound("04_iwilltellyou", 1 , 2); // intro
     timeline.addSound("opinions", 2 , 21, -1 , ""); // stream
-    timeline.addSound("09_ontwitter", 21 , 441, -1 , "quote"); // stream
+    timeline.addSound("quote_intro", 21 , 441, -1 , "quote"); // stream
     timeline.addSound("quotes", 441 , 3); // stream
     timeline.addSound("05_question", 3 , 4 ,  -1, "question" ); // question
     timeline.addSilence(-2 , 4 , 5 , 6 , "detect"); // detect 1
@@ -154,8 +154,12 @@ void ofApp::setupTimeline(){
     timeline.addSound("04_iwilltellyou", 18 , 10); // intro
     
     timeline.addSound("opinions", 10 , 10, -1 , "opinion"); // stream
-    timeline.addSound("09_ontwitter", 40 , 41, -1 , "quote"); // stream
-    timeline.addSound("quotes", 41 , 10, -1 , "quote"); // stream
+    
+    timeline.addSound("twitter_intro", 40 , 41, -1 , "twitter"); // stream
+    timeline.addSound("twitter", 41 , 10, -1 , "twitter"); // stream
+    
+    timeline.addSound("quote_intro", 400 , 401, -1 , "quote"); // stream
+    timeline.addSound("quotes", 401 , 10, -1 , "quote"); // stream
     
  
     // distance sensor will force position to 11

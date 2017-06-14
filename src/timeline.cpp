@@ -62,7 +62,8 @@ void Timeline::loadNewEntry(){
     
     
     if(entries[position].name == "opinion"){
-        if(ofRandom(1)>0.8)position = 40; //twitter tweet
+        if(ofRandom(1)>0.7)
+            position = ofRandom(1)>0.5 ? 40 : 400;
     }
     volume = getName() == "opinion" ? 1. : .3f;
     
