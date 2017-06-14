@@ -32,6 +32,11 @@ void ofApp::setup(){
    // gui.setFillColor(ofColor::lightCoral);
    // gui.setHeaderBackgroundColor(ofColor::lightCoral);
     
+    ofxXmlSettings xml;
+    xml.load("config.xml");
+    erdiLow = xml.getValue("config:erdiLow", 0.0);
+    erdiHigh = xml.getValue("config:erdiHigh", 0.0);
+    
     //gui.setWidthElements(180);
     serial.setup();
     ofShowCursor();
@@ -212,9 +217,9 @@ void ofApp::update(){
     {
         
         if(timeline.getName() == "welcome" || timeline.getName() == "goodBuy"){
-            erdiVol = 1;
+            erdiVol = erdiHigh;
         }
-        else erdiVol = 0.4;
+        else erdiVol = erdiLow;
         
         bool recordInterruptionPos = false;
         if(timeline.getName()!="interruption" &&

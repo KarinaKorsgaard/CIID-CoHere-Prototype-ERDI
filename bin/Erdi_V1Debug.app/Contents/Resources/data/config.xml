@@ -1,5 +1,6 @@
 <config>
     <path>s/opinions/</path>
-    <soundDevice>0</soundDevice>
+    <erdiLow>0.2</erdiLow>
+    <erdiHigh>1.</erdiHigh>
     <config/>
 </config>
