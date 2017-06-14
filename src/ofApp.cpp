@@ -33,6 +33,7 @@ void ofApp::setup(){
    // gui.setHeaderBackgroundColor(ofColor::lightCoral);
     
     ofxXmlSettings xml;
+    
     xml.load("config.xml");
     erdiLow = xml.getValue("config:erdiLow", 0.0);
     erdiHigh = xml.getValue("config:erdiHigh", 0.0);
@@ -262,13 +263,13 @@ void ofApp::update(){
         
         
         
-        if(timeline.getName() == "opinion" || timeline.getName() == "quote" ){
-            float i = idleMaxVol;
-            idleVol = CLAMP(idleVol+=0.02 ,0., i);
-        }
-        else
-            idleVol = 0.;
+//        if(timeline.getName() == "opinion" || timeline.getName() == "quote" ){
+//            float i = idleMaxVol;
+//            idleVol = CLAMP(idleVol+=0.02 ,0., i);
+//        }
+//        else
         
+        idleVol = 0.;
         twitterVol = 0.;
     }
     

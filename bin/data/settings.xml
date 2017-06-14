@@ -1,7 +1,7 @@
 <group>
-	<idle_max_vol>0.335</idle_max_vol>
+	<idle_max_vol>1</idle_max_vol>
 	<erdi_vol>0.405</erdi_vol>
-	<twitter_vol>0.15</twitter_vol>
+	<twitter_vol>0.345</twitter_vol>
 <group/>
 <sampleDetectionLength>3.3</sampleDetectionLength>
 	<recorder_gui>
