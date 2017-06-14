@@ -89,7 +89,7 @@ private:
     bool looping;
     bool isValid;
     float volume = 0.5;
-    
+    float erdiVol = 0.0;
     string getLine(string file, int optionLine = -1);
     void say(string line);
     bool checkEntries(int find);
@@ -129,9 +129,9 @@ private:
         if(isValid){
             if(entries[position].isSound){
                 sound.load(entries[position].file[entries[position].indx]);
-                sound.setVolume(vol*volume);
+                sound.setVolume(erdiVol*volume);
                 sound.play();
-                sound.setVolume(vol*volume);
+                sound.setVolume(erdiVol*volume);
                 
             }
         }else{

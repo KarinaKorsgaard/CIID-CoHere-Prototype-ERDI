@@ -23,7 +23,7 @@ void Timeline::setup(float _volLow){
 void Timeline::update(float vol, float sampleDetectionLength){
     
     
-    
+    erdiVol = vol;
     
     if(isValid && isPlaying){
         
