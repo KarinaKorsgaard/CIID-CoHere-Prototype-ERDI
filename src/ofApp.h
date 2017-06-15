@@ -32,7 +32,7 @@ class ofApp : public ofBaseApp{
     Timeline timeline;
     void setupTimeline();
     
-    
+    bool startTimeline = true;
     Mumbler twitter;
     SerialRead serial;
 

@@ -147,11 +147,13 @@ void ofApp::update(){
         twitterVol = CLAMP(twitterVol+=0.02 ,0., t);
         
         
-        if(serial.start()){
+        if(serial.start() && startTimeline){
             //timeline.start();
+            startTimeline = false;
             timeline.jumpToNext(0);
         }
         if(serial.stop()){
+            startTimeline = true;
             //timeline.start();
             timeline.stop();
         }
