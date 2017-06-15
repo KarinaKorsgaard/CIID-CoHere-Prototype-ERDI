@@ -130,10 +130,14 @@ private:
     
     void playSound(){
         
-        if(getName() == "welcome" || getName() == "goodBuy"){
-            erdiVol = erdiHigh;
-        }
-        else erdiVol = erdiLow;
+//        if(getName() == "welcome" || getName() == "goodBuy"){
+//            erdiVol = erdiHigh;
+//        }
+//        else erdiVol = erdiLow;
+        
+
+        
+        erdiVol = erdiLow;
         
         volume = getName() == "opinion" ? 1. : volLow;
         

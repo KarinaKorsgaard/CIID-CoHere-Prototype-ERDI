@@ -77,7 +77,9 @@ void ofApp::setupTimeline(){
         timeline.addSound("quote_intro", 40 , 41, -1 , "quote"); // stream
         timeline.addSound("quotes", 41 , 2, -1 , "quote"); // stream
     
-    
+        timeline.addSound("10_goodbuy", 60 , 61 , -1, "goodBuy");
+        timeline.addSilence(-2 , 61 , 2 , 12, "goodBuy"); // detect 1
+        timeline.addSound("11_youarestillhere", 12 , 2 , -1 , "goodBuy");
     
 //    timeline.addSound("01_welcome", 0 , 552,  -1, "welcome" ); // welcome
 //    timeline.addSilence(2. , 552 , 551 , -1 , "welcome"); // shutup
@@ -155,9 +157,10 @@ void ofApp::update(){
         startTimeline = false;
         timeline.jumpToNext(0);
     }
-    if(serial.stop()){
+    if(serial.stop() && !startTimeline){
         startTimeline = true;
         //timeline.start();
+        timeline.jumpToNext(60);
         timeline.stop();
     }
     
@@ -244,6 +247,7 @@ void ofApp::update(){
     idleMumbler.update(idleVol, timeline.isPlaying);
     
     if(recorder.getVolume())serial.writeByte(1);
+    
     serial.update();
     
 #ifdef TARGET_OSX
