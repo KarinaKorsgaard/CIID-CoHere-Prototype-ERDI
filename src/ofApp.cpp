@@ -137,11 +137,13 @@ void ofApp::update(){
     
 
     // goodbuy can be interrupted buy a start 
-    if( timeline.getName() == "goodBuy" )
-       if( serial.start() || recorder.recording )
-           timeline.swithDirection();
-    
-//    
+    if( timeline.getName() == "goodBuy" && startTimeline){
+        if( serial.start() || recorder.recording ){
+           timeline.jumpToNext(12);
+           startTimeline = false;
+        }
+    }
+//
 //    if(!timeline.isPlaying){
 //        float i = idleMaxVol;
 //        float t = twitterMaxVol;
@@ -152,10 +154,13 @@ void ofApp::update(){
 //
 //    }
     
-    if(serial.start() && startTimeline){
-        //timeline.start();
+    if(serial.start() && startTimeline ){
         startTimeline = false;
-        timeline.jumpToNext(0);
+        if( timeline.getName() !="goodBuy" ){
+            //timeline.start();
+            startTimeline = false;
+            timeline.jumpToNext(0);
+        }
     }
     if(serial.stop() && !startTimeline){
         startTimeline = true;
