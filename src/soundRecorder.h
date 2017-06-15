@@ -92,13 +92,15 @@ public:
         double dt = ofGetLastFrameTime();
         
         if(recording)sampleLength+=dt;
-        else silentSec = 0.f;
+        if(getVolume()) silentSec = 0.f;
         
+        //cout << silentSec << endl;
         if(getVolume() && rec && !recording){
             silentSec = 0.f;
             startSpeak +=ofGetLastFrameTime();
             
             if(startSpeak>0.15){
+                sampleLength=0;
                 cout<<"Start recording\n";
                 string pt=filePath+ofToString(audioCount,0)+".wav";
                 
@@ -121,8 +123,8 @@ public:
                 save = sampleLength > minSampleLength;
                 
                 if(save)
-                    audioRecorder.recordingSize -= (silentSampleSize - BUFFER_SIZE*8);
-                //audioRecorder.recordingSize = MAX(audioRecorder.recordingSize,0);
+                    audioRecorder.recordingSize -= (silentSampleSize);
+                
                 audioRecorder.finalize();
                 
                 if(!save){
@@ -132,11 +134,8 @@ public:
                     audioCount ++;
                     cout <<"kept file "+filePath+ofToString(audioCount,0)+".wav"<< endl;
                 }
-                
-                sampleLength=0;
                 recording=false;
             }
-            
         }
     }
     

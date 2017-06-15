@@ -42,8 +42,6 @@ void Timeline::update(float sampleDetectionLength){
 
 
 void Timeline::loadNewEntry(){
-    //ofLogNotice("new entry!");
-    
     indxJump();
     
     position = entries[position].swithDirection ? entries[position].optionNext : entries[position].next;
@@ -70,7 +68,7 @@ void Timeline::loadNewEntry(){
         float r = ofRandom(1);
         if(r>0.8)
             position = ofRandom(1)>0.5 ? 30 : 40;
-        else if(r>0.7 && questionCounter < entries[position].file.size()){
+        else if(r>0.6 && questionCounter < entries[position].file.size()){
             questionCounter ++;
             position = 20;
         }

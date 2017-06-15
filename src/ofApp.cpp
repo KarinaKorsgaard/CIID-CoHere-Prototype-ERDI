@@ -54,7 +54,8 @@ void ofApp::setupTimeline(){
     
         timeline.addSilence(0.5 , 6 , 6 , 9 , "listen"); // listen to opinion now
         timeline.addSound("08_thankyou" , 9 , 2, -1, "thankyou");
-        timeline.addSound("03_ohno" , 19 , 2, -1, "interruption");
+        timeline.addSound("03_ohno" , 19 , 119, -1, "interruption");
+        timeline.addSilence(2. , 119 , 2, -1, "interruption");
 
         timeline.addSound("03_sense", 80 , 2, -1 , "sense"); // stream
     
@@ -223,7 +224,7 @@ void ofApp::update(){
             if(!recorder.save)
                 timeline.jumpToNext(19);
             else
-                timeline.swithDirection();
+                timeline.jumpToNext(9);
         }
         
 
