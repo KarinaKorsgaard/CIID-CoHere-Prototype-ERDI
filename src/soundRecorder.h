@@ -96,8 +96,9 @@ public:
         
         if(vol >= threshold && rec){
             silentSec = 0.f;
+            startSpeak +=ofGetLastFrameTime();
             
-            if(!recording && rec){
+            if(startSpeak>0.15){
                 cout<<"Start recording\n";
                 string pt=filePath+ofToString(audioCount,0)+".wav";
                 
@@ -112,10 +113,10 @@ public:
             silentSec+=dt;
             
            // if(silentSec>wait || !rec){
-            if(silentSec>wait ){
+            if(silentSec>wait){
 
                 cout<<"Stop recording\n";
-                
+                startSpeak = 0;
                 
                 save = sampleLength > minSampleLength;
                 
@@ -179,7 +180,7 @@ public:
 
     ofxLibsndFileRecorder audioRecorder;
     
-    double silentSec;
+    double silentSec, startSpeak;
     int audioCount;
     int silentSampleSize = 0;
     string filePath;

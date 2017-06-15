@@ -78,7 +78,7 @@ void ofApp::setupTimeline(){
         timeline.addSound("quotes", 41 , 2, -1 , "quote"); // stream
     
         timeline.addSound("10_goodbuy", 60 , 61 , -1, "goodBuy");
-        timeline.addSilence(-2 , 61 , 2 , 12, "goodBuy"); // detect 1
+        timeline.addSilence(8. , 61 , 2 , 12, "goodBuy"); // detect 1
         timeline.addSound("11_youarestillhere", 12 , 2 , -1 , "goodBuy");
     
 //    timeline.addSound("01_welcome", 0 , 552,  -1, "welcome" ); // welcome
@@ -202,7 +202,7 @@ void ofApp::update(){
         }
         else if(recorder.getVolume()){
             recordingTimer+=ofGetLastFrameTime();
-            if(recordingTimer>.25){
+            if(recordingTimer>.15){
                 timeline.jumpToNext(6);
              //   cout << recordingTimer << endl;
             }
