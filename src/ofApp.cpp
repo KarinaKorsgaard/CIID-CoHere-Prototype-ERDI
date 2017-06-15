@@ -134,9 +134,11 @@ void ofApp::update(){
     if( (timeline.getName() == "listen" || timeline.getName() == "detect") && sendbyte){
         serial.writeByte(6);
         sendbyte = false;
-    }else{
+        cout << "send 6"<< endl;
+    }else if(!sendbyte && timeline.getName() != "listen" && timeline.getName() != "detect"){
         serial.writeByte(7);
         sendbyte = true;
+        cout << "send 7"<< endl;
     }
     
 //
@@ -251,12 +253,7 @@ void ofApp::update(){
     
     serial.update();
     
-#ifdef TARGET_OSX
-    //cout<< "i am osx"<< endl;
-#else
-   
-    //cout<< "i am not"<< endl;
-#endif
+
     
 }
 
