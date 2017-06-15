@@ -74,6 +74,11 @@ void Timeline::loadNewEntry(){
             questionCounter ++;
             position = 20;
         }
+        else if(r>0.6 ){
+           
+            position = 80;
+        
+        }
         else{
             loadStringAgain(2);
         }

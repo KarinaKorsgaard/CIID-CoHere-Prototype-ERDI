@@ -22,30 +22,16 @@ void ofApp::setup(){
     twitter.setup("s/quotes",3);
     idleMumbler.setup("s/opinions",2);
     
-    //timeline.start(); // dist sensor triggers this!
-    
+
     gui.setup();
     gui.add(idleMaxVol.set("idle max vol", 0. , 0., 1.));
-    //gui.add(erdiVol.set("erdi vol", 0. , 0., 1.));
     gui.add(twitterMaxVol.set("twitter vol", 0. , 0., 1.));
-    
     gui.add(sampleDetectionLength.set("sampDetLength",1.3,0.,4.));
-    
     gui.add(recorder.recGroup);
     
     gui.loadFromFile("settings.xml");
-    
-   // gui.setFillColor(ofColor::lightCoral);
-   // gui.setHeaderBackgroundColor(ofColor::lightCoral);
-    
-    
-    
-
-    //gui.setWidthElements(180);
     serial.setup();
     ofShowCursor();
-    
-    serial.writeByte(5);
     timeline.start();
 }
 
@@ -59,8 +45,8 @@ void ofApp::setupTimeline(){
       timeline.addSound("opinions", 2 , 2, -1 , "opinion"); // stream
     
     
-        timeline.addSound("10_areyoustillthere", 20 , 3 , -1, "");
-        timeline.addSound("05_question", 3 , 4 ,  -1, "question" ); // question
+        //timeline.addSound("10_areyoustillthere", 20 , 3 , -1, "");
+        timeline.addSound("05_question", 20 , 4 ,  -1, "question" ); // question
         timeline.addSilence(-2 , 4 , 5 , 6 , "detect"); // detect 1
         timeline.addSound("06_probe" , 5 , 7);
         timeline.addSilence(-2 , 7 , 8 , 6 , "detect"); // detect 1
@@ -69,7 +55,8 @@ void ofApp::setupTimeline(){
         timeline.addSilence(0.5 , 6 , 6 , 9 , "listen"); // listen to opinion now
         timeline.addSound("08_thankyou" , 9 , 2, -1, "thankyou");
         timeline.addSound("03_ohno" , 19 , 2, -1, "interruption");
-    
+
+        timeline.addSound("03_sense", 80 , 2, -1 , "sense"); // stream
     
         timeline.addSound("twitter_intro", 30 , 31, -1 , "twitter"); // stream
         timeline.addSound("twitter", 31 , 2, -1 , "twitter"); // stream
@@ -143,6 +130,15 @@ void ofApp::update(){
            startTimeline = false;
         }
     }
+    
+    if( timeline.getName() == "listen" && sendbyte){
+        serial.writeByte(6);
+        sendbyte = false;
+    }else{
+        serial.writeByte(7);
+        sendbyte = true;
+    }
+    
 //
 //    if(!timeline.isPlaying){
 //        float i = idleMaxVol;

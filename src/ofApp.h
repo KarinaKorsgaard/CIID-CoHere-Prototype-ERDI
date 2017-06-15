@@ -46,5 +46,5 @@ class ofApp : public ofBaseApp{
     ofParameter<float>idleMaxVol, twitterMaxVol, erdiVol,sampleDetectionLength;
 
     double recordingTimer;
-
+    bool sendbyte = false;
 };
