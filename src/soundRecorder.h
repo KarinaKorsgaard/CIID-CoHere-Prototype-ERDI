@@ -94,7 +94,7 @@ public:
         if(recording)sampleLength+=dt;
         else silentSec = 0.f;
         
-        if(vol >= threshold && rec){
+        if(getVolume() && rec && !recording){
             silentSec = 0.f;
             startSpeak +=ofGetLastFrameTime();
             
