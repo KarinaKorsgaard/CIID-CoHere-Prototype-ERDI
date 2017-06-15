@@ -139,29 +139,31 @@ void ofApp::update(){
        if( serial.start() || recorder.recording )
            timeline.swithDirection();
     
+//    
+//    if(!timeline.isPlaying){
+//        float i = idleMaxVol;
+//        float t = twitterMaxVol;
+//        idleVol = CLAMP(idleVol+=0.02 ,0., i);
+//        twitterVol = CLAMP(twitterVol+=0.02 ,0., t);
+//        
+//        
+//
+//    }
     
-    if(!timeline.isPlaying){
-        float i = idleMaxVol;
-        float t = twitterMaxVol;
-        idleVol = CLAMP(idleVol+=0.02 ,0., i);
-        twitterVol = CLAMP(twitterVol+=0.02 ,0., t);
-        
-        
-        if(serial.start() && startTimeline){
-            //timeline.start();
-            startTimeline = false;
-            timeline.jumpToNext(0);
-        }
-        if(serial.stop()){
-            startTimeline = true;
-            //timeline.start();
-            timeline.stop();
-        }
+    if(serial.start() && startTimeline){
+        //timeline.start();
+        startTimeline = false;
+        timeline.jumpToNext(0);
+    }
+    if(serial.stop()){
+        startTimeline = true;
+        //timeline.start();
+        timeline.stop();
     }
     
     //PLAYING
-    else
-    {
+//    else
+//    {
 //        bool recordInterruptionPos = false;
 //        if(timeline.getName()!="interruption" &&
 //           timeline.getName()!="goodbuy" &&
@@ -231,7 +233,7 @@ void ofApp::update(){
         idleVol = 0.01;
         twitterVol = 0.01;
         
-    }
+   // }
     
     
     timeline.update(sampleDetectionLength);
