@@ -92,42 +92,49 @@ public:
         double dt = ofGetLastFrameTime();
         
         if(recording)sampleLength+=dt;
-
+        else silentSec = 0.f;
         
-            if(vol >= threshold && rec){
-                silentSec = 0.f;
+        if(vol >= threshold && rec){
+            silentSec = 0.f;
+            
+            if(!recording && rec){
+                cout<<"Start recording\n";
+                string pt=filePath+ofToString(audioCount,0)+".wav";
                 
-                if(!recording && rec){
-                    cout<<"Start recording\n";
-                    audioCount++;
-                    string pt=filePath+ofToString(audioCount,0)+".wav";
-                    
-                    cout << pt<<"----\n";
-                    audioRecorder.setup(pt);
-                    audioRecorder.setFormat(SF_FORMAT_WAV | SF_FORMAT_PCM_16);
-                    recording=true;
-                    
-                }
+                cout << pt<<"----\n";
+                audioRecorder.setup(pt);
+                audioRecorder.setFormat(SF_FORMAT_WAV | SF_FORMAT_PCM_16);
+                recording=true;
+                
             }
-            else if(recording){
-                silentSec+=dt;
+        }
+        else if(recording){
+            silentSec+=dt;
+            
+           // if(silentSec>wait || !rec){
+            if(silentSec>wait ){
+
+                cout<<"Stop recording\n";
                 
-                if(silentSec>wait || !rec){
-                    cout<<"Stop recording\n";
-                    recording=false;
-                    bool save = sampleLength > minSampleLength;
-                    if(save)
-                        audioRecorder.recordingSize -= (silentSampleSize - BUFFER_SIZE*8);
-                    //audioRecorder.recordingSize = MAX(audioRecorder.recordingSize,0);
-                    audioRecorder.finalize();
-                    
-                    if(!save){
-                        ofFile::removeFile(filePath+ofToString(audioCount,0)+".wav", true);
-                    }else{
-                        audioCount ++;
-                    }
-                    sampleLength=0;
+                
+                save = sampleLength > minSampleLength;
+                
+                if(save)
+                    audioRecorder.recordingSize -= (silentSampleSize - BUFFER_SIZE*8);
+                //audioRecorder.recordingSize = MAX(audioRecorder.recordingSize,0);
+                audioRecorder.finalize();
+                
+                if(!save){
+                    ofFile::removeFile(filePath+ofToString(audioCount,0)+".wav", true);
+                    cout <<"removed file "+filePath+ofToString(audioCount,0)+".wav"<< endl;
+                }else{
+                    audioCount ++;
+                    cout <<"kept file "+filePath+ofToString(audioCount,0)+".wav"<< endl;
                 }
+                
+                sampleLength=0;
+                recording=false;
+            }
             
         }
     }
@@ -167,15 +174,17 @@ public:
     }
     
     
-
+    bool save;
     
-private:
+
     ofxLibsndFileRecorder audioRecorder;
     
     double silentSec;
     int audioCount;
     int silentSampleSize = 0;
     string filePath;
+    
+    private:
     ofSoundStream soundStream;
     
     vector<float>hist;

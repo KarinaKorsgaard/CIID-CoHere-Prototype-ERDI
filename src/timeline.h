@@ -52,7 +52,8 @@ public:
     void start();
     
     void stop(){
-        jumpToNext(11);
+        //jumpToNext(11);
+        questionCounter = 0;
     };
     
     void addSound(string _dir, int position, int next, int optionNext = -1 , string name = "");
@@ -77,8 +78,9 @@ public:
     bool isValid;
     
 private:
-    
+    void loadStringAgain(int p);
     float volLow;
+    int uselessfiles = 0;
     int curIndx = 0;
     float p_vol;
     int endPos;
@@ -150,7 +152,7 @@ private:
             isPlaying = false;
         }
     }
-    
+    int questionCounter;
     float erdiLow,erdiHigh;
 };
 

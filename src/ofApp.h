@@ -45,6 +45,6 @@ class ofApp : public ofBaseApp{
     ofxPanel gui;
     ofParameter<float>idleMaxVol, twitterMaxVol, erdiVol,sampleDetectionLength;
 
-   
+    double recordingTimer;
 
 };

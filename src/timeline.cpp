@@ -58,17 +58,80 @@ void Timeline::loadNewEntry(){
     
     
     
-    if(entries[position].name == "opinion"){
-        if(ofRandom(1)>0.7)
-            position = ofRandom(1)>0.5 ? 40 : 400;
-    }
+//    if(entries[position].name == "opinion"){
+//        if(ofRandom(1)>0.7)
+//            position = ofRandom(1)>0.5 ? 40 : 400;
+//        else if(ofRandom(1)>0.7)
+//            position = 3;
+//    }
     
+    
+    if(entries[position].name == "opinion"){
+        float r = ofRandom(1);
+        if(r>0.8)
+            position = ofRandom(1)>0.5 ? 30 : 40;
+        else if(r>0.7 && questionCounter < entries[position].file.size()){
+            questionCounter ++;
+            position = 20;
+        }
+        else{
+            loadStringAgain(2);
+        }
+    }
     
     sound.stop();
     
     playSound();
 }
 
+void Timeline::loadStringAgain(int p){
+    ofDirectory dir;
+    
+    entry * e = &entries[p];
+    cout << entries[p].file.size() << endl;
+    
+    dir.allowExt("wav");
+    dir.sort();
+    dir.listDir("s/opinions");
+    
+//    if(dir.size() != e->file.size()){
+//        e->duration.resize(dir.size());
+//        e->file.resize(dir.size());
+//    }
+//    
+    for (int i = MAX(e->file.size()-1,0); i<dir.size() ; i++){
+        
+        string filpath = dir.getPath(i);
+        
+        
+        
+        
+        ofSoundPlayer p;
+        
+
+        if(p.load(filpath)){
+            
+            p.play();
+            p.setPosition(0.9999999f);
+            int ms = p.getPositionMS();
+            p.setPosition(0);
+            p.stop();
+            p.unload();
+            float duration = float(ms)/1000;
+            
+            e->isSound = true;
+            e->duration.push_back( duration );
+            e->isPlayed = false;
+            e->file.push_back( filpath );
+        }
+        else{
+            cout << "timeline removed file on update"+filpath<<endl;
+            ofFile::removeFile(filpath, true);
+            i++;
+        }
+    }
+    cout << entries[p].file.size() << endl;
+}
 
 
 void Timeline::draw(int x, int y){
@@ -136,11 +199,14 @@ void Timeline::setNextPosition(int pos, int next){
 
 void Timeline::jumpToNext(int p){
     
+    indxJump();
+    entries[position].swithDirection = false;
+    
     position = p == -1 ? position : p;
     time = 0.f;
     sound.stop();
     
-    indxJump();
+   // indxJump();
     
     playSound();
     
@@ -174,50 +240,63 @@ void Timeline::addSound(string _dir, int position, int next, int optionNext, str
     
     
     ofDirectory dir;
-    dir.listDir("s/"+_dir);
+    
     
     // dir.allowExt("mp3");
     dir.allowExt("wav");
     // dir.allowExt("ogg");
+    dir.sort();
+    
+    dir.listDir("s/"+_dir);
     
     entry e = *new entry;
-    e.duration.resize(dir.size());
-    e.file.resize(dir.size());
+    //e.duration.resize(dir.size());
+    //e.file.resize(dir.size());
     
-    cout << e.file.size() << endl;
+    //cout << e.file.size() << endl;
     
     for (int i = 0; i<dir.size() ; i++){
         
         string filpath = dir.getPath(i);
         
         
-        e.file[i] = filpath;
+        
         
         ofSoundPlayer p;
         
-        bool cut = false;
-        
-        if(p.load(filpath))cut = true;
-        else p.load("defaultSound.wav");
-        
-        p.play();
-        p.setPosition(0.9999999f);
-        int ms = p.getPositionMS();
-        p.setPosition(0);
-        p.stop();
-        p.unload();
-        float duration = float(ms)/1000;
+      
+        if(p.load(filpath)){
+            
+
+            p.play();
+            p.setPosition(0.9999999f);
+            int ms = p.getPositionMS();
+            p.setPosition(0);
+            p.stop();
+            p.unload();
+            float duration = float(ms)/1000;
+            
+            
+            
+            e.file.push_back(filpath);
+            e.duration.push_back(duration);
+        }else if(_dir == "opinions"){
+            cout << "timeline removed file on setup"+filpath<<endl;
+            ofFile::removeFile(filpath, true);
+            i++;
+            //uselessfiles++;
+        }
         
         //printf("SOUND LENGTH: %i\n\n", ms);
         
         e.isSound = true;
-        e.duration[i] = duration;
+        
         e.isPlayed = false;
         
         e.name = name;
         e.next = next;
         e.optionNext = optionNext == -1 ? next : optionNext;
-        e.indx = floor(ofRandom(dir.size()));
+        e.indx = floor(ofRandom(e.file.size()));
         
         entries[position] = e;
         
