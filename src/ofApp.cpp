@@ -240,11 +240,12 @@ void ofApp::update(){
     idleMumbler.update(idleVol, timeline.isPlaying);
     
     if(recorder.getVolume())serial.writeByte(1);
+    serial.update();
     
 #ifdef TARGET_OSX
     //cout<< "i am osx"<< endl;
 #else
-    serial.update();
+   
     //cout<< "i am not"<< endl;
 #endif
     
