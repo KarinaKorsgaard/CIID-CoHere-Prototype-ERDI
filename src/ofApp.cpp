@@ -131,7 +131,7 @@ void ofApp::update(){
         }
     }
     
-    if( timeline.getName() == "listen" && sendbyte){
+    if( (timeline.getName() == "listen" || timeline.getName() == "detect") && sendbyte){
         serial.writeByte(6);
         sendbyte = false;
     }else{
