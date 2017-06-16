@@ -29,6 +29,8 @@ public:
     bool recording;
     ofParameterGroup recGroup;
     
+    string pt;
+    
     ofParameter<float>threshold;
     ofParameter<float>minSampleLength;
     ofParameter<float>wait;
@@ -94,6 +96,8 @@ public:
         if(recording)sampleLength+=dt;
         if(getVolume()) silentSec = 0.f;
         
+        pt=filePath+ofToString(audioCount, 3 ,'0')+".wav";
+        
         //cout << silentSec << endl;
         if(getVolume() && rec && !recording){
             silentSec = 0.f;
@@ -102,7 +106,7 @@ public:
             if(startSpeak>0.15){
                 sampleLength=0;
                 cout<<"Start recording\n";
-                string pt=filePath+ofToString(audioCount, 3 ,'0')+".wav";
+                
                 
                 cout << pt<<"----\n";
                 audioRecorder.setup(pt);
@@ -126,10 +130,9 @@ public:
                     audioRecorder.recordingSize -= (silentSampleSize);
                 
                 audioRecorder.finalize();
-                string pt=filePath+ofToString(audioCount, 3 ,'0')+".wav";
                 if(!save){
                     ofFile::removeFile(pt, true);
-                    cout <<"removed file "+filePath+ofToString(audioCount,0)+".wav"<< endl;
+                    cout <<"removed file "+pt<< endl;
                 }else{
                     audioCount ++;
                     cout <<"kept file "+pt<< endl;

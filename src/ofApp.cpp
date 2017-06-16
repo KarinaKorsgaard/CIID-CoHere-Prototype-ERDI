@@ -35,7 +35,7 @@ void ofApp::setup(){
     timeline.start();
     
     
-    ofLaunchBrowser("www.google.com");
+    //ofLaunchBrowser("www.google.com");
 }
 
 

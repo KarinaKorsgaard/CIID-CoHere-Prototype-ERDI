@@ -64,7 +64,9 @@ void Timeline::loadNewEntry(){
 //    }
     if(getName() == "repeat"){
         loadStringAgain(901);
+        
         entries[position].indx = entries[position].file.size()-1;
+        
         cout << "repeat ";
         cout << "filesize ";
         cout << entries[position].file.size() ;
@@ -111,13 +113,19 @@ void Timeline::loadStringAgain(int p){
     entry * e = &entries[p];
     cout << entries[p].file.size() << endl;
     
+    
+    for(int i = 0; i<dir.size();i++)
+        cout << dir.getPath(i) +" "<< endl;
+    
+    cout <<  "----" << endl;
+    
     dir.allowExt("wav");
     dir.sort();
     dir.listDir("s/opinions");
     
     for(int i = 0; i<dir.size();i++)
-        cout << dir.getPath(i) +" ";
-    
+         cout << dir.getPath(i) +" "<< endl;
+     cout <<  "DIRECTORY" << endl;
     
 //    if(dir.size() != e->file.size()){
 //        e->duration.resize(dir.size());
