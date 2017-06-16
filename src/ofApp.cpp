@@ -135,11 +135,19 @@ void ofApp::update(){
         }
     }
     
-    if( (timeline.getName() == "listen" || timeline.getName() == "detect") && sendbyte){
+    if( (timeline.getName() == "listen" ||
+         timeline.getName() == "detect" ||
+         timeline.getName() == "question")&&
+         sendbyte
+       ){
         serial.writeByte(6);
         sendbyte = false;
         cout << "send 6"<< endl;
-    }else if(!sendbyte && timeline.getName() != "listen" && timeline.getName() != "detect"){
+    }else if(!sendbyte &&
+             timeline.getName() != "listen" &&
+             timeline.getName() != "detect"&&
+             timeline.getName() != "question"
+             ){
         serial.writeByte(7);
         sendbyte = true;
         cout << "send 7"<< endl;
