@@ -116,16 +116,16 @@ void Timeline::loadStringAgain(int p){
     dir.allowExt("wav");
     dir.listDir("s/opinions");
     
-    for(int i = 0; i<dir.size();i++)
-        cout << dir.getPath(i) +" "<< endl;
+   // for(int i = 0; i<dir.size();i++)
+   //     cout << dir.getPath(i) +" "<< endl;
     
     cout <<  "----" << endl;
     
     dir.sort();
     
-    for(int i = 0; i<dir.size();i++)
-         cout << dir.getPath(i) +" "<< endl;
-     cout <<  "DIRECTORY" << endl;
+  //  for(int i = 0; i<dir.size();i++)
+  //       cout << dir.getPath(i) +" "<< endl;
+  //   cout <<  "DIRECTORY" << endl;
     
 //    if(dir.size() != e->file.size()){
 //        e->duration.resize(dir.size());
@@ -278,8 +278,6 @@ void Timeline::addSound(string _dir, int position, int next, int optionNext, str
     // dir.allowExt("mp3");
     dir.allowExt("wav");
     // dir.allowExt("ogg");
-    
-    
     dir.listDir("s/"+_dir);
     
     dir.sort();
