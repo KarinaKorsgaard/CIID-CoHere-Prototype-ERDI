@@ -77,35 +77,34 @@ void Timeline::loadNewEntry(){
         cout << "position ";
         cout << entries[position].file[entries[position].indx] << endl;
     }
-
     
-    if(entries[position].name == "opinion" && !opinionSaid){
-        float r = ofRandom(1);
-        opinionSaid = true;
-        if(r>0.85)
-            position = ofRandom(1)>0.5 ? 30 : 40;
-        else if(r>0.75){
-            if(questionCounter < entries[position].file.size()){
+    if(getName() == "someoneelsesaid")opinionSaid = false;
+    
+    if(entries[position].name == "opinion"){
+        
+        if(opinionSaid){
+            
+            opinionSaid = false;
+            float r = ofRandom(1);
+            if(r>0.8)
+                position = ofRandom(1)>0.5 ? 30 : 40;
+            
+            else if(r>0.7 && questionCounter < entries[position].file.size()){
                 questionCounter ++;
                 position = 20;
-                
             }
-        }
-        else if(r>0.65 ){
-           
-            position = 80;
-        
-        }
-        else if(r>0.55 ){
-            
-            position = 90;
-            
+            else if(r>0.6 ){
+                position = 80;
+            }
+            else if(r>0.5 ){
+                position = 90;
+            }
         }
         else{
             loadStringAgain(2);
         }
         
-        if(getName() != "opinion")opinionSaid = false;
+        if(getName() == "opinion")opinionSaid = true;
     }
     
     sound.stop();
