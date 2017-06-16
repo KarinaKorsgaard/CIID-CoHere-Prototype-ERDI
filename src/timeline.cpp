@@ -65,6 +65,13 @@ void Timeline::loadNewEntry(){
     if(getName() == "repeat"){
         loadStringAgain(901);
         entries[position].indx = entries[position].file.size()-1;
+        cout << "repeat ";
+        cout << "filesize ";
+        cout << entries[position].file.size() ;
+        
+        cout << entries[position].file.back() ;
+        
+        cout << entries[position].file[entries[position].indx] << endl;
     }
 
     

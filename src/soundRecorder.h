@@ -102,7 +102,7 @@ public:
             if(startSpeak>0.15){
                 sampleLength=0;
                 cout<<"Start recording\n";
-                string pt=filePath+ofToString(audioCount,0)+".wav";
+                string pt=filePath+ofToString(audioCount, 3 ,'0')+".wav";
                 
                 cout << pt<<"----\n";
                 audioRecorder.setup(pt);
