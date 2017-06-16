@@ -53,7 +53,7 @@ void ofApp::setupTimeline(){
         timeline.addSound("07_giveup" , 8 , 2 );
     
         timeline.addSilence(0.5 , 6 , 6 , 9 , "listen"); // listen to opinion now
-        timeline.addSound("08_thankyou" , 9 , 2, -1, "thankyou");
+       // timeline.addSound("08_thankyou" , 9 , 2, -1, "thankyou");
         timeline.addSound("03_ohno" , 19 , 119, -1, "interruption");
         timeline.addSilence(2. , 119 , 2, -1, "interruption");
 
@@ -71,6 +71,9 @@ void ofApp::setupTimeline(){
     
         timeline.addSound("whatdoyouthink", 90 , 0, -1 , "what"); // stream
     
+
+    timeline.addSound("whatIheardyousay", 9 , 901, -1 , "what"); // stream
+    timeline.addSound("opinions", 901 , 2, -1 , "repeat"); // stream
     
 //    timeline.addSound("01_welcome", 0 , 552,  -1, "welcome" ); // welcome
 //    timeline.addSilence(2. , 552 , 551 , -1 , "welcome"); // shutup

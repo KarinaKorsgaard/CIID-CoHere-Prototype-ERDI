@@ -62,7 +62,11 @@ void Timeline::loadNewEntry(){
 //        else if(ofRandom(1)>0.7)
 //            position = 3;
 //    }
-    
+    if(getName() == "repeat"){
+        loadStringAgain(901);
+        entries[position].indx = entries[position].file.size()-1;
+    }
+
     
     if(entries[position].name == "opinion"){
         float r = ofRandom(1);
