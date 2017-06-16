@@ -79,14 +79,16 @@ void Timeline::loadNewEntry(){
     }
 
     
-    if(entries[position].name == "opinion"){
+    if(entries[position].name == "opinion" && !opinionSaid){
         float r = ofRandom(1);
+        opinionSaid = true;
         if(r>0.85)
             position = ofRandom(1)>0.5 ? 30 : 40;
         else if(r>0.75){
             if(questionCounter < entries[position].file.size()){
                 questionCounter ++;
                 position = 20;
+                
             }
         }
         else if(r>0.65 ){
@@ -102,6 +104,8 @@ void Timeline::loadNewEntry(){
         else{
             loadStringAgain(2);
         }
+        
+        if(getName() != "opinion")opinionSaid = false;
     }
     
     sound.stop();

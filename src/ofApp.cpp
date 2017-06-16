@@ -76,7 +76,8 @@ void ofApp::setupTimeline(){
     
 
     timeline.addSound("whatIheardyousay", 9 , 901, -1 , "what"); // stream
-    timeline.addSound("opinions", 901 , 2, -1 , "repeat"); // stream
+    timeline.addSound("opinions", 901 , 902, -1 , "repeat"); // stream
+    timeline.addSound("someoneelsesaid", 902 , 2, -1 , ""); // stream
     
 //    timeline.addSound("01_welcome", 0 , 552,  -1, "welcome" ); // welcome
 //    timeline.addSilence(2. , 552 , 551 , -1 , "welcome"); // shutup

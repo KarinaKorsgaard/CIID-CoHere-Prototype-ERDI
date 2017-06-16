@@ -69,6 +69,8 @@ public:
     bool isPlaying;
     int position;
     double time;
+    
+    bool opinionSaid = false;
  
     bool isSilent(){
         if(isValid && isPlaying)return entries[position].isSilence;
