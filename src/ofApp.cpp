@@ -204,7 +204,7 @@ void ofApp::update(){
         if(serial.interrupt()){
             timeline.jumpToNext(6);
         }
-        else if(recorder.getVolume()){
+        else if(recorder.getVolume() && timeline.getName()!="question"){
             recordingTimer+=ofGetLastFrameTime();
             if(recordingTimer>.15){
                 timeline.jumpToNext(6);
