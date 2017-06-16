@@ -126,13 +126,13 @@ public:
                     audioRecorder.recordingSize -= (silentSampleSize);
                 
                 audioRecorder.finalize();
-                
+                string pt=filePath+ofToString(audioCount, 3 ,'0')+".wav";
                 if(!save){
-                    ofFile::removeFile(filePath+ofToString(audioCount,0)+".wav", true);
+                    ofFile::removeFile(pt, true);
                     cout <<"removed file "+filePath+ofToString(audioCount,0)+".wav"<< endl;
                 }else{
                     audioCount ++;
-                    cout <<"kept file "+filePath+ofToString(audioCount,0)+".wav"<< endl;
+                    cout <<"kept file "+pt<< endl;
                 }
                 recording=false;
             }

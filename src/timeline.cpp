@@ -69,8 +69,10 @@ void Timeline::loadNewEntry(){
         cout << "filesize ";
         cout << entries[position].file.size() ;
         
+        cout << "fileback ";
         cout << entries[position].file.back() ;
         
+        cout << "position ";
         cout << entries[position].file[entries[position].indx] << endl;
     }
 
@@ -112,6 +114,10 @@ void Timeline::loadStringAgain(int p){
     dir.allowExt("wav");
     dir.sort();
     dir.listDir("s/opinions");
+    
+    for(int i = 0; i<dir.size();i++)
+        cout << dir.getPath(i) +" ";
+    
     
 //    if(dir.size() != e->file.size()){
 //        e->duration.resize(dir.size());
