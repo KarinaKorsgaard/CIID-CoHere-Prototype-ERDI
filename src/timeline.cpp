@@ -113,15 +113,15 @@ void Timeline::loadStringAgain(int p){
     entry * e = &entries[p];
     cout << entries[p].file.size() << endl;
     
+    dir.allowExt("wav");
+    dir.listDir("s/opinions");
     
     for(int i = 0; i<dir.size();i++)
         cout << dir.getPath(i) +" "<< endl;
     
     cout <<  "----" << endl;
     
-    dir.allowExt("wav");
     dir.sort();
-    dir.listDir("s/opinions");
     
     for(int i = 0; i<dir.size();i++)
          cout << dir.getPath(i) +" "<< endl;
@@ -278,9 +278,11 @@ void Timeline::addSound(string _dir, int position, int next, int optionNext, str
     // dir.allowExt("mp3");
     dir.allowExt("wav");
     // dir.allowExt("ogg");
-    dir.sort();
+    
     
     dir.listDir("s/"+_dir);
+    
+    dir.sort();
     
     entry e = *new entry;
     //e.duration.resize(dir.size());
