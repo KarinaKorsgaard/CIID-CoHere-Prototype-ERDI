@@ -96,7 +96,7 @@ public:
         if(recording)sampleLength+=dt;
         if(getVolume()) silentSec = 0.f;
         
-        pt=filePath+ofToString(audioCount, 3 ,'0')+".wav";
+        pt=filePath+ofToString(audioCount, 5 ,'0')+".wav";
         
         //cout << silentSec << endl;
         if(getVolume() && rec && !recording){
