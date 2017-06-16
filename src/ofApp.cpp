@@ -69,6 +69,9 @@ void ofApp::setupTimeline(){
         timeline.addSilence(8. , 61 , 2 , 12, "goodBuy"); // detect 1
         timeline.addSound("11_youarestillhere", 12 , 2 , -1 , "goodBuy");
     
+        timeline.addSound("whatdoyouthink", 90 , 0, -1 , "what"); // stream
+    
+    
 //    timeline.addSound("01_welcome", 0 , 552,  -1, "welcome" ); // welcome
 //    timeline.addSilence(2. , 552 , 551 , -1 , "welcome"); // shutup
 //    

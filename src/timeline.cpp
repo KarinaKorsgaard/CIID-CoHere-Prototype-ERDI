@@ -68,14 +68,19 @@ void Timeline::loadNewEntry(){
         float r = ofRandom(1);
         if(r>0.8)
             position = ofRandom(1)>0.5 ? 30 : 40;
-        else if(r>0.6 && questionCounter < entries[position].file.size()){
+        else if(r>0.7 && questionCounter < entries[position].file.size()){
             questionCounter ++;
             position = 20;
         }
-        else if(r>0.6 ){
+        else if(r>0.7 ){
            
             position = 80;
         
+        }
+        else if(r>0.6 ){
+            
+            position = 90;
+            
         }
         else{
             loadStringAgain(2);
