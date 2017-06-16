@@ -33,6 +33,9 @@ void ofApp::setup(){
     serial.setup();
     ofShowCursor();
     timeline.start();
+    
+    
+    ofLaunchBrowser("www.google.com");
 }
 
 
