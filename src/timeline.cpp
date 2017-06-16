@@ -81,18 +81,20 @@ void Timeline::loadNewEntry(){
     
     if(entries[position].name == "opinion"){
         float r = ofRandom(1);
-        if(r>0.8)
+        if(r>0.85)
             position = ofRandom(1)>0.5 ? 30 : 40;
-        else if(r>0.7 && questionCounter < entries[position].file.size()){
-            questionCounter ++;
-            position = 20;
+        else if(r>0.75){
+            if(questionCounter < entries[position].file.size()){
+                questionCounter ++;
+                position = 20;
+            }
         }
-        else if(r>0.7 ){
+        else if(r>0.65 ){
            
             position = 80;
         
         }
-        else if(r>0.6 ){
+        else if(r>0.55 ){
             
             position = 90;
             
