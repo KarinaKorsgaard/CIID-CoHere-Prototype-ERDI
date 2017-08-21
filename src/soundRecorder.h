@@ -23,10 +23,11 @@ class SoundRecorder : public ofBaseApp{
 
 public:
     double vol;
-    bool doneRecording;
-    ofxPanel gui;
     double sampleLength;
+    bool doneRecording;
     bool recording;
+    
+    ofxPanel gui;
     ofParameterGroup recGroup;
     
     string pt;
@@ -37,6 +38,7 @@ public:
     
     void setup(){
         
+        //setup gui for the recorder
         recGroup.setName("recorder gui");
         recGroup.add(threshold.set("volume threshold",0.26,6,60.));
         recGroup.add(wait.set("allowed pauses",0.80,0,10));
@@ -56,8 +58,7 @@ public:
         // sound setup:
         recording=false;
         soundStream.printDeviceList();
-        //if you want to set a different device id
-
+//set the device id to 0 if on mac and 1 if on raspberry
 #ifdef TARGET_OSX
         soundStream.setDeviceID(0);
 #else
@@ -68,15 +69,12 @@ public:
         soundStream.setup(this, 0, NUM_CHANNELS, SAMPLE_RATE, BUFFER_SIZE, 4);
         
         
-        // find audio indx, where to start recording..
+        //seach in directory to find the name of the of the last recorded sample so we start saving files from there
         ofDirectory dir;
         string path =filePath;
         dir.allowExt("wav");
-       
         dir.listDir(path);
         dir.sort();
-        
-
         
         if(dir.size()>0){
             cout << dir.getName(dir.size()-1)<< endl;
@@ -96,19 +94,17 @@ public:
         if(recording)sampleLength+=dt;
         if(getVolume()) silentSec = 0.f;
         
-        pt=filePath+ofToString(audioCount, 5 ,'0')+".wav";
-        
-        //cout << silentSec << endl;
+        //if the volume is higher than threshold start recording
         if(getVolume() && rec && !recording){
+            pt = filePath+ofToString(audioCount, 5 ,'0')+".wav";
             silentSec = 0.f;
             startSpeak +=ofGetLastFrameTime();
             
             if(startSpeak>0.15){
                 sampleLength=0;
                 cout<<"Start recording\n";
-                
-                
                 cout << pt<<"----\n";
+                
                 audioRecorder.setup(pt);
                 audioRecorder.setFormat(SF_FORMAT_WAV | SF_FORMAT_PCM_16);
                 recording=true;
@@ -117,18 +113,20 @@ public:
         }
         else if(recording){
             silentSec+=dt;
-            
-           // if(silentSec>wait || !rec){
+            // if it is silent for too long, stop recording
             if(silentSec>wait){
 
                 cout<<"Stop recording\n";
                 startSpeak = 0;
                 
+                // check if file is longer than min sample length
                 save = sampleLength > minSampleLength;
                 
+                // cut of the last silent part of the sample
                 if(save)
                     audioRecorder.recordingSize -= (silentSampleSize);
                 
+                // finalize file and remove the file if it is too short
                 audioRecorder.finalize();
                 if(!save){
                     ofFile::removeFile(pt, true);
@@ -142,9 +140,9 @@ public:
         }
     }
     
+    // debugging curve
     void drawCurve(){
         ofPolyline p;
-        
         for(int i = 0; i<hist.size();i++)
             p.addVertex(i,hist[i],1);
         

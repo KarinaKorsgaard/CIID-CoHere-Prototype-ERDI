@@ -12,28 +12,24 @@
 //--------------------------------------------------------------
 void Timeline::setup(float _volLow, float high, float low){
    
-    path = "text/";
     volLow = _volLow;
-    
-
     erdiLow = low;
     erdiHigh = high;
     cout << erdiHigh<<endl;
 }
 
-//--------------------------------------------------------------
 
 //--------------------------------------------------------------
 void Timeline::update(float sampleDetectionLength){
     
- 
-    
     if(isValid && isPlaying){
         
         time+=ofGetLastFrameTime();
+        
         float duration = entries[position].duration[entries[position].indx];
         if(duration == -2)duration = sampleDetectionLength;
         
+        // update time in timeline and play next entry if it is more than the current entry\s total time
         if(time > duration){
             loadNewEntry();
         }
@@ -44,24 +40,22 @@ void Timeline::update(float sampleDetectionLength){
 void Timeline::loadNewEntry(){
     indxJump();
     
+    // check the position to the new position
     position = entries[position].swithDirection ? entries[position].optionNext : entries[position].next;
+    
     if(position == -2){
         position = interruptionPos;
     }
+    // update isValid var
     isValid = position != endPos;
     
+    //reset new entry
     entries[position].swithDirection = false;
     time = 0.;
     
-    
-    
-    
-//    if(entries[position].name == "opinion"){
-//        if(ofRandom(1)>0.7)
-//            position = ofRandom(1)>0.5 ? 40 : 400;
-//        else if(ofRandom(1)>0.7)
-//            position = 3;
-//    }
+
+    //load new string names into the repeat entry
+    //from setup--> timeline.addSound("opinions", 901 , 902, -1 , "repeat"); // stream
     if(getName() == "repeat"){
         loadStringAgain(901);
         
@@ -78,10 +72,10 @@ void Timeline::loadNewEntry(){
         cout << entries[position].file[entries[position].indx] << endl;
     }
     
+    // randomly jump from opinion to other entries
     if(getName() == "someoneelsesaid")opinionSaid = false;
     
     if(entries[position].name == "opinion"){
-        
         if(opinionSaid){
             
             opinionSaid = false;
@@ -107,46 +101,27 @@ void Timeline::loadNewEntry(){
         if(getName() == "opinion")opinionSaid = true;
     }
     
+    // stop previous and play new entry
     sound.stop();
-    
     playSound();
 }
 
 void Timeline::loadStringAgain(int p){
-    ofDirectory dir;
     
+    ofDirectory dir;
     entry * e = &entries[p];
     cout << entries[p].file.size() << endl;
     
     dir.allowExt("wav");
     dir.listDir("s/opinions");
-    
-   // for(int i = 0; i<dir.size();i++)
-   //     cout << dir.getPath(i) +" "<< endl;
-    
     cout <<  "----" << endl;
-    
     dir.sort();
-    
-  //  for(int i = 0; i<dir.size();i++)
-  //       cout << dir.getPath(i) +" "<< endl;
-  //   cout <<  "DIRECTORY" << endl;
-    
-//    if(dir.size() != e->file.size()){
-//        e->duration.resize(dir.size());
-//        e->file.resize(dir.size());
-//    }
-//    
-    for (int i = MAX(e->file.size()-1,0); i<dir.size() ; i++){
-        
-        string filpath = dir.getPath(i);
-        
-        
-        
-        
-        ofSoundPlayer p;
-        
 
+    // run trhough all the files in the opinion folder and find the duration of each sample.
+    for (int i = MAX(e->file.size()-1,0); i<dir.size() ; i++){
+        string filpath = dir.getPath(i);
+        ofSoundPlayer p;
+    
         if(p.load(filpath)){
             
             p.play();
@@ -163,6 +138,7 @@ void Timeline::loadStringAgain(int p){
             e->file.push_back( filpath );
         }
         else{
+            // if the file could not be loaded, it is removed
             cout << "timeline removed file on update"+filpath<<endl;
             ofFile::removeFile(filpath, true);
             i++;
@@ -176,8 +152,6 @@ void Timeline::draw(int x, int y){
     ofPushMatrix();
     ofTranslate(x, y);
     ofFill();
-    
-    
     
     if(isValid){
         
@@ -209,11 +183,8 @@ void Timeline::start(){
         time = 0.f;
         position = 0;
         isValid = true;
-    //    volume = 0.3;
-        
+
         cout<<"start"<<endl;
-        
-        //isValid = entries.find(0)!=entries.end();
         
         if(!isValid)messages.push_back("no start entry found!, abort");
         
@@ -243,9 +214,6 @@ void Timeline::jumpToNext(int p){
     position = p == -1 ? position : p;
     time = 0.f;
     sound.stop();
-    
-   // indxJump();
-    
     playSound();
     
 }
@@ -278,31 +246,18 @@ void Timeline::addSound(string _dir, int position, int next, int optionNext, str
     
     
     ofDirectory dir;
-    
-    
-    // dir.allowExt("mp3");
     dir.allowExt("wav");
-    // dir.allowExt("ogg");
     dir.listDir("s/"+_dir);
     
     dir.sort();
     
     entry e = *new entry;
-    //e.duration.resize(dir.size());
-    //e.file.resize(dir.size());
-    
-    //cout << e.file.size() << endl;
-    
     for (int i = 0; i<dir.size() ; i++){
         
         string filpath = dir.getPath(i);
         
-        
-        
-        
         ofSoundPlayer p;
-        
-      
+
         if(p.load(filpath)){
             
 
@@ -322,13 +277,9 @@ void Timeline::addSound(string _dir, int position, int next, int optionNext, str
             cout << "timeline removed file on setup"+filpath<<endl;
             ofFile::removeFile(filpath, true);
             i++;
-            //uselessfiles++;
         }
-        
-        //printf("SOUND LENGTH: %i\n\n", ms);
-        
+
         e.isSound = true;
-        
         e.isPlayed = false;
         
         e.name = name;
@@ -344,90 +295,13 @@ void Timeline::addSound(string _dir, int position, int next, int optionNext, str
 }
 
 //--------------------------------------------------------------
-void Timeline::addString(string file, int position, int next, int optionNext, string name){
-    
-    //    string filePath = file;
-    //    checkEntries(position);
-    //
-    //    if(ofFile::doesFileExist("text/"+filePath)){
-    //
-    //        entry e = *new entry;
-    //        e.name = name;
-    //        e.file = getLine(filePath);
-    //        e.isString = true;
-    //        e.duration = float(e.file.length()) * 0.07;
-    //        if(e.duration < 0.1)messages.push_back(string("short file added %d", e.duration));
-    //        e.isPlayed = false;
-    //        e.optionNext = optionNext == -1 ? next : optionNext;
-    //        e.next = next;
-    //        e.position = position;
-    //
-    //        entries[position] = e;
-    //
-    //    }
-    //    else{
-    //        cout<<("ERROR, could not find file")<<endl;
-    //    }
-}
-
-//--------------------------------------------------------------
 void Timeline::swithDirection(){
     entries[position].swithDirection = true;
 }
 
-//--------------------------------------------------------------
-string Timeline::getLine(string file, int optionLine){
-    ofBuffer buffer = ofBufferFromFile("text/"+file);
-    
-    int indx = 0;
-    
-    vector<string>place;
-    for (auto line : buffer.getLines()) {
-        string str = line;
-        
-#ifdef TARGET_WIN32
-        str = encode(str, "UTF-8", "Windows-1252");
-#endif
-        place.push_back(str);
-        //cout << str <<endl;
-        indx++;
-    }
-    
-    int intLine =int(floor(ofRandom( indx )));
-    if(optionLine!=-1)intLine = optionLine;
-    
-    string result = place[intLine];
-    //cout << result << endl;
-    if(file !=  "JOKES.txt" && file != "OPINIONS.txt"){
-        result = ReplaceString(result, "JOKE", getLine("JOKES.txt"));
-        result = ReplaceString(result, "OPINION", getLine("OPINIONS.txt"));
-    }
-    
-    
-    return result;
-    
-}
-
-//--------------------------------------------------------------
-void Timeline::say(string line){
-    //cout << line << endl;
-    
-#ifdef TARGET_OSX
-    string cmd = "say "+line+" &";   // create the command
-    system(cmd.c_str());
-#endif
-#ifdef TARGET_WIN32
-    string cmd = "data\\SayStatic.exe "+line;   // create the command
-    system(cmd.c_str());
-#endif
-    
-}
 
 //--------------------------------------------------------------
 bool Timeline::checkEntries(int find){
-    if(entries.find(find)!=entries.end()){
-        //messages.push_back(string("the map entry already exists and is overwritten %d", find));
-    }
     return entries.find(find)!=entries.end();
 }
 

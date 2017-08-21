@@ -10,14 +10,6 @@
 
 #include "ofMain.h"
 
-#include "Poco/TextConverter.h"
-#include "Poco/TextEncoding.h"
-#include "Poco/Unicode.h"
-#include "Poco/UTF8String.h"
-#include "Poco/String.h"
-
-//using namespace std;
-
 struct entry{
     vector<string> file;
     vector<double> duration;
@@ -52,13 +44,12 @@ public:
     void start();
     
     void stop(){
-        //jumpToNext(11);
         questionCounter = 0;
     };
     
     void addSound(string _dir, int position, int next, int optionNext = -1 , string name = "");
-    void addString(string file, int position, int next, int optionNext = -1, string name = "");
     void addSilence(float duration, int position, int next, int optionNext = -1 , string name = "");
+    
     void swithDirection();
     void loadNewEntry();
     void jumpToNext(int p = -1);
@@ -82,7 +73,6 @@ public:
 private:
     void loadStringAgain(int p);
     float volLow;
-    int uselessfiles = 0;
     int curIndx = 0;
     float p_vol;
     int endPos;
@@ -95,29 +85,8 @@ private:
     
     float volume = 0.5;
     float erdiVol = 0.0;
-    string getLine(string file, int optionLine = -1);
-    void say(string line);
     bool checkEntries(int find);
     
-    string encode(string input, const string& inputEncoding, const string& outputEncoding) {
-        
-        Poco::TextEncoding::Ptr ie = Poco::TextEncoding::find(inputEncoding);
-        Poco::TextEncoding::Ptr oe = Poco::TextEncoding::find(outputEncoding);
-        Poco::TextConverter converter(*ie, *oe);
-        string output;
-        converter.convert(input, output);
-        return output;
-    }
-    
-    string ReplaceString(std::string subject, const std::string& search,
-                              const std::string& replace) {
-        size_t pos = 0;
-        while ((pos = subject.find(search, pos)) != std::string::npos) {
-            subject.replace(pos, search.length(), replace);
-            pos += replace.length();
-        }
-        return subject;
-    }
     
     string st(float s){
         return " "+ ofToString(s, 1) + " ";
@@ -131,13 +100,6 @@ private:
     }
     
     void playSound(){
-        
-//        if(getName() == "welcome" || getName() == "goodBuy"){
-//            erdiVol = erdiHigh;
-//        }
-//        else erdiVol = erdiLow;
-        
-
         
         erdiVol = erdiLow;
         
